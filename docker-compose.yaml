@@ -1,0 +1,44 @@
+services:
+  app:
+    image: joanfont/correllengua
+    init: true
+    build:
+      context: .
+      args:
+        ENV: dev
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    command: [ 'rr', 'serve', '-c', '.rr.dev.yaml' ]
+    environment:
+      APP_ENV: dev
+    depends_on:
+      - mysql
+      - mailer
+    volumes:
+      - ./:/app
+      - ./docker/entrypoint.sh:/entrypoint.sh:ro
+    ports:
+      - "8080:8080"
+
+  mysql:
+    image: library/mysql:9.5.0
+    environment:
+      MYSQL_ROOT_PASSWORD: supersecret
+      MYSQL_DATABASE: correllengua
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev
+      TZ: Europe/Madrid
+    volumes:
+      - mysql:/var/lib/mysql
+
+  mailer:
+    image: axllent/mailpit:latest
+    ports:
+      - "1025"
+      - "8025:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+volumes:
+  mysql:
