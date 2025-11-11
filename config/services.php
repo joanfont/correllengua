@@ -18,5 +18,4 @@ return function (ContainerConfigurator $container): void {
     $services
         ->load('App\\Application\\Controller\\', '../src/Application/Controller')
         ->tag('controller.service_arguments');
-
 };

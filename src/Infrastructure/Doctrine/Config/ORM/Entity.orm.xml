@@ -1,0 +1,12 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="App\Domain\Model\Entity">
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="created"/>
+            <lifecycle-callback type="prePersist" method="updated"/>
+            <lifecycle-callback type="preUpdate" method="updated"/>
+        </lifecycle-callbacks>
+    </mapped-superclass>
+</doctrine-mapping>
