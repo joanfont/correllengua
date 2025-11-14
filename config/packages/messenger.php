@@ -42,9 +42,6 @@ return static function (FrameworkConfig $framework): void {
         ->middleware(App\Infrastructure\Symfony\Messenger\Middleware\ExceptionCatchMiddleware::class)
         ->middleware('validation');
 
-    $eventBus = $messenger->bus('event.bus');
-    $eventBus
-        ->defaultMiddleware('allow_no_handlers');
     $messenger
         ->bus('event.bus')
         ->defaultMiddleware('allow_no_handlers')
