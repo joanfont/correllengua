@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 return static function (Symfony\Config\FrameworkConfig $framework): void {
