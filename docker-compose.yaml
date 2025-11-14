@@ -13,12 +13,25 @@ services:
       APP_ENV: dev
     depends_on:
       - mysql
+      - redis
       - mailer
     volumes:
       - ./:/app
       - ./docker/entrypoint.sh:/entrypoint.sh:ro
     ports:
       - "8080:8080"
+  worker:
+    image: joanfont/correllengua
+    init: true
+    command: [ './bin/console', 'messenger:consume', 'async', '-v' ]
+    environment:
+      APP_ENV: dev
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - ./:/app
+      - ./docker/entrypoint.sh:/entrypoint.sh:ro
 
   mysql:
     image: library/mysql:9.5.0
@@ -30,6 +43,9 @@ services:
       TZ: Europe/Madrid
     volumes:
       - mysql:/var/lib/mysql
+
+  redis:
+    image: library/redis:8-alpine
 
   mailer:
     image: axllent/mailpit:latest
