@@ -12,6 +12,19 @@ return function (ContainerConfigurator $container): void {
         ->private();
 
     $services
+        ->instanceof(\App\Application\Commons\Command\CommandHandler::class)
+        ->tag('messenger.message_handler', ['bus' => 'command.bus']);
+
+    $services
+        ->instanceof(\App\Application\Commons\Event\EventHandler::class)
+        ->tag('messenger.message_handler', ['bus' => 'event.bus']);
+
+    $services
+        ->instanceof(\App\Application\Commons\Query\QueryHandler::class)
+        ->tag('messenger.message_handler', ['bus' => 'query.bus']);
+
+
+    $services
         ->instanceof(\App\Infrastructure\Doctrine\Type\Type::class)
         ->tag('app.doctrine.type');
 
@@ -24,4 +37,22 @@ return function (ContainerConfigurator $container): void {
     $services
         ->load('App\\Application\\Controller\\', '../src/Application/Controller')
         ->tag('controller.service_arguments');
+
+    $services
+        ->alias(
+            \App\Application\Commons\Command\CommandBus::class,
+            \App\Infrastructure\Symfony\Messenger\MessengerCommandBus::class
+        )->public();
+
+    $services
+        ->alias(
+            \App\Application\Commons\Query\QueryBus::class,
+            \App\Infrastructure\Symfony\Messenger\MessengerQueryBus::class
+        )->public();
+
+    $services
+        ->alias(
+            \App\Application\Commons\Event\EventBus::class,
+            \App\Infrastructure\Symfony\Messenger\MessengerEventBus::class
+        )->public();
 };
