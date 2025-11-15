@@ -7,5 +7,4 @@ namespace App\Application\Commons\Query;
  */
 interface Query
 {
-
 }

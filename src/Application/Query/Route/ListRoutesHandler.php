@@ -3,8 +3,7 @@
 namespace App\Application\Query\Route;
 
 use App\Application\Commons\Query\QueryHandler;
-use App\Domain\Provider\RouteProvider;
-
+use App\Domain\Provider\Route\RouteProvider;
 
 readonly class ListRoutesHandler implements QueryHandler
 {

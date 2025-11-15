@@ -10,10 +10,20 @@
         <embedded name="start" class="App\Domain\Model\Coordinates" column-prefix="start_" />
         <embedded name="end" class="App\Domain\Model\Coordinates" column-prefix="end_" />
         <field name="capacity" type="integer" />
-        <field name="transportMode" type="transport-mode" />
+        <field name="modality" type="modality" />
 
         <many-to-one field="route" target-entity="App\Domain\Model\Route\Route" inversed-by="segments">
             <join-column name="route_id" nullable="false"/>
         </many-to-one>
+
+        <one-to-many
+                field="registrations"
+                target-entity="App\Domain\Model\Registration\Registration"
+                mapped-by="segment"
+        >
+            <cascade>
+                <cascade-all />
+            </cascade>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

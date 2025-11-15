@@ -19,7 +19,6 @@ class EventPublisher
         return $this->events;
     }
 
-
     public function publish(Event $event): void
     {
         $this->events[] = $event;

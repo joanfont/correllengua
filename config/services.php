@@ -2,9 +2,17 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use App\Infrastructure\Doctrine\Type\Type;
-
 return function (ContainerConfigurator $container): void {
+
+    $parameters = $container->parameters();
+    $parameters
+        ->set('app.registration.default_max_registrations_per_participant', 5)
+        ->set(
+            'app.registration.max_registrations_per_participant',
+            env('MAX_REGISTRATIONS_PER_PARTICIPANT')
+                ->default('app.registration.default_max_registrations_per_participant')
+        );
+
     $services = $container->services()
         ->defaults()
         ->autowire()
@@ -55,4 +63,8 @@ return function (ContainerConfigurator $container): void {
             \App\Application\Commons\Event\EventBus::class,
             \App\Infrastructure\Symfony\Messenger\MessengerEventBus::class
         )->public();
+
+    $services
+        ->set(\App\Application\Command\Registration\RegisterParticipantHandler::class)
+        ->arg('$maxSegmentsPerParticipant', param('app.registration.max_registrations_per_participant'));
 };

@@ -10,5 +10,15 @@
         <field name="name" length="128" />
         <field name="surname" length="128" />
         <field name="email" length="255" unique="true" />
+
+        <one-to-many
+                field="registrations"
+                target-entity="App\Domain\Model\Registration\Registration"
+                mapped-by="participant"
+        >
+            <cascade>
+                <cascade-all />
+            </cascade>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

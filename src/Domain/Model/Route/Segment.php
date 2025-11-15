@@ -4,6 +4,10 @@ namespace App\Domain\Model\Route;
 
 use App\Domain\Model\Coordinates;
 use App\Domain\Model\Entity;
+use App\Domain\Model\Participant\Participant;
+use App\Domain\Model\Registration\Registration;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 class Segment extends Entity
 {
@@ -11,15 +15,19 @@ class Segment extends Entity
 
     private Route $route;
 
+    /** @var Collection<Registration> */
+    private Collection $registrations;
+
     public function __construct(
         SegmentId $id,
         private int $position,
         private Coordinates $start,
         private Coordinates $end,
         private int $capacity,
-        private TransportMode $transportMode,
+        private Modality $modality,
     ) {
         $this->id = $id;
+        $this->registrations = new ArrayCollection();
     }
 
     public function id(): SegmentId
@@ -47,13 +55,24 @@ class Segment extends Entity
         return $this->capacity;
     }
 
-    public function transportMode(): TransportMode
+    public function modality(): Modality
     {
-        return $this->transportMode;
+        return $this->modality;
     }
 
-    public function forRoute(Route $route): void
+    /**
+     * @return array<int, Participant>
+     */
+    public function participants(): array
     {
-        $this->route = $route;
+        return array_map(
+            fn (Registration $registration) => $registration->participant(),
+            $this->registrations->toArray()
+        );
+    }
+
+    public function isFull(): bool
+    {
+        return $this->capacity === $this->registrations->count();
     }
 }
