@@ -6,6 +6,8 @@ use App\Domain\Model\Coordinates;
 use App\Domain\Model\Entity;
 use App\Domain\Model\Participant\Participant;
 use App\Domain\Model\Registration\Registration;
+use App\Domain\Model\Registration\RegistrationId;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 class Segment extends Entity
@@ -18,14 +20,15 @@ class Segment extends Entity
     private Collection $registrations;
 
     public function __construct(
-        SegmentId           $id,
-        private int         $position,
+        SegmentId $id,
+        private int $position,
         private Coordinates $start,
         private Coordinates $end,
-        private int         $capacity,
-        private Modality    $modality,
+        private int $capacity,
+        private Modality $modality,
     ) {
         $this->id = $id;
+        $this->registrations = new ArrayCollection();
     }
 
     public function id(): SegmentId
@@ -58,11 +61,6 @@ class Segment extends Entity
         return $this->modality;
     }
 
-    public function forRoute(Route $route): void
-    {
-        $this->route = $route;
-    }
-
     /**
      * @return array<int, Participant>
      */
@@ -72,5 +70,10 @@ class Segment extends Entity
             fn (Registration $registration) => $registration->participant(),
             $this->registrations->toArray()
         );
+    }
+
+    public function isFull(): bool
+    {
+        return $this->capacity === $this->registrations->count();
     }
 }

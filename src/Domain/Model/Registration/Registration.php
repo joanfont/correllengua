@@ -12,10 +12,10 @@ class Registration extends Entity
     private string $id;
 
     public function __construct(
-        RegistrationId      $id,
+        RegistrationId $id,
         private Participant $participant,
-        private Segment     $segment,
-        private Modality    $modality,
+        private Segment $segment,
+        private Modality $modality,
     ) {
         $this->id = (string) $id;
     }

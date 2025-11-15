@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Provider;
+namespace App\Domain\Provider\Route;
 
 use App\Domain\DTO\Route\Route;
 

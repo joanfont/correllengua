@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Infrastructure\Doctrine\Provider;
+namespace App\Infrastructure\Doctrine\Provider\Route;
 
 use App\Domain\DTO\Coordinates;
 use App\Domain\DTO\Route\Route;
 use App\Domain\DTO\Route\Segment;
 use App\Domain\Model\Route\Route as RouteModel;
 use App\Domain\Model\Route\Segment as SegmentModel;
-use App\Domain\Provider\RouteProvider;
+use App\Domain\Provider\Route\RouteProvider;
+use App\Infrastructure\Doctrine\Provider\DoctrineProvider;
 
 class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
 {
