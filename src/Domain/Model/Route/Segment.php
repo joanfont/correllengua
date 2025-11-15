@@ -15,6 +15,7 @@ class Segment extends Entity
         SegmentId $id,
         private int $position,
         private Coordinates $start,
+        private Coordinates $end,
         private int $capacity,
         private TransportMode $transportMode,
     ) {
@@ -34,6 +35,11 @@ class Segment extends Entity
     public function start(): Coordinates
     {
         return $this->start;
+    }
+
+    public function end(): Coordinates
+    {
+        return $this->end;
     }
 
     public function capacity(): int
