@@ -4,12 +4,18 @@ namespace App\Domain\Model\Route;
 
 use App\Domain\Model\Coordinates;
 use App\Domain\Model\Entity;
+use App\Domain\Model\Participant\Participant;
+use App\Domain\Model\Registration\Registration;
+use Doctrine\Common\Collections\Collection;
 
 class Segment extends Entity
 {
     private string $id;
 
     private Route $route;
+
+    /** @var Collection<Registration> */
+    private Collection $registrations;
 
     public function __construct(
         SegmentId $id,
@@ -55,5 +61,16 @@ class Segment extends Entity
     public function forRoute(Route $route): void
     {
         $this->route = $route;
+    }
+
+    /**
+     * @return array<int, Participant>
+     */
+    public function participants(): array
+    {
+        return array_map(
+            fn (Registration $registration) => $registration->participant(),
+            $this->registrations->toArray()
+        );
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Domain\Model;
 
-
 abstract class Entity
 {
     protected \DateTimeInterface $createdAt;

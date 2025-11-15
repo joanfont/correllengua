@@ -6,5 +6,4 @@ use App\Domain\Model\Uuid;
 
 class RouteId extends Uuid
 {
-
 }

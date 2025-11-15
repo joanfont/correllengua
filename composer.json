@@ -66,6 +66,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "php-cs": [
+          "./vendor/bin/php-cs-fixer fix src"
         ]
     },
     "conflict": {

@@ -37,5 +37,4 @@ class Route extends Entity
     {
         return $this->segments->toArray();
     }
-
 }

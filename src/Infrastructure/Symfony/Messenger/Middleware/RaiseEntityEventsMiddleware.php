@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\Symfony\Messenger\Middleware;
 
-
 use App\Application\Commons\Event\EventPublisher;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;

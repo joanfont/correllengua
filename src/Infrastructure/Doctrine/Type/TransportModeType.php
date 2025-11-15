@@ -12,7 +12,7 @@ class TransportModeType extends Type
         return 'transport-mode';
     }
 
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform):  string
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         $enumValues = TransportMode::values();
         $maxEnumLength = max(array_map('mb_strlen', $enumValues));
