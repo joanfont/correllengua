@@ -28,6 +28,10 @@ return static function (FrameworkConfig $framework): void {
         ->senders(['sync']);
 
     $messenger
+        ->routing(\Symfony\Component\Mailer\Messenger\SendEmailMessage::class)
+        ->senders(['async']);
+
+    $messenger
         ->defaultBus('command.bus');
 
     $messenger
