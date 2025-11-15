@@ -3,5 +3,5 @@
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return function (RoutingConfigurator $routes) {
-    $routes->import('../src/Application/Controller/', 'attribute');
+    $routes->import('../src/Infrastructure/Symfony/Http/Controller/', 'attribute');
 };

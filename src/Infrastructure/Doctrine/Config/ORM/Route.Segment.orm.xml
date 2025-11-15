@@ -8,6 +8,7 @@
         </id>
         <field name="position" type="integer" />
         <embedded name="start" class="App\Domain\Model\Coordinates" column-prefix="start_" />
+        <embedded name="end" class="App\Domain\Model\Coordinates" column-prefix="end_" />
         <field name="capacity" type="integer" />
         <field name="transportMode" type="transport-mode" />
 

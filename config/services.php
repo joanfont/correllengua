@@ -35,7 +35,7 @@ return function (ContainerConfigurator $container): void {
         ]);
 
     $services
-        ->load('App\\Application\\Controller\\', '../src/Application/Controller')
+        ->load('App\\Infrastructure\\Symfony\\Http\\Controller\\', '../src/Infrastructure/Symfony/Http/Controller')
         ->tag('controller.service_arguments');
 
     $services

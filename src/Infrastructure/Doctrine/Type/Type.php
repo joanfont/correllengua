@@ -8,7 +8,7 @@ abstract class Type extends DoctrineType
 {
     abstract public static function name(): string;
 
-    public function getName()
+    public function getName(): string
     {
         return static::type();
     }
