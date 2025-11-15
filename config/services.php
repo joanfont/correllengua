@@ -6,10 +6,11 @@ return function (ContainerConfigurator $container): void {
 
     $parameters = $container->parameters();
     $parameters
+        ->set('app.registration.default_max_registrations_per_participant', 5)
         ->set(
             'app.registration.max_registrations_per_participant',
             env('MAX_REGISTRATIONS_PER_PARTICIPANT')
-                ->default(5)
+                ->default('app.registration.default_max_registrations_per_participant')
         );
 
     $services = $container->services()
@@ -63,6 +64,7 @@ return function (ContainerConfigurator $container): void {
             \App\Infrastructure\Symfony\Messenger\MessengerEventBus::class
         )->public();
 
-    $container
-        ->import(__DIR__.'/services/registration.php');
+    $services
+        ->set(\App\Application\Command\Registration\RegisterParticipantHandler::class)
+        ->arg('$maxSegmentsPerParticipant', param('app.registration.max_registrations_per_participant'));
 };

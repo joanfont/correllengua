@@ -7,6 +7,7 @@ use App\Domain\Model\Registration\Registration;
 use App\Domain\Model\Registration\RegistrationId;
 use App\Domain\Model\Route\Modality;
 use App\Domain\Model\Route\Segment;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 class Participant extends Entity
@@ -23,6 +24,8 @@ class Participant extends Entity
         private string $email,
     ) {
         $this->id = (string) $id;
+
+        $this->registrations = new ArrayCollection();
     }
 
     public function id(): ParticipantId
