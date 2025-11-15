@@ -42,12 +42,8 @@ readonly class RegisterParticipantHandler implements CommandHandler
         }
 
         if ($participant->hasReachedMaxSegments($this->maxSegmentsPerParticipant)) {
-            throw ParticipantReachedMaxSegmentsException::fromParticipant(
-                $participant,
-                $this->maxSegmentsPerParticipant
-            );
+            throw ParticipantReachedMaxSegmentsException::fromParticipant($participant, $this->maxSegmentsPerParticipant);
         }
-
 
         $participant->joinSegment($segment, $modality);
     }

@@ -2,7 +2,6 @@
 
 namespace App\Domain\Repository\Participant;
 
-
 use App\Domain\Exception\Participant\ParticipantNotFoundException;
 use App\Domain\Model\Participant\Participant;
 use App\Domain\Model\Participant\ParticipantId;

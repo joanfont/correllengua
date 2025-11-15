@@ -2,8 +2,6 @@
 
 namespace App\Domain\DTO\Participant;
 
-use App\Domain\Model\Route\Modality;
-
 readonly class Participant
 {
     public function __construct(

@@ -46,6 +46,7 @@ class DoctrineParticipantRepository extends DoctrineRepository implements Partic
     {
         try {
             $this->findByEmail($email);
+
             return true;
         } catch (ParticipantNotFoundException) {
             return false;

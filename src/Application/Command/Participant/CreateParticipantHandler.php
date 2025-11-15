@@ -11,7 +11,7 @@ use App\Domain\Repository\Participant\ParticipantRepository;
 readonly class CreateParticipantHandler implements CommandHandler
 {
     public function __construct(
-        private ParticipantRepository $participantRepository
+        private ParticipantRepository $participantRepository,
     ) {
     }
 

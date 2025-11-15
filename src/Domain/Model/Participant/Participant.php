@@ -58,7 +58,6 @@ class Participant extends Entity
 
     public function joinSegment(Segment $segment, Modality $modality): void
     {
-
         $registration = new Registration(
             id: RegistrationId::generate(),
             participant: $this,

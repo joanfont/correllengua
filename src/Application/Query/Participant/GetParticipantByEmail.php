@@ -13,7 +13,7 @@ readonly class GetParticipantByEmail implements Query
 {
     public function __construct(
         #[Assert\Email]
-        public string $email
+        public string $email,
     ) {
     }
 }

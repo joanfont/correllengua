@@ -4,8 +4,8 @@ namespace App\Domain\Model\Registration;
 
 use App\Domain\Model\Entity;
 use App\Domain\Model\Participant\Participant;
-use App\Domain\Model\Route\Segment;
 use App\Domain\Model\Route\Modality;
+use App\Domain\Model\Route\Segment;
 
 class Registration extends Entity
 {

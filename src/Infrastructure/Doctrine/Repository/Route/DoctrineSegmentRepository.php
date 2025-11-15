@@ -10,7 +10,6 @@ use App\Infrastructure\Doctrine\Repository\DoctrineRepository;
 
 class DoctrineSegmentRepository extends DoctrineRepository implements SegmentRepository
 {
-
     public function add(Segment $segment): void
     {
         $this->entityManager->persist($segment);
