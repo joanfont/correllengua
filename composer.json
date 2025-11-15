@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.18",
         "doctrine/doctrine-migrations-bundle": "^3.6",
         "doctrine/orm": "^3.5",
+        "league/csv": "^9.27",
         "ramsey/uuid": "^4.9",
         "symfony/console": "6.4.*",
         "symfony/dotenv": "6.4.*",
