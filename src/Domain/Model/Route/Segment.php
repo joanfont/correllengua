@@ -18,12 +18,12 @@ class Segment extends Entity
     private Collection $registrations;
 
     public function __construct(
-        SegmentId $id,
-        private int $position,
+        SegmentId           $id,
+        private int         $position,
         private Coordinates $start,
         private Coordinates $end,
-        private int $capacity,
-        private TransportMode $transportMode,
+        private int         $capacity,
+        private Modality    $modality,
     ) {
         $this->id = $id;
     }
@@ -53,9 +53,9 @@ class Segment extends Entity
         return $this->capacity;
     }
 
-    public function transportMode(): TransportMode
+    public function modality(): Modality
     {
-        return $this->transportMode;
+        return $this->modality;
     }
 
     public function forRoute(Route $route): void

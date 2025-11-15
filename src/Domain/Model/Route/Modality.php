@@ -4,7 +4,7 @@ namespace App\Domain\Model\Route;
 
 use App\Domain\Model\EnumValues;
 
-enum TransportMode: string
+enum Modality: string
 {
     use EnumValues;
 

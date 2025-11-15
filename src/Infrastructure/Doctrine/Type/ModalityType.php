@@ -2,27 +2,27 @@
 
 namespace App\Infrastructure\Doctrine\Type;
 
-use App\Domain\Model\Route\TransportMode;
+use App\Domain\Model\Route\Modality;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-class TransportModeType extends Type
+class ModalityType extends Type
 {
     public static function name(): string
     {
-        return 'transport-mode';
+        return 'modality';
     }
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        $enumValues = TransportMode::values();
+        $enumValues = Modality::values();
         $maxEnumLength = max(array_map('mb_strlen', $enumValues));
 
         return $platform->getStringTypeDeclarationSQL(['length' => $maxEnumLength, 'nullable' => false]);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): TransportMode
+    public function convertToPHPValue($value, AbstractPlatform $platform): Modality
     {
-        return TransportMode::from($value);
+        return Modality::from($value);
     }
 
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool

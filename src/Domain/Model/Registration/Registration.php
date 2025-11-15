@@ -5,17 +5,17 @@ namespace App\Domain\Model\Registration;
 use App\Domain\Model\Entity;
 use App\Domain\Model\Participant\Participant;
 use App\Domain\Model\Route\Segment;
-use App\Domain\Model\Route\TransportMode;
+use App\Domain\Model\Route\Modality;
 
 class Registration extends Entity
 {
     private string $id;
 
     public function __construct(
-        RegistrationId $id,
+        RegistrationId      $id,
         private Participant $participant,
-        private Segment $segment,
-        private TransportMode $transportMode,
+        private Segment     $segment,
+        private Modality    $modality,
     ) {
         $this->id = (string) $id;
     }
@@ -35,8 +35,8 @@ class Registration extends Entity
         return $this->segment;
     }
 
-    public function transportMode(): TransportMode
+    public function modality(): Modality
     {
-        return $this->transportMode;
+        return $this->modality;
     }
 }
