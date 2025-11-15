@@ -47,6 +47,12 @@ return function (ContainerConfigurator $container): void {
         ->tag('controller.service_arguments');
 
     $services
+        ->set(\App\Infrastructure\Doctrine\Listener\EntityEventsListener::class)
+        ->tag('doctrine.event_listener', ['event' => 'postPersist'])
+        ->tag('doctrine.event_listener', ['event' => 'postUpdate'])
+        ->tag('doctrine.event_listener', ['event' => 'postRemove']);
+
+    $services
         ->alias(
             \App\Application\Commons\Command\CommandBus::class,
             \App\Infrastructure\Symfony\Messenger\MessengerCommandBus::class
