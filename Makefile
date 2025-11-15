@@ -1,5 +1,10 @@
-COMPOSER = docker compose run --rm --no-deps --entrypoint=composer app
-SYMFONY = docker compose run --rm --entrypoint=php app ./bin/console
+DOCKER_COMPOSE = docker compose run --rm --no-deps
+COMPOSER = $(DOCKER_COMPOSE) --no-deps --entrypoint=composer app
+SYMFONY = $(DOCKER_COMPOSE) --entrypoint=php app ./bin/console
+
+.PHONY: shell
+shell:
+	$(DOCKER_COMPOSE) --entrypoint=/bin/sh app
 
 .PHONY: migrations
 migrations:
@@ -15,4 +20,4 @@ php-cs:
 
 .PHONY: test
 test:
-	docker compose run --rm --entrypoint=php app vendor/bin/phpunit $(ARGS)
+	$(DOCKER_COMPOSE) --entrypoint=php app vendor/bin/phpunit $(ARGS)
