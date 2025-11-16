@@ -41,6 +41,8 @@ services:
       MYSQL_USER: dev
       MYSQL_PASSWORD: dev
       TZ: Europe/Madrid
+    ports:
+      - "3306:3306"
     volumes:
       - mysql:/var/lib/mysql
 

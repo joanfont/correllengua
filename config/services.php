@@ -3,7 +3,6 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 return function (ContainerConfigurator $container): void {
-
     $parameters = $container->parameters();
     $parameters
         ->set('app.registration.default_max_registrations_per_participant', 5)
@@ -30,7 +29,6 @@ return function (ContainerConfigurator $container): void {
     $services
         ->instanceof(\App\Application\Commons\Query\QueryHandler::class)
         ->tag('messenger.message_handler', ['bus' => 'query.bus']);
-
 
     $services
         ->instanceof(\App\Infrastructure\Doctrine\Type\Type::class)
@@ -73,4 +71,17 @@ return function (ContainerConfigurator $container): void {
     $services
         ->set(\App\Application\Command\Registration\RegisterParticipantHandler::class)
         ->arg('$maxSegmentsPerParticipant', param('app.registration.max_registrations_per_participant'));
+
+    $services
+        ->set('app.filesystem.local', \App\Application\Service\File\Filesystem::class)
+        ->factory([\App\Infrastructure\League\Service\File\LeagueFilesystemFactory::class, 'makeLocal'])
+        ->arg('$root', param('kernel.project_dir'));
+
+
+    $services
+        ->alias('app.route.import_routes_from_file.filesystem', 'app.filesystem.local');
+
+    $services
+        ->set(\App\Application\Command\Route\ImportRoutesFromFileHandler::class)
+        ->arg('$filesystem', service('app.route.import_routes_from_file.filesystem'));
 };

@@ -10,7 +10,7 @@ abstract class Entity
     protected \DateTimeInterface $updatedAt;
 
     /** @var array<int, Event> */
-    private array $events;
+    private array $events = [];
 
     public function created(): void
     {
