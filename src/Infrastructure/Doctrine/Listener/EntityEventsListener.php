@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\Doctrine\Listener;
 
-
 use App\Application\Commons\Event\EventPublisher;
 use App\Domain\Model\Entity;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
