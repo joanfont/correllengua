@@ -5,6 +5,7 @@ namespace App\Application\Command\Route;
 use App\Application\Commons\Command\CommandHandler;
 use App\Application\Service\CSV\CSVReaderFactory;
 use App\Application\Service\File\Filesystem;
+use App\Application\Service\Route\RouteParser;
 use App\Domain\Model\Route\Route as RouteModel;
 use App\Domain\Model\Route\RouteId;
 use App\Domain\Repository\Route\RouteRepository;
@@ -14,6 +15,7 @@ readonly class ImportRoutesFromFileHandler implements CommandHandler
     public function __construct(
         private Filesystem $filesystem,
         private CSVReaderFactory $csvReaderFactory,
+        private RouteParser $routeParser,
         private RouteRepository $routeRepository,
     ) {
     }
@@ -27,17 +29,15 @@ readonly class ImportRoutesFromFileHandler implements CommandHandler
         }
     }
 
-    /**
-     * @param array{
-     *     name: string
-     * } $route
-     * @return void
-     */
     private function createRoute(array $route): void
     {
+        $parsedRoute = $this->routeParser->fromArray($route);
         $route = new RouteModel(
             id: RouteId::generate(),
-            name: $route['name'],
+            code: $parsedRoute->code,
+            name: $parsedRoute->name,
+            description: $parsedRoute->description,
+            startsAt: $parsedRoute->startDate,
         );
 
         $this->routeRepository->add($route);

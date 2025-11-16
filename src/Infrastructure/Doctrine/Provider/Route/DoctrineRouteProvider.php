@@ -15,7 +15,7 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
     public function findAll(): array
     {
         $routes = $this->entityManager->createQueryBuilder()
-            ->select('r')
+            ->select('r', 's')
             ->from(RouteModel::class, 'r')
             ->leftJoin('r.segments', 's')
             ->getQuery()
@@ -43,7 +43,7 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
             new Coordinates($segment->start()->latitude(), $segment->start()->longitude()),
             new Coordinates($segment->end()->latitude(), $segment->end()->longitude()),
             $segment->capacity(),
-            $segment->transportMode()->value
+            $segment->modality()->value
         );
     }
 }

@@ -82,6 +82,13 @@ return function (ContainerConfigurator $container): void {
         ->alias('app.route.import_routes_from_file.filesystem', 'app.filesystem.local');
 
     $services
+        ->alias('app.route.import_segments_from_file.filesystem', 'app.filesystem.local');
+
+    $services
         ->set(\App\Application\Command\Route\ImportRoutesFromFileHandler::class)
         ->arg('$filesystem', service('app.route.import_routes_from_file.filesystem'));
+
+    $services
+        ->set(\App\Application\Command\Route\ImportSegmentsFromFileHandler::class)
+        ->arg('$filesystem', service('app.route.import_segments_from_file.filesystem'));
 };

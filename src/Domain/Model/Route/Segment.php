@@ -13,13 +13,12 @@ class Segment extends Entity
 {
     private string $id;
 
-    private Route $route;
-
     /** @var Collection<Registration> */
     private Collection $registrations;
 
     public function __construct(
         SegmentId $id,
+        private Route $route,
         private int $position,
         private Coordinates $start,
         private Coordinates $end,
@@ -33,6 +32,11 @@ class Segment extends Entity
     public function id(): SegmentId
     {
         return SegmentId::from($this->id);
+    }
+
+    public function route(): Route
+    {
+        return $this->route;
     }
 
     public function position(): int

@@ -25,6 +25,11 @@ class ModalityType extends Type
         return Modality::from($value);
     }
 
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): string
+    {
+        return $value instanceof Modality ? $value->value : $value;
+    }
+
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return false;

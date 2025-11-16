@@ -17,7 +17,10 @@ class Route extends Entity
 
     public function __construct(
         RouteId $id,
+        private int $code,
         private string $name,
+        private string $description,
+        private \DateTimeInterface $startsAt,
     ) {
         $this->id = (string) $id;
         $this->segments = new ArrayCollection();
@@ -28,9 +31,24 @@ class Route extends Entity
         return RouteId::from($this->id);
     }
 
+    public function code(): int
+    {
+        return $this->code;
+    }
+
     public function name(): string
     {
         return $this->name;
+    }
+
+    public function description(): string
+    {
+        return $this->description;
+    }
+
+    public function startsAt(): \DateTimeInterface
+    {
+        return $this->startsAt;
     }
 
     public function segments(): array
