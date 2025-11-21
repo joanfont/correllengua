@@ -32,6 +32,7 @@ services:
     volumes:
       - ./:/app
       - ./docker/entrypoint.sh:/entrypoint.sh:ro
+      - ./docker/php.ini:/usr/local/etc/php/conf.d/zzz-php.ini
 
   mysql:
     image: library/mysql:9.5.0

@@ -7,9 +7,17 @@ use App\Domain\Exception\Participant\ParticipantNotFoundException;
 use App\Domain\Model\Participant\Participant as ParticipantModel;
 use App\Domain\Provider\Participant\ParticipantProvider;
 use App\Infrastructure\Doctrine\Provider\DoctrineProvider;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DoctrineParticipantProvider extends DoctrineProvider implements ParticipantProvider
 {
+    public function __construct(
+        private readonly ParticipantFactory $participantFactory,
+        EntityManagerInterface $entityManager,
+    ) {
+        parent::__construct($entityManager);
+    }
+
     public function findByEmail(string $email): Participant
     {
         /** @var ParticipantModel $participant */
@@ -25,11 +33,6 @@ class DoctrineParticipantProvider extends DoctrineProvider implements Participan
             throw ParticipantNotFoundException::fromEmail($email);
         }
 
-        return new Participant(
-            id: $participant->id(),
-            name: $participant->name(),
-            surname: $participant->surname(),
-            email: $participant->email(),
-        );
+        return $this->participantFactory->fromEntity($participant);
     }
 }

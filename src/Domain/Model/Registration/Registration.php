@@ -2,6 +2,7 @@
 
 namespace App\Domain\Model\Registration;
 
+use App\Domain\Event\Registration\RegistrationCreated;
 use App\Domain\Model\Entity;
 use App\Domain\Model\Participant\Participant;
 use App\Domain\Model\Route\Modality;
@@ -18,6 +19,8 @@ class Registration extends Entity
         private Modality $modality,
     ) {
         $this->id = (string) $id;
+
+        $this->addEvent(RegistrationCreated::fromRegistration($this));
     }
 
     public function id(): RegistrationId

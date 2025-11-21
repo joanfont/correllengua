@@ -3,6 +3,7 @@
 namespace App\Tests\Application\Command\Registration;
 
 use App\Application\Command\Registration\RegisterParticipant;
+use App\Domain\Event\Registration\RegistrationCreated;
 use App\Domain\Exception\Participant\ParticipantAlreadyJoinedSegmentException;
 use App\Domain\Exception\Participant\ParticipantReachedMaxSegmentsException;
 use App\Domain\Exception\Route\ModalityMismatchException;

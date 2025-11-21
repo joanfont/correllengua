@@ -9,5 +9,5 @@ return static function (FrameworkConfig $framework): void {
     $mailer = $framework->mailer();
 
     $mailer
-        ->dsn(env('MAILER_TRANSPORT'));
+        ->dsn(env('MAILER_DSN'));
 };

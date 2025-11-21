@@ -2,16 +2,22 @@
 
 namespace App\Infrastructure\Doctrine\Provider\Route;
 
-use App\Domain\DTO\Coordinates;
 use App\Domain\DTO\Route\Route;
-use App\Domain\DTO\Route\Segment;
 use App\Domain\Model\Route\Route as RouteModel;
 use App\Domain\Model\Route\Segment as SegmentModel;
 use App\Domain\Provider\Route\RouteProvider;
 use App\Infrastructure\Doctrine\Provider\DoctrineProvider;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
 {
+    public function __construct(
+        private readonly SegmentFactory $segmentFactory,
+        EntityManagerInterface $entityManager,
+    ) {
+        parent::__construct($entityManager);
+    }
+
     public function findAll(): array
     {
         $routes = $this->entityManager->createQueryBuilder()
@@ -32,18 +38,7 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
         return new Route(
             (string) $route->id(),
             $route->name(),
-            array_map(fn (SegmentModel $segment) => $this->buildSegment($segment), $route->segments()),
-        );
-    }
-
-    private function buildSegment(SegmentModel $segment): Segment
-    {
-        return new Segment(
-            (string) $segment->id(),
-            new Coordinates($segment->start()->latitude(), $segment->start()->longitude()),
-            new Coordinates($segment->end()->latitude(), $segment->end()->longitude()),
-            $segment->capacity(),
-            $segment->modality()->value
+            array_map(fn (SegmentModel $segment) => $this->segmentFactory->fromEntity($segment), $route->segments()),
         );
     }
 }
