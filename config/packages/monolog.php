@@ -6,69 +6,66 @@ return static function (MonologConfig $monolog) {
 
     $monolog->channels(['deprecation']);
 
-    // when@dev
     if ('dev' === $_ENV['APP_ENV']) {
-        $handlerMain = $monolog->handler('main');
-        $handlerMain
+        $monolog
+            ->handler('main')
             ->type('stream')
             ->path('%kernel.logs_dir%/%kernel.environment%.log')
             ->level('debug')
-            ->channels(['!event']);
+            ->channels([]); // listen to all channels
 
-        $handlerConsole = $monolog->handler('console');
-        $handlerConsole
+        $monolog
+            ->handler('console')
             ->type('console')
             ->processPsr3Messages(false)
-            ->channels(['!event', '!doctrine', '!console']);
+            ->channels([]); // listen to all channels
     }
 
-    // when@test
     if ('test' === $_ENV['APP_ENV']) {
-        $handlerMain = $monolog->handler('main');
-        $handlerMain
+        $monolog
+            ->handler('main')
             ->type('fingers_crossed')
             ->actionLevel('error')
             ->handler('nested')
             ->excludedHttpCode(404)
             ->excludedHttpCode(405)
-            ->channels(['!event']);
+            ->channels([]); // all channels
 
-        $handlerNested = $monolog->handler('nested');
-        $handlerNested
+        $monolog
+            ->handler('nested')
             ->type('stream')
             ->path('%kernel.logs_dir%/%kernel.environment%.log')
             ->level('debug');
     }
 
-    // when@prod
     if ('prod' === $_ENV['APP_ENV']) {
-        $handlerMain = $monolog->handler('main');
-        $handlerMain
+        $monolog
+            ->handler('main')
             ->type('fingers_crossed')
             ->actionLevel('error')
             ->handler('nested')
             ->excludedHttpCode(404)
             ->excludedHttpCode(405)
-            ->channels(['!deprecation'])
-            ->bufferSize(50);
+            ->bufferSize(50)
+            ->channels([]); // all channels
 
-        $handlerNested = $monolog->handler('nested');
-        $handlerNested
+        $monolog
+            ->handler('nested')
             ->type('stream')
             ->path('php://stderr')
             ->level('debug')
             ->formatter('monolog.formatter.json');
 
-        $handlerConsole = $monolog->handler('console');
-        $handlerConsole
+        $monolog
+            ->handler('console')
             ->type('console')
             ->processPsr3Messages(false)
-            ->channels(['!event', '!doctrine']);
+            ->channels([]); // all channels
 
-        $handlerDeprecation = $monolog->handler('deprecation');
-        $handlerDeprecation
+        $monolog
+            ->handler('deprecation')
             ->type('stream')
-            ->channels(['deprecation'])
+            ->channels(['deprecation']) // specific channel
             ->path('php://stderr')
             ->formatter('monolog.formatter.json');
     }
