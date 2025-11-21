@@ -10,7 +10,11 @@ return function (ContainerConfigurator $container): void {
             'app.registration.max_registrations_per_participant',
             env('MAX_REGISTRATIONS_PER_PARTICIPANT')
                 ->default('app.registration.default_max_registrations_per_participant')
-        );
+        )
+        ->set('app.email.default_from', 'Correllengua <no-reply@correllengua.cat>')
+        ->set('app.email.from', env('EMAIL_FROM')->default('app.email.default_from'));
+
+
 
     $services = $container->services()
         ->defaults()
@@ -85,10 +89,20 @@ return function (ContainerConfigurator $container): void {
         ->alias('app.route.import_segments_from_file.filesystem', 'app.filesystem.local');
 
     $services
+        ->alias('app.registration.registration_created.send_email.filesystem', 'app.filesystem.local');
+
+
+    $services
         ->set(\App\Application\Command\Route\ImportRoutesFromFileHandler::class)
         ->arg('$filesystem', service('app.route.import_routes_from_file.filesystem'));
 
     $services
         ->set(\App\Application\Command\Route\ImportSegmentsFromFileHandler::class)
         ->arg('$filesystem', service('app.route.import_segments_from_file.filesystem'));
+
+    $services
+        ->set(\App\Infrastructure\Symfony\Mailer\Notification\EmailRegistrationCreatedNotification::class)
+        ->arg('$from', param('app.email.from'))
+        ->arg('$filesystem', service('app.registration.registration_created.send_email.filesystem'))
+        ->arg('$templatePath', '/templates/registrationCreated.html.twig');
 };

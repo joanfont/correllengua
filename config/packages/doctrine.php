@@ -17,7 +17,7 @@ return static function (DoctrineConfig $doctrine, FrameworkConfig $framework): v
     $doctrine
         ->orm()
         ->autoGenerateProxyClasses(true)
-        ->enableLazyGhostObjects(true);
+        ->enableNativeLazyObjects(true);
 
     $doctrine
         ->orm()

@@ -29,4 +29,5 @@ RUN sh -c '[ "$ENV" == "prod" ] && composer install --ignore-platform-reqs --pre
 RUN sh -c '[ "$ENV" != "prod" ] && composer install --ignore-platform-reqs --prefer-dist --no-interaction || exit 0'
 
 ADD docker/entrypoint.sh /entrypoint.sh
+ADD docker/php.ini /usr/local/etc/php/conf.d/zzz-php.ini
 ENTRYPOINT ["/entrypoint.sh"]

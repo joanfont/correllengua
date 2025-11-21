@@ -74,8 +74,8 @@ class Participant extends Entity
     public function hasJoinedSegment(Segment $segment): bool
     {
         return $this->registrations
-            ->map(fn (Registration $registration) => $registration->segment()->id())
-            ->contains($segment->id());
+            ->map(fn (Registration $registration) => (string) $registration->segment()->id())
+            ->contains((string) $segment->id());
     }
 
     public function hasReachedMaxSegments(int $maxSegments): bool

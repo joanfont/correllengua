@@ -4,9 +4,11 @@ namespace App\Tests;
 
 use App\Application\Commons\Command\Command;
 use App\Application\Commons\Command\CommandBus;
+use App\Application\Commons\Event\Event;
 use App\Application\Commons\Query\Query;
 use App\Application\Commons\Query\QueryBus;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Messenger\Transport\TransportInterface;
 
 class TestCase extends KernelTestCase
 {
@@ -34,4 +36,27 @@ class TestCase extends KernelTestCase
     {
         static::getContainer()->setParameter($name, $value);
     }
+
+    /**
+     * @param class-string|null $class
+     *
+     * @return Event[]
+     */
+    public static function events(?string $class = null): array
+    {
+        /** @var TransportInterface $transport */
+        $transport = static::getContainer()->get('messenger.transport.async');
+
+        $events = [];
+        foreach ($transport->get() as $envelope) {
+            if (null === $class) {
+                $events[] = $envelope->getMessage();
+            } elseif (get_class($envelope->getMessage()) === $class) {
+                $events[] = $envelope->getMessage();
+            }
+        }
+
+        return $events;
+    }
+
 }
