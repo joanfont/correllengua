@@ -19,4 +19,14 @@ class LeagueFilesystem implements Filesystem
     {
         return $this->flysystem->read($path);
     }
+
+    public function write(string $path, string $contents): void
+    {
+        $this->flysystem->write($path, $contents);
+    }
+
+    public function delete(string $path): void
+    {
+        $this->flysystem->delete($path);
+    }
 }

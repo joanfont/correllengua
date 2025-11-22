@@ -36,5 +36,8 @@ vendor/
 /.phpunit.cache/
 ###< phpunit/phpunit ###
 
-data/
+data/*
 !data/.gitkeep
+
+public/uploads/*
+!public/uploads/.gitkeep

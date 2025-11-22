@@ -12,9 +12,9 @@ return function (ContainerConfigurator $container): void {
                 ->default('app.registration.default_max_registrations_per_participant')
         )
         ->set('app.email.default_from', 'Correllengua <no-reply@correllengua.cat>')
-        ->set('app.email.from', env('EMAIL_FROM')->default('app.email.default_from'));
-
-
+        ->set('app.email.from', env('EMAIL_FROM')->default('app.email.default_from'))
+        ->set('app.local_uploads_prefix', 'uploads')
+        ->set('app.local_uploads_dir', param('kernel.project_dir').'/public/'.param('app.local_uploads_prefix'));
 
     $services = $container->services()
         ->defaults()
@@ -49,6 +49,10 @@ return function (ContainerConfigurator $container): void {
         ->tag('controller.service_arguments');
 
     $services
+        ->load('App\\Infrastructure\\Symfony\\Http\\ValueResolver\\', '../src/Infrastructure/Symfony/Http/ValueResolver')
+        ->tag('controller.argument_value_resolver');
+
+    $services
         ->set(\App\Infrastructure\Doctrine\Listener\EntityEventsListener::class)
         ->tag('doctrine.event_listener', ['event' => 'postPersist'])
         ->tag('doctrine.event_listener', ['event' => 'postUpdate'])
@@ -77,20 +81,28 @@ return function (ContainerConfigurator $container): void {
         ->arg('$maxSegmentsPerParticipant', param('app.registration.max_registrations_per_participant'));
 
     $services
-        ->set('app.filesystem.local', \App\Application\Service\File\Filesystem::class)
+        ->set('app.filesystem.project', \App\Application\Service\File\Filesystem::class)
         ->factory([\App\Infrastructure\League\Service\File\LeagueFilesystemFactory::class, 'makeLocal'])
         ->arg('$root', param('kernel.project_dir'));
 
+    $services
+        ->set('app.filesystem.uploads', \App\Application\Service\File\Filesystem::class)
+        ->factory([\App\Infrastructure\League\Service\File\LeagueFilesystemFactory::class, 'makeLocal'])
+        ->arg('$root', param('app.local_uploads_dir'));
 
     $services
-        ->alias('app.route.import_routes_from_file.filesystem', 'app.filesystem.local');
+        ->set('app.filesystem.root', \App\Application\Service\File\Filesystem::class)
+        ->factory([\App\Infrastructure\League\Service\File\LeagueFilesystemFactory::class, 'makeLocal'])
+        ->arg('$root', '/');
 
     $services
-        ->alias('app.route.import_segments_from_file.filesystem', 'app.filesystem.local');
+        ->alias('app.route.import_routes_from_file.filesystem', 'app.filesystem.project');
 
     $services
-        ->alias('app.registration.registration_created.send_email.filesystem', 'app.filesystem.local');
+        ->alias('app.route.import_segments_from_file.filesystem', 'app.filesystem.project');
 
+    $services
+        ->alias('app.registration.registration_created.send_email.filesystem', 'app.filesystem.project');
 
     $services
         ->set(\App\Application\Command\Route\ImportRoutesFromFileHandler::class)
@@ -105,4 +117,13 @@ return function (ContainerConfigurator $container): void {
         ->arg('$from', param('app.email.from'))
         ->arg('$filesystem', service('app.registration.registration_created.send_email.filesystem'))
         ->arg('$templatePath', '/templates/registrationCreated.html.twig');
+
+    $services
+        ->set(\App\Infrastructure\Symfony\Http\File\SymfonyFileUploader::class)
+        ->arg('$rootFilesystem', service('app.filesystem.root'))
+        ->arg('$uploadsFilesystem', service('app.filesystem.uploads'));
+
+    $services
+        ->set(\App\Infrastructure\Symfony\Http\File\SymfonyLocalUrlGenerator::class)
+        ->arg('$prefix', param('app.local_uploads_prefix'));
 };
