@@ -1,8 +1,10 @@
 <?php
 
+
+use Symfony\Config\FrameworkConfig;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
-return static function (Symfony\Config\FrameworkConfig $framework): void {
+return static function (FrameworkConfig $framework): void {
     $framework
         ->secret(env('APP_SECRET'))
         ->httpMethodOverride(false)
@@ -17,11 +19,4 @@ return static function (Symfony\Config\FrameworkConfig $framework): void {
     $framework
         ->phpErrors()
         ->log(true);
-
-    if ('test' === $_ENV['APP_ENV']) {
-        $framework->test(true);
-        $framework
-            ->session()
-            ->storageFactoryId('session.storage.factory.mock_file');
-    }
 };

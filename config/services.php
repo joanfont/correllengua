@@ -13,8 +13,8 @@ return function (ContainerConfigurator $container): void {
         )
         ->set('app.email.default_from', 'Correllengua <no-reply@correllengua.cat>')
         ->set('app.email.from', env('EMAIL_FROM')->default('app.email.default_from'))
-        ->set('app.local_uploads_prefix', 'uploads')
-        ->set('app.local_uploads_dir', param('kernel.project_dir').'/public/'.param('app.local_uploads_prefix'));
+        ->set('app.uploads.local.prefix', 'uploads')
+        ->set('app.uploads.local.dir', param('kernel.project_dir').'/public/'.param('app.uploads.local.prefix'));
 
     $services = $container->services()
         ->defaults()
@@ -88,7 +88,7 @@ return function (ContainerConfigurator $container): void {
     $services
         ->set('app.filesystem.uploads', \App\Application\Service\File\Filesystem::class)
         ->factory([\App\Infrastructure\League\Service\File\LeagueFilesystemFactory::class, 'makeLocal'])
-        ->arg('$root', param('app.local_uploads_dir'));
+        ->arg('$root', param('app.uploads.local.dir'));
 
     $services
         ->set('app.filesystem.root', \App\Application\Service\File\Filesystem::class)
@@ -125,5 +125,5 @@ return function (ContainerConfigurator $container): void {
 
     $services
         ->set(\App\Infrastructure\Symfony\Http\File\SymfonyLocalUrlGenerator::class)
-        ->arg('$prefix', param('app.local_uploads_prefix'));
+        ->arg('$prefix', param('app.uploads.local.prefix'));
 };

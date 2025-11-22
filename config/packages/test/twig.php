@@ -3,5 +3,5 @@
 use Symfony\Config\TwigConfig;
 
 return static function (TwigConfig $twig): void {
-    $twig->fileNamePattern('*.twig');
+    $twig->strictVariables(true);
 };
