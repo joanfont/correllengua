@@ -20,9 +20,9 @@ logs:
   mode: development
   channels:
     http:
-      level: debug # Log all http requests, set to info to disable
+      level: debug
     server:
-      level: info # Everything written to worker stderr is logged
+      level: error
       mode: raw
     metrics:
       level: debug
