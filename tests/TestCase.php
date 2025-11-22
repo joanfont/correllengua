@@ -32,7 +32,12 @@ class TestCase extends KernelTestCase
         static::getContainer()->set($id, $value);
     }
 
-    public function setParameter(string $name, string $value): void
+    protected static function getParameter(string $name): mixed
+    {
+        return static::getContainer()->getParameter($name);
+    }
+
+    protected static function setParameter(string $name, string $value): void
     {
         static::getContainer()->setParameter($name, $value);
     }
@@ -57,6 +62,19 @@ class TestCase extends KernelTestCase
         }
 
         return $events;
+    }
+
+    public static function asset(string $path): \SplFileInfo
+    {
+        $projectDir = self::getParameter('kernel.project_dir');
+        $fullPath = implode(DIRECTORY_SEPARATOR, [
+            $projectDir,
+            'tests',
+            'Assets',
+            $path,
+        ]);
+
+        return new \SplFileInfo($fullPath);
     }
 
 }

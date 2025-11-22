@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Application\Command\Registration;
+namespace App\Tests\Unit\Application\Command\Registration;
 
 use App\Application\Command\Registration\RegisterParticipant;
 use App\Domain\Event\Registration\RegistrationCreated;

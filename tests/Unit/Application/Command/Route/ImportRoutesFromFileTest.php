@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Application\Command\Route;
+namespace App\Tests\Unit\Application\Command\Route;
 
 use App\Application\Command\Route\ImportRoutesFromFile;
 use App\Application\Service\CSV\CSVReader;
