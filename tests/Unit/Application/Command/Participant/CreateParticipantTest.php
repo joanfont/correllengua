@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Application\Command\Participant;
+namespace App\Tests\Unit\Application\Command\Participant;
 
 use App\Application\Command\Participant\CreateParticipant;
 use App\Domain\Exception\Participant\ParticipantAlreadyExistsException;
@@ -32,10 +32,10 @@ class CreateParticipantTest extends TestCase
             ->expects($this->once())
             ->method('add')
             ->with($this->callback(function (Participant $participant): bool {
-                return Uuid::isValid($participant->id()) &&
-                    $participant->email() === 'foo@bar.com' &&
-                    $participant->name() === 'foo' &&
-                    $participant->surname() === 'bar';
+                return Uuid::isValid($participant->id())
+                    && 'foo@bar.com' === $participant->email()
+                    && 'foo' === $participant->name()
+                    && 'bar' === $participant->surname();
             }));
 
         $createParticipant = new CreateParticipant(
