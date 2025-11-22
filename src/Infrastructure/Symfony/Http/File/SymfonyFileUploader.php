@@ -5,7 +5,6 @@ namespace App\Infrastructure\Symfony\Http\File;
 use App\Application\Service\Calendar\Calendar;
 use App\Application\Service\File\Filesystem;
 use App\Application\Service\File\FileUploader;
-use App\Application\Service\File\UploadedFile;
 use App\Domain\Model\File\File;
 use App\Domain\Model\File\FileId;
 use App\Domain\Repository\File\FileRepository;
