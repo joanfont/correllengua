@@ -9,6 +9,6 @@ final class SegmentNotFoundException extends NotFoundException
 {
     public static function fromId(SegmentId $id): self
     {
-        return new self(sprintf('Segment with id = %s not found', $id));
+        return new self(\sprintf('Segment with id = %s not found', $id));
     }
 }

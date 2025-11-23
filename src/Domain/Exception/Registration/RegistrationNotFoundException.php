@@ -9,11 +9,11 @@ final class RegistrationNotFoundException extends NotFoundException
 {
     public static function fromId(RegistrationId $id): self
     {
-        return new self(sprintf('Registration with id = %s not found.', $id));
+        return new self(\sprintf('Registration with id = %s not found.', $id));
     }
 
     public static function fromHash(string $hash): self
     {
-        return new self(sprintf('Registration with hash = %s not found.', $hash));
+        return new self(\sprintf('Registration with hash = %s not found.', $hash));
     }
 }

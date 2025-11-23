@@ -11,7 +11,7 @@ final class ModalityMismatchException extends Exception
     public static function fromSegment(Segment $segment, Modality $modality): self
     {
         return new self(
-            sprintf(
+            \sprintf(
                 'Cannot join segment with id = %s (%s) with modality = %s',
                 $segment->id(),
                 $segment->modality()->value,

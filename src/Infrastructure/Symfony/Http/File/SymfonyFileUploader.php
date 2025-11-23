@@ -23,7 +23,7 @@ class SymfonyFileUploader implements FileUploader
     public function upload(\SplFileInfo $file): File
     {
         if (!$file instanceof SymfonyUploadedFile) {
-            throw new \UnexpectedValueException(sprintf('Expected instance of %s', SymfonyUploadedFile::class));
+            throw new \UnexpectedValueException(\sprintf('Expected instance of %s', SymfonyUploadedFile::class));
         }
 
         $fileContents = $this->rootFilesystem->read($file->getRealPath());
@@ -31,7 +31,7 @@ class SymfonyFileUploader implements FileUploader
 
         $basePath = $this->calendar->now()->format('Y/m/d');
         $fileName = $this->buildName($file);
-        $path = implode(DIRECTORY_SEPARATOR, [$basePath, $fileName]);
+        $path = implode(\DIRECTORY_SEPARATOR, [$basePath, $fileName]);
         $this->uploadsFilesystem->write($path, $fileContents);
 
         $file = new File(
@@ -50,6 +50,6 @@ class SymfonyFileUploader implements FileUploader
         $fileName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
 
-        return sprintf('%s.%s', uniqid($fileName.'-'), $extension);
+        return \sprintf('%s.%s', uniqid($fileName.'-'), $extension);
     }
 }

@@ -10,7 +10,7 @@ final class ParticipantReachedMaxSegmentsException extends Exception
     public static function fromParticipant(Participant $participant, int $maxRegistrationsPerParticipant): self
     {
         return new self(
-            sprintf(
+            \sprintf(
                 'Participant with id = %s has reached the maximum segment registrations (%d)',
                 $participant->id(),
                 $maxRegistrationsPerParticipant

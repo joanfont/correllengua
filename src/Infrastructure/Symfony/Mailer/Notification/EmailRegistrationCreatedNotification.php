@@ -30,7 +30,7 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
 
     public function send(Registration $registration): void
     {
-        $to = sprintf(
+        $to = \sprintf(
             '%s %s <%s>',
             $registration->participant->name,
             $registration->participant->surname,
@@ -59,7 +59,7 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
 
         return [
             'participant' => [
-                'name' => sprintf('%s %s', $registration->participant->name, $registration->participant->surname),
+                'name' => \sprintf('%s %s', $registration->participant->name, $registration->participant->surname),
             ],
             'segment' => [
                 'id' => $registration->segment->id,
