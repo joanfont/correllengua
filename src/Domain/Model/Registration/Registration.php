@@ -17,6 +17,7 @@ class Registration extends Entity
         private Participant $participant,
         private Segment $segment,
         private Modality $modality,
+        private string $hash,
     ) {
         $this->id = (string) $id;
 
@@ -41,5 +42,10 @@ class Registration extends Entity
     public function modality(): Modality
     {
         return $this->modality;
+    }
+
+    public function hash(): string
+    {
+        return $this->hash;
     }
 }

@@ -11,6 +11,7 @@ use App\Domain\Exception\Route\ModalityMismatchException;
 use App\Domain\Exception\Route\SegmentIsFullException;
 use App\Domain\Model\Participant\Participant;
 use App\Domain\Model\Participant\ParticipantId;
+use App\Domain\Model\Registration\RegistrationFactory;
 use App\Domain\Model\Route\Modality;
 use App\Domain\Model\Route\SegmentId;
 use App\Domain\Repository\Participant\ParticipantRepository;
@@ -22,6 +23,7 @@ readonly class RegisterParticipantHandler implements CommandHandler
         private SegmentRepository $segmentRepository,
         private ParticipantRepository $participantRepository,
         private int $maxSegmentsPerParticipant,
+        private RegistrationFactory $registrationFactory,
     ) {
     }
 
@@ -47,7 +49,9 @@ readonly class RegisterParticipantHandler implements CommandHandler
             throw ParticipantReachedMaxSegmentsException::fromParticipant($participant, $this->maxSegmentsPerParticipant);
         }
 
-        $participant->joinSegment($segment, $modality);
+        $registration = $this->registrationFactory->make($participant, $segment, $modality);
+
+        $segment->addRegistration($registration);
     }
 
     private function findOrCreateParticipant(ParticipantDTO $participant): Participant
