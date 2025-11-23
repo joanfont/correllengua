@@ -26,12 +26,12 @@ class ImportRoutesFromFile extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $path = $input->getArgument('path');
-        $output->writeln(sprintf('<info>Importing routes from file %s</info>', $path));
+        $output->writeln(\sprintf('<info>Importing routes from file %s</info>', $path));
 
         $importRoutesFromFile = new ImportRoutesFromFileCommand($path);
         $this->commandBus->dispatch($importRoutesFromFile);
 
-        $output->writeln(sprintf('<info>Successfully imported routes from file %s</info>', $path));
+        $output->writeln(\sprintf('<info>Successfully imported routes from file %s</info>', $path));
 
         return self::SUCCESS;
     }

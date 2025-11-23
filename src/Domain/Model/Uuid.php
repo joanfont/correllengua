@@ -16,7 +16,7 @@ abstract class Uuid
         return $this->id;
     }
 
-    public function equals(Uuid $uuid): bool
+    public function equals(self $uuid): bool
     {
         return (string) $uuid === $this->id;
     }

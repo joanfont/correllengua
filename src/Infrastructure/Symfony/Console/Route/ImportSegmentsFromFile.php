@@ -26,12 +26,12 @@ class ImportSegmentsFromFile extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $path = $input->getArgument('path');
-        $output->writeln(sprintf('<info>Importing segments from file %s</info>', $path));
+        $output->writeln(\sprintf('<info>Importing segments from file %s</info>', $path));
 
         $importRoutesFromFile = new ImportSegmentsFromFileCommand($path);
         $this->commandBus->dispatch($importRoutesFromFile);
 
-        $output->writeln(sprintf('<info>Successfully imported segments from file %s</info>', $path));
+        $output->writeln(\sprintf('<info>Successfully imported segments from file %s</info>', $path));
 
         return self::SUCCESS;
     }

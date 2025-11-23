@@ -11,7 +11,7 @@ final class ParticipantAlreadyJoinedSegmentException extends Exception
     public static function fromParticipantAndSegment(Participant $participant, Segment $segment): self
     {
         return new self(
-            sprintf(
+            \sprintf(
                 'Participant with id = %s already joined segment with id = %s',
                 $participant->id(),
                 $segment->id()

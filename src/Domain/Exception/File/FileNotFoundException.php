@@ -9,6 +9,6 @@ final class FileNotFoundException extends NotFoundException
 {
     public static function fromId(FileId $id): self
     {
-        return new self(sprintf('File with id = %s not found.', $id));
+        return new self(\sprintf('File with id = %s not found.', $id));
     }
 }
