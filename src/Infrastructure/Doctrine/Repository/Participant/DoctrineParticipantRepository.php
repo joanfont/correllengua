@@ -30,6 +30,7 @@ class DoctrineParticipantRepository extends DoctrineRepository implements Partic
         $participant = $this->entityManager->createQueryBuilder()
             ->select('p')
             ->from(Participant::class, 'p')
+            ->leftJoin('p.registrations', 'r')
             ->where('p.email = :email')
             ->setParameter('email', $email)
             ->getQuery()

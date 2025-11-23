@@ -2,11 +2,14 @@
 
 namespace App\Application\Command\Registration;
 
+use App\Application\Command\Registration\DTO\Participant as ParticipantDTO;
 use App\Application\Commons\Command\CommandHandler;
 use App\Domain\Exception\Participant\ParticipantAlreadyJoinedSegmentException;
+use App\Domain\Exception\Participant\ParticipantNotFoundException;
 use App\Domain\Exception\Participant\ParticipantReachedMaxSegmentsException;
 use App\Domain\Exception\Route\ModalityMismatchException;
 use App\Domain\Exception\Route\SegmentIsFullException;
+use App\Domain\Model\Participant\Participant;
 use App\Domain\Model\Participant\ParticipantId;
 use App\Domain\Model\Route\Modality;
 use App\Domain\Model\Route\SegmentId;
@@ -35,8 +38,7 @@ readonly class RegisterParticipantHandler implements CommandHandler
             throw ModalityMismatchException::fromSegment($segment, $modality);
         }
 
-        $participantId = ParticipantId::from($registerParticipant->participantId);
-        $participant = $this->participantRepository->findById($participantId);
+        $participant = $this->findOrCreateParticipant($registerParticipant->participant);
         if ($participant->hasJoinedSegment($segment)) {
             throw ParticipantAlreadyJoinedSegmentException::fromParticipantAndSegment($participant, $segment);
         }
@@ -46,5 +48,23 @@ readonly class RegisterParticipantHandler implements CommandHandler
         }
 
         $participant->joinSegment($segment, $modality);
+    }
+
+    private function findOrCreateParticipant(ParticipantDTO $participant): Participant
+    {
+        try {
+            $participant = $this->participantRepository->findByEmail($participant->email);
+        } catch (ParticipantNotFoundException) {
+            $participant = new Participant(
+                id: ParticipantId::generate(),
+                name: $participant->name,
+                surname: $participant->surname,
+                email: $participant->email,
+            );
+
+            $this->participantRepository->add($participant);
+        }
+
+        return $participant;
     }
 }
