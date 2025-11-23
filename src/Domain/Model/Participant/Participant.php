@@ -4,8 +4,6 @@ namespace App\Domain\Model\Participant;
 
 use App\Domain\Model\Entity;
 use App\Domain\Model\Registration\Registration;
-use App\Domain\Model\Registration\RegistrationId;
-use App\Domain\Model\Route\Modality;
 use App\Domain\Model\Route\Segment;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -57,18 +55,6 @@ class Participant extends Entity
             fn (Registration $registration) => $registration->segment(),
             $this->registrations->toArray()
         );
-    }
-
-    public function joinSegment(Segment $segment, Modality $modality): void
-    {
-        $registration = new Registration(
-            id: RegistrationId::generate(),
-            participant: $this,
-            segment: $segment,
-            modality: $modality
-        );
-
-        $this->registrations->add($registration);
     }
 
     public function hasJoinedSegment(Segment $segment): bool

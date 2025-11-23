@@ -79,4 +79,9 @@ class Segment extends Entity
     {
         return $this->capacity === $this->registrations->count();
     }
+
+    public function addRegistration(Registration $registration): void
+    {
+        $this->registrations->add($registration);
+    }
 }

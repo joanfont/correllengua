@@ -4,7 +4,10 @@ namespace App\Infrastructure\Symfony\Mailer\Notification;
 
 use App\Application\Service\File\Filesystem;
 use App\Application\Service\Notification\RegistrationCreatedNotification;
+use App\Application\Service\Registration\RegistrationHasher;
+use App\Application\Service\Url\UrlGenerator;
 use App\Domain\DTO\Registration\Registration;
+use App\Domain\Model\Registration\RegistrationId;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
@@ -19,6 +22,8 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
         private readonly string $from,
         private readonly Filesystem $filesystem,
         private readonly string $templatePath,
+        private readonly UrlGenerator $urlGenerator,
+        private readonly RegistrationHasher $registrationHasher,
     ) {
         $this->twig = new Environment(new ArrayLoader());
     }
@@ -50,6 +55,8 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
 
     private function buildContext(Registration $registration): array
     {
+        $registrationHash = $this->registrationHasher->hash(RegistrationId::from($registration->id));
+
         return [
             'participant' => [
                 'name' => sprintf('%s %s', $registration->participant->name, $registration->participant->surname),
@@ -57,7 +64,9 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
             'segment' => [
                 'id' => $registration->segment->id,
             ],
-            'cancelRegistrationLink' => 'https://ca.wikipedia.org/wiki/Correllengua',
+            'deregisterLink' => $this->urlGenerator->generate('deregister_participant', [
+                'hash' => $registrationHash,
+            ]),
         ];
     }
 }

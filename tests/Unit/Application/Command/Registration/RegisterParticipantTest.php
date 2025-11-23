@@ -11,6 +11,8 @@ use App\Domain\Exception\Route\ModalityMismatchException;
 use App\Domain\Exception\Route\SegmentIsFullException;
 use App\Domain\Model\Participant\Participant;
 use App\Domain\Model\Participant\ParticipantId;
+use App\Domain\Model\Registration\Registration;
+use App\Domain\Model\Registration\RegistrationFactory;
 use App\Domain\Model\Route\Modality;
 use App\Domain\Model\Route\Segment;
 use App\Domain\Model\Route\SegmentId;
@@ -23,6 +25,7 @@ class RegisterParticipantTest extends TestCase
 {
     private readonly SegmentRepository&MockObject $segmentRepository;
     private readonly ParticipantRepository&MockObject $participantRepository;
+    private readonly RegistrationFactory&MockObject $registrationFactory;
     private readonly Segment&MockObject $segment;
     private readonly Participant&MockObject $participant;
 
@@ -30,11 +33,13 @@ class RegisterParticipantTest extends TestCase
     {
         $this->segmentRepository = $this->createMock(SegmentRepository::class);
         $this->participantRepository = $this->createMock(ParticipantRepository::class);
+        $this->registrationFactory = $this->createMock(RegistrationFactory::class);
         $this->segment = $this->createMock(Segment::class);
         $this->participant = $this->createMock(Participant::class);
 
         self::set(SegmentRepository::class, $this->segmentRepository);
         self::set(ParticipantRepository::class, $this->participantRepository);
+        self::set(RegistrationFactory::class, $this->registrationFactory);
     }
 
     public function testRegistersParticipantToSameModalitySegment(): void
@@ -81,10 +86,18 @@ class RegisterParticipantTest extends TestCase
             ->with(5)
             ->willReturn(false);
 
-        $this->participant
+        $registration = $this->createMock(Registration::class);
+
+        $this->registrationFactory
             ->expects($this->once())
-            ->method('joinSegment')
-            ->with($this->segment, Modality::WALK);
+            ->method('make')
+            ->with($this->participant, $this->segment, Modality::WALK)
+            ->willReturn($registration);
+
+        $this->segment
+            ->expects($this->once())
+            ->method('addRegistration')
+            ->with($registration);
 
         $registerParticipant = new RegisterParticipant(
             $participantDto,
@@ -214,9 +227,7 @@ class RegisterParticipantTest extends TestCase
             ->expects($this->never())
             ->method('hasReachedMaxSegments');
 
-        $this->participant
-            ->expects($this->never())
-            ->method('joinSegment');
+        // joinSegment is no longer called by the handler; no expectation needed
 
         static::expectException(ParticipantAlreadyJoinedSegmentException::class);
 
@@ -272,9 +283,7 @@ class RegisterParticipantTest extends TestCase
             ->with(5)
             ->willReturn(true);
 
-        $this->participant
-            ->expects($this->never())
-            ->method('joinSegment');
+        // joinSegment is no longer called by the handler; no expectation needed
 
         static::expectException(ParticipantReachedMaxSegmentsException::class);
 
@@ -330,10 +339,18 @@ class RegisterParticipantTest extends TestCase
             ->with(5)
             ->willReturn(false);
 
-        $this->participant
+        $registration = $this->createMock(Registration::class);
+
+        $this->registrationFactory
             ->expects($this->once())
-            ->method('joinSegment')
-            ->with($this->segment, Modality::WALK);
+            ->method('make')
+            ->with($this->participant, $this->segment, Modality::WALK)
+            ->willReturn($registration);
+
+        $this->segment
+            ->expects($this->once())
+            ->method('addRegistration')
+            ->with($registration);
 
         $registerParticipant = new RegisterParticipant(
             $participantDto,

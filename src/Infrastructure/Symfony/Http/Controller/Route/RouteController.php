@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Symfony\Http\Controller\Route;
 
+use App\Application\Command\Registration\DeregisterParticipant;
 use App\Application\Command\Registration\DTO\Participant;
 use App\Application\Command\Registration\RegisterParticipant;
 use App\Application\Commons\Command\CommandBus;
@@ -10,6 +11,7 @@ use App\Application\Query\Route\ListRoutes;
 use App\Infrastructure\Symfony\Http\DTO\Route\RegisterParticipantRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -47,5 +49,17 @@ class RouteController extends AbstractController
         $commandBus->dispatch($registerParticipant);
 
         return new Response(null, Response::HTTP_CREATED);
+    }
+
+    #[Route('/deregister', name: 'deregister_participant', methods: ['GET'])]
+    public function deregisterParticipant(
+        CommandBus $commandBus,
+        #[MapQueryParameter('hash')]
+        string $registrationHash,
+    ): Response {
+        $deregisterParticipant = new DeregisterParticipant($registrationHash);
+        $commandBus->dispatch($deregisterParticipant);
+
+        return new Response(null, Response::HTTP_NO_CONTENT);
     }
 }

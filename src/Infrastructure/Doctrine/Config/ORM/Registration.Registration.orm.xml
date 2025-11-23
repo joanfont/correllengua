@@ -22,9 +22,14 @@
         </many-to-one>
 
         <field name="modality" type="modality" />
+        <field name="hash" length="128" />
 
         <unique-constraints>
             <unique-constraint columns="participant_id,segment_id" />
         </unique-constraints>
+
+        <indexes>
+            <index name="hash" fields="hash" />
+        </indexes>
     </entity>
 </doctrine-mapping>
