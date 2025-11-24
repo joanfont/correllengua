@@ -5,7 +5,7 @@ namespace App\Application\Service\Route\DTO;
 readonly class Segment
 {
     public function __construct(
-        public int $routeCode,
+        public string $itineraryName,
         public int $position,
         public float $startLatitude,
         public float $startLongitude,
@@ -13,6 +13,5 @@ readonly class Segment
         public float $endLongitude,
         public string $modality,
         public int $capacity,
-    ) {
-    }
+    ) {}
 }

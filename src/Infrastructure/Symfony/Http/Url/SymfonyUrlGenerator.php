@@ -7,9 +7,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SymfonyUrlGenerator implements UrlGenerator
 {
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
-    {
-    }
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator) {}
 
     public function generate(string $name, array $parameters = []): string
     {

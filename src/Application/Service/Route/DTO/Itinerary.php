@@ -2,11 +2,10 @@
 
 namespace App\Application\Service\Route\DTO;
 
-readonly class Route
+readonly class Itinerary
 {
     public function __construct(
+        public string $routeName,
         public string $name,
-        public string $description,
-        public \DateTimeInterface $startDate,
     ) {}
 }

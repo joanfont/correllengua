@@ -8,14 +8,12 @@ use App\Domain\Model\File\File as FileEntity;
 
 class FileFactory
 {
-    public function __construct(private readonly UrlGenerator $urlGenerator)
-    {
-    }
+    public function __construct(private readonly UrlGenerator $urlGenerator) {}
 
     public function fromEntity(FileEntity $file): File
     {
         return new File(
-            url: $this->urlGenerator->generate($file)
+            url: $this->urlGenerator->generate($file),
         );
     }
 }

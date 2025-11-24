@@ -7,7 +7,7 @@ use App\Application\Service\CSV\CSVReader;
 use App\Application\Service\CSV\CSVReaderFactory;
 use App\Application\Service\File\Filesystem;
 use App\Application\Service\Route\DTO\Route as RouteDTO;
-use App\Application\Service\Route\RouteParser;
+use App\Application\Service\Route\RouteBuilder;
 use App\Domain\Model\Route\Route;
 use App\Domain\Model\Route\RouteId;
 use App\Domain\Repository\Route\RouteRepository;
@@ -18,7 +18,7 @@ class ImportRoutesFromFileTest extends TestCase
 {
     private readonly Filesystem&MockObject $filesystem;
     private readonly CSVReaderFactory&MockObject $csvReaderFactory;
-    private readonly RouteParser&MockObject $routeParser;
+    private readonly RouteBuilder&MockObject $routeParser;
     private readonly RouteRepository&MockObject $routeRepository;
     private readonly CSVReader&MockObject $csvReader;
 
@@ -26,13 +26,13 @@ class ImportRoutesFromFileTest extends TestCase
     {
         $this->filesystem = $this->createMock(Filesystem::class);
         $this->csvReaderFactory = $this->createMock(CSVReaderFactory::class);
-        $this->routeParser = $this->createMock(RouteParser::class);
+        $this->routeParser = $this->createMock(RouteBuilder::class);
         $this->routeRepository = $this->createMock(RouteRepository::class);
         $this->csvReader = $this->createMock(CSVReader::class);
 
         self::set('app.route.import_routes_from_file.filesystem', $this->filesystem);
         self::set(CSVReaderFactory::class, $this->csvReaderFactory);
-        self::set(RouteParser::class, $this->routeParser);
+        self::set(RouteBuilder::class, $this->routeParser);
         self::set(RouteRepository::class, $this->routeRepository);
     }
 

@@ -17,7 +17,6 @@ class Route extends Entity
 
     public function __construct(
         RouteId $id,
-        private int $code,
         private string $name,
         private string $description,
         private \DateTimeInterface $startsAt,
@@ -29,11 +28,6 @@ class Route extends Entity
     public function id(): RouteId
     {
         return RouteId::from($this->id);
-    }
-
-    public function code(): int
-    {
-        return $this->code;
     }
 
     public function name(): string

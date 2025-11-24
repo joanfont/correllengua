@@ -4,6 +4,4 @@ namespace App\Domain\Model\Route;
 
 use App\Domain\Model\Uuid;
 
-class RouteId extends Uuid
-{
-}
+class RouteId extends Uuid {}

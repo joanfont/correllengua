@@ -8,9 +8,9 @@ $finder = (new PhpCsFixer\Finder())
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
-        '@Symfony:risky' => true,
-        '@PER-CS3x0:risky' => true,
-        '@PSR12:risky' => true,
+        '@Symfony' => true,
+        '@PER-CS3x0' => true,
+        '@PSR12' => true,
         'fully_qualified_strict_types' => true,
         'modifier_keywords' => true,
         'no_unused_imports' => true,

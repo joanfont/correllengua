@@ -17,8 +17,7 @@ class SymfonyFileUploader implements FileUploader
         private readonly Filesystem $uploadsFilesystem,
         private readonly FileRepository $fileRepository,
         private readonly Calendar $calendar,
-    ) {
-    }
+    ) {}
 
     public function upload(\SplFileInfo $file): File
     {
@@ -50,6 +49,6 @@ class SymfonyFileUploader implements FileUploader
         $fileName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
 
-        return \sprintf('%s.%s', uniqid($fileName.'-'), $extension);
+        return \sprintf('%s.%s', uniqid($fileName . '-'), $extension);
     }
 }

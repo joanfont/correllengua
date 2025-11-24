@@ -7,7 +7,7 @@ use App\Application\Service\CSV\CSVReader;
 use App\Application\Service\CSV\CSVReaderFactory;
 use App\Application\Service\File\Filesystem;
 use App\Application\Service\Route\DTO\Segment as SegmentDTO;
-use App\Application\Service\Route\SegmentParser;
+use App\Application\Service\Route\SegmentBuilder;
 use App\Domain\Model\Route\Modality;
 use App\Domain\Model\Route\Route;
 use App\Domain\Model\Route\Segment;
@@ -21,7 +21,7 @@ class ImportSegmentsFromFileTest extends TestCase
 {
     private readonly Filesystem&MockObject $filesystem;
     private readonly CSVReaderFactory&MockObject $csvReaderFactory;
-    private readonly SegmentParser&MockObject $segmentParser;
+    private readonly SegmentBuilder&MockObject $segmentParser;
     private readonly RouteRepository&MockObject $routeRepository;
     private readonly SegmentRepository&MockObject $segmentRepository;
     private readonly CSVReader&MockObject $csvReader;
@@ -31,7 +31,7 @@ class ImportSegmentsFromFileTest extends TestCase
     {
         $this->filesystem = $this->createMock(Filesystem::class);
         $this->csvReaderFactory = $this->createMock(CSVReaderFactory::class);
-        $this->segmentParser = $this->createMock(SegmentParser::class);
+        $this->segmentParser = $this->createMock(SegmentBuilder::class);
         $this->routeRepository = $this->createMock(RouteRepository::class);
         $this->segmentRepository = $this->createMock(SegmentRepository::class);
         $this->csvReader = $this->createMock(CSVReader::class);
@@ -39,7 +39,7 @@ class ImportSegmentsFromFileTest extends TestCase
 
         self::set('app.route.import_segments_from_file.filesystem', $this->filesystem);
         self::set(CSVReaderFactory::class, $this->csvReaderFactory);
-        self::set(SegmentParser::class, $this->segmentParser);
+        self::set(SegmentBuilder::class, $this->segmentParser);
         self::set(RouteRepository::class, $this->routeRepository);
         self::set(SegmentRepository::class, $this->segmentRepository);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Unit\Application\Service\Route;
 
-use App\Application\Service\Route\SegmentParser;
+use App\Application\Service\Route\SegmentBuilder;
 use App\Application\Service\Route\DTO\Segment as SegmentDTO;
 use App\Tests\TestCase;
 
@@ -21,7 +21,7 @@ class SegmentParserTest extends TestCase
             'capacity' => 100,
         ];
 
-        $parser = new SegmentParser();
+        $parser = new SegmentBuilder();
 
         $segment = $parser->fromArray($input);
 

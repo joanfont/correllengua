@@ -5,7 +5,7 @@ namespace App\Application\Command\Route;
 use App\Application\Commons\Command\CommandHandler;
 use App\Application\Service\CSV\CSVReaderFactory;
 use App\Application\Service\File\Filesystem;
-use App\Application\Service\Route\SegmentParser;
+use App\Application\Service\Route\SegmentBuilder;
 use App\Domain\Model\Coordinates;
 use App\Domain\Model\Route\Modality;
 use App\Domain\Model\Route\Segment;
@@ -18,11 +18,10 @@ readonly class ImportSegmentsFromFileHandler implements CommandHandler
     public function __construct(
         private Filesystem $filesystem,
         private CSVReaderFactory $csvReaderFactory,
-        private SegmentParser $segmentParser,
+        private SegmentBuilder $segmentParser,
         private RouteRepository $routeRepository,
         private SegmentRepository $segmentRepository,
-    ) {
-    }
+    ) {}
 
     public function __invoke(ImportSegmentsFromFile $importSegmentsFromFile): void
     {

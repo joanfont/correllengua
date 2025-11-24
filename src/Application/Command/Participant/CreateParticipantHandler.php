@@ -12,8 +12,7 @@ readonly class CreateParticipantHandler implements CommandHandler
 {
     public function __construct(
         private ParticipantRepository $participantRepository,
-    ) {
-    }
+    ) {}
 
     public function __invoke(CreateParticipant $createParticipant): void
     {

@@ -9,6 +9,5 @@ readonly class Participant
         public string $name,
         public string $surname,
         public string $email,
-    ) {
-    }
+    ) {}
 }

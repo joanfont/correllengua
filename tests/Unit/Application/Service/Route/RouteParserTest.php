@@ -2,7 +2,7 @@
 
 namespace App\Tests\Unit\Application\Service\Route;
 
-use App\Application\Service\Route\RouteParser;
+use App\Application\Service\Route\RouteBuilder;
 use App\Application\Service\Calendar\Calendar;
 use App\Application\Service\Route\DTO\Route as RouteDTO;
 use App\Tests\TestCase;
@@ -34,7 +34,7 @@ class RouteParserTest extends TestCase
             ->with($input['start_date'], 'd/m/Y')
             ->willReturn($expectedDate);
 
-        $parser = new RouteParser($this->calendar);
+        $parser = new RouteBuilder($this->calendar);
 
         $route = $parser->fromArray($input);
 

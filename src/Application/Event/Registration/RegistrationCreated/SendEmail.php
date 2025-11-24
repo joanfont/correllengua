@@ -12,8 +12,7 @@ final readonly class SendEmail implements EventHandler
     public function __construct(
         private RegistrationProvider $registrationProvider,
         private RegistrationCreatedNotification $registrationCreatedNotification,
-    ) {
-    }
+    ) {}
 
     public function __invoke(RegistrationCreated $registrationCreated): void
     {

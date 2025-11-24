@@ -8,6 +8,5 @@ readonly class DeregisterParticipant implements Command
 {
     public function __construct(
         public string $hash,
-    ) {
-    }
+    ) {}
 }

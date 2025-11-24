@@ -13,8 +13,8 @@ final class ParticipantReachedMaxSegmentsException extends Exception
             \sprintf(
                 'Participant with id = %s has reached the maximum segment registrations (%d)',
                 $participant->id(),
-                $maxRegistrationsPerParticipant
-            )
+                $maxRegistrationsPerParticipant,
+            ),
         );
     }
 }

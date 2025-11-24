@@ -13,8 +13,7 @@ readonly class CreatePressNoteHandler implements CommandHandler
     public function __construct(
         private FileUploader $fileUploader,
         private PressNoteRepository $pressNoteRepository,
-    ) {
-    }
+    ) {}
 
     public function __invoke(CreatePressNote $createPressNote): void
     {

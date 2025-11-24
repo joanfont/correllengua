@@ -10,6 +10,5 @@ readonly class CreatePressNoteRequest
         public string $body,
         public bool $featured,
         public \SplFileInfo $image,
-    ) {
-    }
+    ) {}
 }

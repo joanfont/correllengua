@@ -31,7 +31,7 @@ class DoctrinePressNoteProvider extends DoctrineProvider implements PressNotePro
 
         return array_map(
             fn (PressNoteEntity $pressNote) => $this->buildPressNote($pressNote),
-            $pressNotes
+            $pressNotes,
         );
     }
 

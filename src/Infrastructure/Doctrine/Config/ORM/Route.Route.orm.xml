@@ -7,7 +7,6 @@
             <generator strategy="NONE" />
         </id>
 
-        <field name="code" type="integer" unique="true" />
         <field name="name" length="128" />
         <field name="description" type="text" />
         <field name="startsAt" type="date" />

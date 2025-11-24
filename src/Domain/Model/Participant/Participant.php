@@ -53,7 +53,7 @@ class Participant extends Entity
     {
         return array_map(
             fn (Registration $registration) => $registration->segment(),
-            $this->registrations->toArray()
+            $this->registrations->toArray(),
         );
     }
 

@@ -9,6 +9,5 @@ readonly class RegisterParticipantRequest
         public string $surname,
         public string $email,
         public string $modality,
-    ) {
-    }
+    ) {}
 }

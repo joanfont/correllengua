@@ -34,7 +34,7 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
             '%s %s <%s>',
             $registration->participant->name,
             $registration->participant->surname,
-            $registration->participant->email
+            $registration->participant->email,
         );
 
         $templateContents = $this->filesystem->read($this->templatePath);

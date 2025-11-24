@@ -15,8 +15,8 @@ final class ModalityMismatchException extends Exception
                 'Cannot join segment with id = %s (%s) with modality = %s',
                 $segment->id(),
                 $segment->modality()->value,
-                $modality->value
-            )
+                $modality->value,
+            ),
         );
     }
 }

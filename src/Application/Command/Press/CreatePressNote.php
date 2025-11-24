@@ -17,6 +17,5 @@ readonly class CreatePressNote implements Command
         public bool $featured,
         #[Assert\Image(maxSize: '2M')]
         public \SplFileInfo $image,
-    ) {
-    }
+    ) {}
 }

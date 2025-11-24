@@ -13,6 +13,5 @@ readonly class PressNote
         public string $body,
         public bool $featured,
         public File $image,
-    ) {
-    }
+    ) {}
 }

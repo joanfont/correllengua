@@ -14,8 +14,8 @@ final class ParticipantAlreadyJoinedSegmentException extends Exception
             \sprintf(
                 'Participant with id = %s already joined segment with id = %s',
                 $participant->id(),
-                $segment->id()
-            )
+                $segment->id(),
+            ),
         );
     }
 }
