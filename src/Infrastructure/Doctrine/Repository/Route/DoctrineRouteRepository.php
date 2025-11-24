@@ -14,18 +14,18 @@ class DoctrineRouteRepository extends DoctrineRepository implements RouteReposit
         $this->entityManager->persist($route);
     }
 
-    public function findByCode(int $code): Route
+    public function findByName(string $name): Route
     {
         $route = $this->entityManager->createQueryBuilder()
             ->select('r')
             ->from(Route::class, 'r')
-            ->where('r.code = :code')
-            ->setParameter('code', $code)
+            ->where('r.name = :name')
+            ->setParameter('name', $name)
             ->getQuery()
             ->getOneOrNullResult();
 
         if (null === $route) {
-            throw RouteNotFoundException::fromCode($code);
+            throw RouteNotFoundException::fromName($name);
         }
 
         return $route;

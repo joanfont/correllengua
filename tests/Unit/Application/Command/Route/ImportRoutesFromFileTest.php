@@ -6,8 +6,8 @@ use App\Application\Command\Route\ImportRoutesFromFile;
 use App\Application\Service\CSV\CSVReader;
 use App\Application\Service\CSV\CSVReaderFactory;
 use App\Application\Service\File\Filesystem;
-use App\Application\Service\Route\DTO\Route as RouteDTO;
 use App\Application\Service\Route\RouteBuilder;
+use App\Application\Service\Route\DTO\Route as RouteDTO;
 use App\Domain\Model\Route\Route;
 use App\Domain\Model\Route\RouteId;
 use App\Domain\Repository\Route\RouteRepository;
@@ -62,25 +62,24 @@ class ImportRoutesFromFileTest extends TestCase
             ->method('readLine')
             ->willReturn(new \ArrayIterator($csvData));
 
+        /** @var RouteDTO $parsedRoute */
         $parsedRoute = new RouteDTO(
-            code: 1,
-            name: 'Ruta 1',
-            description: 'Descripción',
-            startDate: new \DateTimeImmutable('2025-01-01')
+            'Ruta 1',
+            'Descripción',
+            new \DateTimeImmutable('2025-01-01')
         );
 
         $this->routeParser
             ->expects($this->once())
             ->method('fromArray')
             ->with($csvData[0])
-            ->willReturn($parsedRoute);
+            ->willReturnCallback(fn(array $d): RouteDTO => $parsedRoute);
 
         $this->routeRepository
             ->expects($this->once())
             ->method('add')
             ->with($this->callback(function (Route $route): bool {
                 return 'Ruta 1' === $route->name()
-                    && 1 === $route->code()
                     && 'Descripción' === $route->description();
             }));
 
@@ -120,12 +119,12 @@ class ImportRoutesFromFileTest extends TestCase
         $this->routeParser
             ->expects($this->exactly(3))
             ->method('fromArray')
-            ->willReturnCallback(function (array $data) {
+            /** @return RouteDTO */
+            ->willReturnCallback(function (array $data): RouteDTO {
                 return new RouteDTO(
-                    code: (int) $data['code'],
-                    name: $data['name'],
-                    description: $data['description'],
-                    startDate: new \DateTimeImmutable($data['start_date'])
+                    $data['name'],
+                    $data['description'],
+                    new \DateTimeImmutable($data['start_date'])
                 );
             });
 
@@ -209,12 +208,12 @@ class ImportRoutesFromFileTest extends TestCase
         $this->routeParser
             ->expects($this->exactly(2))
             ->method('fromArray')
-            ->willReturnCallback(function (array $data) {
+            /** @return RouteDTO */
+            ->willReturnCallback(function (array $data): RouteDTO {
                 return new RouteDTO(
-                    code: (int) $data['code'],
-                    name: $data['name'],
-                    description: $data['description'],
-                    startDate: new \DateTimeImmutable($data['start_date'])
+                    $data['name'],
+                    $data['description'],
+                    new \DateTimeImmutable($data['start_date'])
                 );
             });
 
@@ -260,18 +259,18 @@ class ImportRoutesFromFileTest extends TestCase
             ->method('readLine')
             ->willReturn(new \ArrayIterator($csvData));
 
+        /** @var RouteDTO $parsedRoute */
         $parsedRoute = new RouteDTO(
-            code: 5,
-            name: 'Ruta de Prova',
-            description: 'Descripció de prova',
-            startDate: new \DateTimeImmutable('2025-06-15')
+            'Ruta de Prova',
+            'Descripció de prova',
+            new \DateTimeImmutable('2025-06-15')
         );
 
         $this->routeParser
             ->expects($this->once())
             ->method('fromArray')
             ->with($csvData[0])
-            ->willReturn($parsedRoute);
+            ->willReturnCallback(fn(array $d): RouteDTO => $parsedRoute);
 
         $this->routeRepository
             ->expects($this->once())
@@ -279,7 +278,6 @@ class ImportRoutesFromFileTest extends TestCase
             ->with($this->callback(function (Route $route): bool {
                 self::assertInstanceOf(RouteId::class, $route->id());
                 self::assertEquals('Ruta de Prova', $route->name());
-                self::assertEquals(5, $route->code());
                 self::assertEquals('Descripció de prova', $route->description());
                 self::assertEquals('2025-06-15', $route->startsAt()->format('Y-m-d'));
 

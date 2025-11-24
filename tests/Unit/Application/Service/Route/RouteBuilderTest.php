@@ -8,7 +8,7 @@ use App\Application\Service\Route\DTO\Route as RouteDTO;
 use App\Tests\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class RouteParserTest extends TestCase
+class RouteBuilderTest extends TestCase
 {
     private Calendar&MockObject $calendar;
 
@@ -20,7 +20,6 @@ class RouteParserTest extends TestCase
     public function testFromArrayParsesFieldsAndUsesCalendar(): void
     {
         $input = [
-            'code' => 42,
             'name' => 'My Route',
             'description' => 'A lovely route',
             'start_date' => '23/11/2025',
@@ -34,12 +33,11 @@ class RouteParserTest extends TestCase
             ->with($input['start_date'], 'd/m/Y')
             ->willReturn($expectedDate);
 
-        $parser = new RouteBuilder($this->calendar);
+        $builder = new RouteBuilder($this->calendar);
 
-        $route = $parser->fromArray($input);
+        $route = $builder->fromArray($input);
 
         static::assertInstanceOf(RouteDTO::class, $route);
-        static::assertSame(42, $route->code);
         static::assertSame('My Route', $route->name);
         static::assertSame('A lovely route', $route->description);
         static::assertEquals($expectedDate, $route->startDate);
