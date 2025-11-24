@@ -11,9 +11,9 @@ class Route extends Entity
     private string $id;
 
     /**
-     * @var Collection<Segment>
+     * @var Collection<Itinerary>
      */
-    private Collection $segments;
+    private Collection $itineraries;
 
     public function __construct(
         RouteId $id,
@@ -23,7 +23,7 @@ class Route extends Entity
         private \DateTimeInterface $startsAt,
     ) {
         $this->id = (string) $id;
-        $this->segments = new ArrayCollection();
+        $this->itineraries = new ArrayCollection();
     }
 
     public function id(): RouteId
@@ -51,8 +51,11 @@ class Route extends Entity
         return $this->startsAt;
     }
 
-    public function segments(): array
+    /**
+     * @return array<int, Itinerary>
+     */
+    public function itineraries(): array
     {
-        return $this->segments->toArray();
+        return $this->itineraries->toArray();
     }
 }

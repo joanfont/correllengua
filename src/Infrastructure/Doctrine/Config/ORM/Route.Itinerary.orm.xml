@@ -2,17 +2,18 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                     https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <entity name="App\Domain\Model\Route\Route" table="route">
+    <entity name="App\Domain\Model\Route\Itinerary" table="itinerary">
         <id name="id" length="36">
             <generator strategy="NONE" />
         </id>
 
-        <field name="code" type="integer" unique="true" />
         <field name="name" length="128" />
-        <field name="description" type="text" />
-        <field name="startsAt" type="date" />
 
-        <one-to-many field="itineraries" target-entity="App\Domain\Model\Route\Itinerary" mapped-by="route">
+        <many-to-one field="route" target-entity="App\Domain\Model\Route\Route" inversed-by="itineraries">
+            <join-column name="route_id" nullable="false"/>
+        </many-to-one>
+
+        <one-to-many field="segments" target-entity="App\Domain\Model\Route\Segment" mapped-by="itinerary">
             <cascade>
                 <cascade-all />
             </cascade>
