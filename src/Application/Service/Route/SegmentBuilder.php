@@ -4,11 +4,11 @@ namespace App\Application\Service\Route;
 
 use App\Application\Service\Route\DTO\Segment;
 
-class SegmentParser
+class SegmentBuilder
 {
     /**
      * @param array{
-     *     route_code: int,
+     *     itinerary_name: string,
      *     position: int,
      *     start_latitude: float,
      *     start_longitude: float,
@@ -21,7 +21,7 @@ class SegmentParser
     public function fromArray(array $segment): Segment
     {
         return new Segment(
-            routeCode: $segment['route_code'],
+            itineraryName: $segment['itinerary_name'],
             position: $segment['position'],
             startLatitude: $segment['start_latitude'],
             startLongitude: $segment['start_longitude'],

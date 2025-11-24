@@ -7,9 +7,7 @@ use League\Csv\Reader;
 
 class LeagueCSVReader implements CSVReader
 {
-    public function __construct(private readonly Reader $reader)
-    {
-    }
+    public function __construct(private readonly Reader $reader) {}
 
     public function readLine(): \Iterator
     {

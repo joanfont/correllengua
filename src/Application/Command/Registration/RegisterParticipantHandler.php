@@ -24,8 +24,7 @@ readonly class RegisterParticipantHandler implements CommandHandler
         private ParticipantRepository $participantRepository,
         private int $maxSegmentsPerParticipant,
         private RegistrationFactory $registrationFactory,
-    ) {
-    }
+    ) {}
 
     public function __invoke(RegisterParticipant $registerParticipant): void
     {

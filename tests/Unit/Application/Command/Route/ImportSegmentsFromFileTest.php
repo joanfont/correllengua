@@ -7,12 +7,12 @@ use App\Application\Service\CSV\CSVReader;
 use App\Application\Service\CSV\CSVReaderFactory;
 use App\Application\Service\File\Filesystem;
 use App\Application\Service\Route\DTO\Segment as SegmentDTO;
-use App\Application\Service\Route\SegmentParser;
+use App\Application\Service\Route\SegmentBuilder;
+use App\Domain\Model\Route\Itinerary;
 use App\Domain\Model\Route\Modality;
-use App\Domain\Model\Route\Route;
 use App\Domain\Model\Route\Segment;
 use App\Domain\Model\Route\SegmentId;
-use App\Domain\Repository\Route\RouteRepository;
+use App\Domain\Repository\Route\ItineraryRepository;
 use App\Domain\Repository\Route\SegmentRepository;
 use App\Tests\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -21,33 +21,33 @@ class ImportSegmentsFromFileTest extends TestCase
 {
     private readonly Filesystem&MockObject $filesystem;
     private readonly CSVReaderFactory&MockObject $csvReaderFactory;
-    private readonly SegmentParser&MockObject $segmentParser;
-    private readonly RouteRepository&MockObject $routeRepository;
+    private readonly SegmentBuilder&MockObject $segmentParser;
+    private readonly ItineraryRepository&MockObject $itineraryRepository;
     private readonly SegmentRepository&MockObject $segmentRepository;
     private readonly CSVReader&MockObject $csvReader;
-    private readonly Route&MockObject $route;
+    private readonly Itinerary&MockObject $itinerary;
 
     protected function setUp(): void
     {
         $this->filesystem = $this->createMock(Filesystem::class);
         $this->csvReaderFactory = $this->createMock(CSVReaderFactory::class);
-        $this->segmentParser = $this->createMock(SegmentParser::class);
-        $this->routeRepository = $this->createMock(RouteRepository::class);
+        $this->segmentParser = $this->createMock(SegmentBuilder::class);
+        $this->itineraryRepository = $this->createMock(ItineraryRepository::class);
         $this->segmentRepository = $this->createMock(SegmentRepository::class);
         $this->csvReader = $this->createMock(CSVReader::class);
-        $this->route = $this->createMock(Route::class);
+        $this->itinerary = $this->createMock(Itinerary::class);
 
         self::set('app.route.import_segments_from_file.filesystem', $this->filesystem);
         self::set(CSVReaderFactory::class, $this->csvReaderFactory);
-        self::set(SegmentParser::class, $this->segmentParser);
-        self::set(RouteRepository::class, $this->routeRepository);
+        self::set(SegmentBuilder::class, $this->segmentParser);
+        self::set(ItineraryRepository::class, $this->itineraryRepository);
         self::set(SegmentRepository::class, $this->segmentRepository);
     }
 
     public function testImportsSingleSegmentFromFile(): void
     {
         $filePath = '/ruta/al/fitxer/segments.csv';
-        $csvContent = "route_code,position,start_latitude,start_longitude,end_latitude,end_longitude,modality,capacity\n1,1,40.416775,-3.703790,40.417000,-3.703990,BIKE,8";
+        $csvContent = "itinerary_name,position,start_latitude,start_longitude,end_latitude,end_longitude,modality,capacity\nItinerary 1,1,40.416775,-3.703790,40.417000,-3.703990,BIKE,8";
 
         $this->filesystem
             ->expects($this->once())
@@ -63,7 +63,7 @@ class ImportSegmentsFromFileTest extends TestCase
 
         $csvData = [
             [
-                'route_code' => '1',
+                'itinerary_name' => 'Itinerary 1',
                 'position' => '1',
                 'start_latitude' => '40.416775',
                 'start_longitude' => '-3.703790',
@@ -79,8 +79,8 @@ class ImportSegmentsFromFileTest extends TestCase
             ->method('readLine')
             ->willReturn(new \ArrayIterator($csvData));
 
-        $SegmentDTO = new SegmentDTO(
-            routeCode: 1,
+        $segmentDTO = new SegmentDTO(
+            itineraryName: 'Itinerary 1',
             position: 1,
             startLatitude: 40.416775,
             startLongitude: -3.703790,
@@ -94,13 +94,13 @@ class ImportSegmentsFromFileTest extends TestCase
             ->expects($this->once())
             ->method('fromArray')
             ->with($csvData[0])
-            ->willReturn($SegmentDTO);
+            ->willReturnCallback(fn(array $d): SegmentDTO => $segmentDTO);
 
-        $this->routeRepository
+        $this->itineraryRepository
             ->expects($this->once())
-            ->method('findByCode')
-            ->with(1)
-            ->willReturn($this->route);
+            ->method('findByName')
+            ->with('Itinerary 1')
+            ->willReturn($this->itinerary);
 
         $this->segmentRepository
             ->expects($this->once())
@@ -123,7 +123,7 @@ class ImportSegmentsFromFileTest extends TestCase
     public function testImportsMultipleSegmentsFromFile(): void
     {
         $filePath = '/ruta/al/fitxer/segments.csv';
-        $csvContent = "route_code,position,start_latitude,start_longitude,end_latitude,end_longitude,modality,capacity\n1,1,40.416775,-3.703790,40.417000,-3.703990,BIKE,8\n1,2,40.417000,-3.703990,40.418500,-3.704500,WALK,4\n2,1,41.385064,2.173404,41.385400,2.173800,MIXED,10";
+        $csvContent = "itinerary_name,position,start_latitude,start_longitude,end_latitude,end_longitude,modality,capacity\nItinerary 1,1,40.416775,-3.703790,40.417000,-3.703990,BIKE,8\nItinerary 1,2,40.417000,-3.703990,40.418500,-3.704500,WALK,4\nItinerary 2,1,41.385064,2.173404,41.385400,2.173800,MIXED,10";
 
         $this->filesystem
             ->expects($this->once())
@@ -139,7 +139,7 @@ class ImportSegmentsFromFileTest extends TestCase
 
         $csvData = [
             [
-                'route_code' => '1',
+                'itinerary_name' => 'Itinerary 1',
                 'position' => '1',
                 'start_latitude' => '40.416775',
                 'start_longitude' => '-3.703790',
@@ -149,7 +149,7 @@ class ImportSegmentsFromFileTest extends TestCase
                 'capacity' => '8',
             ],
             [
-                'route_code' => '1',
+                'itinerary_name' => 'Itinerary 1',
                 'position' => '2',
                 'start_latitude' => '40.417000',
                 'start_longitude' => '-3.703990',
@@ -159,7 +159,7 @@ class ImportSegmentsFromFileTest extends TestCase
                 'capacity' => '4',
             ],
             [
-                'route_code' => '2',
+                'itinerary_name' => 'Itinerary 2',
                 'position' => '1',
                 'start_latitude' => '41.385064',
                 'start_longitude' => '2.173404',
@@ -178,9 +178,9 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->segmentParser
             ->expects($this->exactly(3))
             ->method('fromArray')
-            ->willReturnCallback(function (array $data) {
+            ->willReturnCallback(function (array $data): SegmentDTO {
                 return new SegmentDTO(
-                    routeCode: (int) $data['route_code'],
+                    itineraryName: $data['itinerary_name'],
                     position: (int) $data['position'],
                     startLatitude: (float) $data['start_latitude'],
                     startLongitude: (float) $data['start_longitude'],
@@ -191,11 +191,11 @@ class ImportSegmentsFromFileTest extends TestCase
                 );
             });
 
-        $this->routeRepository
+        $this->itineraryRepository
             ->expects($this->exactly(3))
-            ->method('findByCode')
-            ->willReturnCallback(function (int $code) {
-                return $this->route;
+            ->method('findByName')
+            ->willReturnCallback(function (string $name): Itinerary {
+                return $this->itinerary;
             });
 
         $addedSegments = [];
@@ -227,7 +227,7 @@ class ImportSegmentsFromFileTest extends TestCase
     public function testImportsEmptyFileWithoutAddingSegments(): void
     {
         $filePath = '/ruta/al/fitxer/buit.csv';
-        $csvContent = "route_code,position,start_latitude,start_longitude,end_latitude,end_longitude,modality,capacity\n";
+        $csvContent = "itinerary_name,position,start_latitude,start_longitude,end_latitude,end_longitude,modality,capacity\n";
 
         $this->filesystem
             ->expects($this->once())
@@ -250,9 +250,9 @@ class ImportSegmentsFromFileTest extends TestCase
             ->expects($this->never())
             ->method('fromArray');
 
-        $this->routeRepository
+        $this->itineraryRepository
             ->expects($this->never())
-            ->method('findByCode');
+            ->method('findByName');
 
         $this->segmentRepository
             ->expects($this->never())
@@ -266,7 +266,7 @@ class ImportSegmentsFromFileTest extends TestCase
     public function testGeneratesUniqueIdsForEachSegment(): void
     {
         $filePath = '/ruta/al/fitxer/segments.csv';
-        $csvContent = "route_code,position,start_latitude,start_longitude,end_latitude,end_longitude,modality,capacity\n1,1,40.416775,-3.703790,40.417000,-3.703990,BIKE,8\n1,2,40.417000,-3.703990,40.418500,-3.704500,WALK,4";
+        $csvContent = "itinerary_name,position,start_latitude,start_longitude,end_latitude,end_longitude,modality,capacity\nItinerary 1,1,40.416775,-3.703790,40.417000,-3.703990,BIKE,8\nItinerary 1,2,40.417000,-3.703990,40.418500,-3.704500,WALK,4";
 
         $this->filesystem
             ->expects($this->once())
@@ -280,7 +280,7 @@ class ImportSegmentsFromFileTest extends TestCase
 
         $csvData = [
             [
-                'route_code' => '1',
+                'itinerary_name' => 'Itinerary 1',
                 'position' => '1',
                 'start_latitude' => '40.416775',
                 'start_longitude' => '-3.703790',
@@ -290,7 +290,7 @@ class ImportSegmentsFromFileTest extends TestCase
                 'capacity' => '8',
             ],
             [
-                'route_code' => '1',
+                'itinerary_name' => 'Itinerary 1',
                 'position' => '2',
                 'start_latitude' => '40.417000',
                 'start_longitude' => '-3.703990',
@@ -309,9 +309,9 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->segmentParser
             ->expects($this->exactly(2))
             ->method('fromArray')
-            ->willReturnCallback(function (array $data) {
+            ->willReturnCallback(function (array $data): SegmentDTO {
                 return new SegmentDTO(
-                    routeCode: (int) $data['route_code'],
+                    itineraryName: $data['itinerary_name'],
                     position: (int) $data['position'],
                     startLatitude: (float) $data['start_latitude'],
                     startLongitude: (float) $data['start_longitude'],
@@ -322,10 +322,10 @@ class ImportSegmentsFromFileTest extends TestCase
                 );
             });
 
-        $this->routeRepository
+        $this->itineraryRepository
             ->expects($this->exactly(2))
-            ->method('findByCode')
-            ->willReturn($this->route);
+            ->method('findByName')
+            ->willReturn($this->itinerary);
 
         $segmentIds = [];
         $this->segmentRepository
@@ -348,7 +348,7 @@ class ImportSegmentsFromFileTest extends TestCase
     public function testEachSegmentHasCorrectProperties(): void
     {
         $filePath = '/ruta/al/fitxer/segment_prova.csv';
-        $csvContent = "route_code,position,start_latitude,start_longitude,end_latitude,end_longitude,modality,capacity\n3,5,42.123456,1.234567,42.234567,1.345678,MIXED,6";
+        $csvContent = "itinerary_name,position,start_latitude,start_longitude,end_latitude,end_longitude,modality,capacity\nItinerary Test,5,42.123456,1.234567,42.234567,1.345678,MIXED,6";
 
         $this->filesystem
             ->expects($this->once())
@@ -362,7 +362,7 @@ class ImportSegmentsFromFileTest extends TestCase
 
         $csvData = [
             [
-                'route_code' => '3',
+                'itinerary_name' => 'Itinerary Test',
                 'position' => '5',
                 'start_latitude' => '42.123456',
                 'start_longitude' => '1.234567',
@@ -378,8 +378,8 @@ class ImportSegmentsFromFileTest extends TestCase
             ->method('readLine')
             ->willReturn(new \ArrayIterator($csvData));
 
-        $SegmentDTO = new SegmentDTO(
-            routeCode: 3,
+        $segmentDTO = new SegmentDTO(
+            itineraryName: 'Itinerary Test',
             position: 5,
             startLatitude: 42.123456,
             startLongitude: 1.234567,
@@ -393,13 +393,13 @@ class ImportSegmentsFromFileTest extends TestCase
             ->expects($this->once())
             ->method('fromArray')
             ->with($csvData[0])
-            ->willReturn($SegmentDTO);
+            ->willReturnCallback(fn(array $d): SegmentDTO => $segmentDTO);
 
-        $this->routeRepository
+        $this->itineraryRepository
             ->expects($this->once())
-            ->method('findByCode')
-            ->with(3)
-            ->willReturn($this->route);
+            ->method('findByName')
+            ->with('Itinerary Test')
+            ->willReturn($this->itinerary);
 
         $this->segmentRepository
             ->expects($this->once())

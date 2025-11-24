@@ -8,6 +8,4 @@ use App\Domain\DTO\Press\PressNote;
 /**
  * @implements Query<array<int, PressNote>>
  */
-readonly class ListPressNotes implements Query
-{
-}
+readonly class ListPressNotes implements Query {}

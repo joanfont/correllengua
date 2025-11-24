@@ -12,8 +12,8 @@ final class RouteNotFoundException extends NotFoundException
         return new self(\sprintf('Route with id = %s not found', $id));
     }
 
-    public static function fromCode(int $code): self
+    public static function fromName(string $name): self
     {
-        return new self(\sprintf('Route with code = %s not found', $code));
+        return new self(\sprintf('Route with name = %s not found', $name));
     }
 }

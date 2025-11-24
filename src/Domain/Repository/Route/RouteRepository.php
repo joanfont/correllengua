@@ -8,5 +8,5 @@ interface RouteRepository
 {
     public function add(Route $route): void;
 
-    public function findByCode(int $code): Route;
+    public function findByName(string $name): Route;
 }

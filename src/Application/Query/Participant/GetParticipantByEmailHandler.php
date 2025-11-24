@@ -10,8 +10,7 @@ readonly class GetParticipantByEmailHandler implements QueryHandler
 {
     public function __construct(
         private ParticipantProvider $participantProvider,
-    ) {
-    }
+    ) {}
 
     public function __invoke(GetParticipantByEmail $getParticipantByEmail): Participant
     {

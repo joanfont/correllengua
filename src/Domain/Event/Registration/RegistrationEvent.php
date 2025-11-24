@@ -14,15 +14,14 @@ abstract readonly class RegistrationEvent implements Event
         public RegistrationId $id,
         public ParticipantId $participantId,
         public SegmentId $segmentId,
-    ) {
-    }
+    ) {}
 
     final public static function fromRegistration(Registration $registration): static
     {
         return new static(
             id: $registration->id(),
             participantId: $registration->participant()->id(),
-            segmentId: $registration->segment()->id()
+            segmentId: $registration->segment()->id(),
         );
     }
 }

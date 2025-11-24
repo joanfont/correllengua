@@ -9,9 +9,7 @@ use App\Domain\Model\Route\Segment;
 
 class RegistrationFactory
 {
-    public function __construct(private readonly RegistrationHasher $registrationHasher)
-    {
-    }
+    public function __construct(private readonly RegistrationHasher $registrationHasher) {}
 
     public function make(Participant $participant, Segment $segment, Modality $modality): Registration
     {

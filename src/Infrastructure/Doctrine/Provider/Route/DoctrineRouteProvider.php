@@ -3,8 +3,8 @@
 namespace App\Infrastructure\Doctrine\Provider\Route;
 
 use App\Domain\DTO\Route\Route;
+use App\Domain\Model\Route\Itinerary as ItineraryModel;
 use App\Domain\Model\Route\Route as RouteModel;
-use App\Domain\Model\Route\Segment as SegmentModel;
 use App\Domain\Provider\Route\RouteProvider;
 use App\Infrastructure\Doctrine\Provider\DoctrineProvider;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
 {
     public function __construct(
-        private readonly SegmentFactory $segmentFactory,
+        private readonly ItineraryFactory $itineraryFactory,
         EntityManagerInterface $entityManager,
     ) {
         parent::__construct($entityManager);
@@ -24,21 +24,25 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
             ->select('r', 's')
             ->from(RouteModel::class, 'r')
             ->leftJoin('r.segments', 's')
+            ->leftJoin('r.itineraries', 'i')
             ->getQuery()
             ->getResult();
 
         return array_map(
             fn (RouteModel $route) => $this->buildRoute($route),
-            $routes
+            $routes,
         );
     }
 
     private function buildRoute(RouteModel $route): Route
     {
         return new Route(
-            (string) $route->id(),
-            $route->name(),
-            array_map(fn (SegmentModel $segment) => $this->segmentFactory->fromEntity($segment), $route->segments()),
+            id: (string) $route->id(),
+            name: $route->name(),
+            itineraries: array_map(
+                fn (ItineraryModel $itinerary) => $this->itineraryFactory->fromEntity($itinerary),
+                $route->itineraries(),
+            ),
         );
     }
 }

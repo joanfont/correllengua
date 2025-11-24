@@ -14,6 +14,5 @@ readonly class Participant
         public string $surname,
         #[Assert\Email]
         public string $email,
-    ) {
-    }
+    ) {}
 }

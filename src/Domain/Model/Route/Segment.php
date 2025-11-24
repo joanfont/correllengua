@@ -18,7 +18,7 @@ class Segment extends Entity
 
     public function __construct(
         SegmentId $id,
-        private Route $route,
+        private Itinerary $itinerary,
         private int $position,
         private Coordinates $start,
         private Coordinates $end,
@@ -34,9 +34,9 @@ class Segment extends Entity
         return SegmentId::from($this->id);
     }
 
-    public function route(): Route
+    public function itinerary(): Itinerary
     {
-        return $this->route;
+        return $this->itinerary;
     }
 
     public function position(): int
@@ -71,7 +71,7 @@ class Segment extends Entity
     {
         return array_map(
             fn (Registration $registration) => $registration->participant(),
-            $this->registrations->toArray()
+            $this->registrations->toArray(),
         );
     }
 

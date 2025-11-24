@@ -12,8 +12,8 @@
         <field name="capacity" type="integer" />
         <field name="modality" type="modality" />
 
-        <many-to-one field="route" target-entity="App\Domain\Model\Route\Route" inversed-by="segments">
-            <join-column name="route_id" nullable="false"/>
+        <many-to-one field="itinerary" target-entity="App\Domain\Model\Route\Itinerary" inversed-by="segments">
+            <join-column name="itinerary_id" nullable="false"/>
         </many-to-one>
 
         <one-to-many

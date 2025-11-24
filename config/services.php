@@ -9,12 +9,12 @@ return function (ContainerConfigurator $container): void {
         ->set(
             'app.registration.max_registrations_per_participant',
             env('MAX_REGISTRATIONS_PER_PARTICIPANT')
-                ->default('app.registration.default_max_registrations_per_participant')
+                ->default('app.registration.default_max_registrations_per_participant'),
         )
         ->set('app.email.default_from', 'Correllengua <no-reply@correllengua.cat>')
         ->set('app.email.from', env('EMAIL_FROM')->default('app.email.default_from'))
         ->set('app.uploads.local.prefix', 'uploads')
-        ->set('app.uploads.local.dir', param('kernel.project_dir').'/public/'.param('app.uploads.local.prefix'));
+        ->set('app.uploads.local.dir', param('kernel.project_dir') . '/public/' . param('app.uploads.local.prefix'));
 
     $services = $container->services()
         ->defaults()
@@ -61,19 +61,19 @@ return function (ContainerConfigurator $container): void {
     $services
         ->alias(
             \App\Application\Commons\Command\CommandBus::class,
-            \App\Infrastructure\Symfony\Messenger\MessengerCommandBus::class
+            \App\Infrastructure\Symfony\Messenger\MessengerCommandBus::class,
         )->public();
 
     $services
         ->alias(
             \App\Application\Commons\Query\QueryBus::class,
-            \App\Infrastructure\Symfony\Messenger\MessengerQueryBus::class
+            \App\Infrastructure\Symfony\Messenger\MessengerQueryBus::class,
         )->public();
 
     $services
         ->alias(
             \App\Application\Commons\Event\EventBus::class,
-            \App\Infrastructure\Symfony\Messenger\MessengerEventBus::class
+            \App\Infrastructure\Symfony\Messenger\MessengerEventBus::class,
         )->public();
 
     $services
@@ -107,6 +107,10 @@ return function (ContainerConfigurator $container): void {
     $services
         ->set(\App\Application\Command\Route\ImportRoutesFromFileHandler::class)
         ->arg('$filesystem', service('app.route.import_routes_from_file.filesystem'));
+
+    $services
+        ->set(\App\Application\Command\Route\ImportItinerariesFromFileHandler::class)
+        ->arg('$filesystem', service('app.route.import_segments_from_file.filesystem'));
 
     $services
         ->set(\App\Application\Command\Route\ImportSegmentsFromFileHandler::class)

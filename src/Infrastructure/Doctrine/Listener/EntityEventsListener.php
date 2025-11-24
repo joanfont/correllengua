@@ -8,9 +8,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class EntityEventsListener
 {
-    public function __construct(private readonly EventPublisher $eventPublisher)
-    {
-    }
+    public function __construct(private readonly EventPublisher $eventPublisher) {}
 
     public function postPersist(LifecycleEventArgs $args): void
     {

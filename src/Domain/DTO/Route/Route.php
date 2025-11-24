@@ -2,13 +2,14 @@
 
 namespace App\Domain\DTO\Route;
 
+use App\Domain\Model\Route\Itinerary;
+
 readonly class Route
 {
     public function __construct(
         public string $id,
         public string $name,
-        /** @var array<int, Segment> */
-        public array $segments,
-    ) {
-    }
+        /** @var array<int, Itinerary> */
+        public array $itineraries,
+    ) {}
 }

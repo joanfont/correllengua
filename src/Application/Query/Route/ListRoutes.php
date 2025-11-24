@@ -8,6 +8,4 @@ use App\Domain\DTO\Route\Route;
 /**
  * @implements Query<array<int, Route>>
  */
-readonly class ListRoutes implements Query
-{
-}
+readonly class ListRoutes implements Query {}

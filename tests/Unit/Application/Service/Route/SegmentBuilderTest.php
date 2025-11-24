@@ -2,16 +2,16 @@
 
 namespace App\Tests\Unit\Application\Service\Route;
 
-use App\Application\Service\Route\SegmentParser;
+use App\Application\Service\Route\SegmentBuilder;
 use App\Application\Service\Route\DTO\Segment as SegmentDTO;
 use App\Tests\TestCase;
 
-class SegmentParserTest extends TestCase
+class SegmentBuilderTest extends TestCase
 {
     public function testFromArrayReturnsSegmentDTO(): void
     {
         $input = [
-            'route_code' => 10,
+            'itinerary_name' => 'Itinerary Test',
             'position' => 2,
             'start_latitude' => 41.123456,
             'start_longitude' => 2.123456,
@@ -21,12 +21,12 @@ class SegmentParserTest extends TestCase
             'capacity' => 100,
         ];
 
-        $parser = new SegmentParser();
+        $parser = new SegmentBuilder();
 
         $segment = $parser->fromArray($input);
 
         static::assertInstanceOf(SegmentDTO::class, $segment);
-        static::assertSame($input['route_code'], $segment->routeCode);
+        static::assertSame($input['itinerary_name'], $segment->itineraryName);
         static::assertSame($input['position'], $segment->position);
         static::assertEqualsWithDelta($input['start_latitude'], $segment->startLatitude, 0.000001);
         static::assertEqualsWithDelta($input['start_longitude'], $segment->startLongitude, 0.000001);
