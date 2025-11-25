@@ -1,20 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Symfony\Http\Controller\Press;
 
 use App\Application\Command\Press\CreatePressNote;
 use App\Application\Commons\Command\CommandBus;
 use App\Application\Commons\Query\QueryBus;
 use App\Application\Query\Press\ListPressNotes;
+use App\Infrastructure\Nelmio\Operation\Press\CreatePressNoteOperation;
+use App\Infrastructure\Nelmio\Operation\Press\ListPressNotesOperation;
+use App\Infrastructure\Nelmio\Tag\PressTag;
 use App\Infrastructure\Symfony\Http\DTO\Press\CreatePressNoteRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/press')]
-class PressController extends AbstractController
+#[PressTag]
+final class PressController extends AbstractController
 {
-    #[Route('', methods: ['GET'])]
+    #[Route('', name: 'list_press_notes', methods: ['GET'])]
+    #[ListPressNotesOperation]
     public function listPressNotes(QueryBus $queryBus): Response
     {
         $listPressNotes = new ListPressNotes();
@@ -23,7 +30,8 @@ class PressController extends AbstractController
         return $this->json($pressNotes);
     }
 
-    #[Route('', methods: ['POST'])]
+    #[Route('', name: 'create_press_note', methods: ['POST'])]
+    #[CreatePressNoteOperation]
     public function createPressNote(
         CommandBus $commandBus,
         CreatePressNoteRequest $createPressNoteRequest,
