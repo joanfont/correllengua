@@ -2,15 +2,13 @@
 
 namespace App\Tests\Unit\Application\Command\Registration;
 
-use App\Application\Command\Registration\RegisterParticipant;
 use App\Application\Command\Registration\DTO\Participant as ParticipantDTO;
-use App\Domain\Event\Registration\RegistrationCreated;
+use App\Application\Command\Registration\RegisterParticipant;
 use App\Domain\Exception\Participant\ParticipantAlreadyJoinedSegmentException;
 use App\Domain\Exception\Participant\ParticipantReachedMaxSegmentsException;
 use App\Domain\Exception\Route\ModalityMismatchException;
 use App\Domain\Exception\Route\SegmentIsFullException;
 use App\Domain\Model\Participant\Participant;
-use App\Domain\Model\Participant\ParticipantId;
 use App\Domain\Model\Registration\Registration;
 use App\Domain\Model\Registration\RegistrationFactory;
 use App\Domain\Model\Route\Modality;
@@ -101,7 +99,7 @@ class RegisterParticipantTest extends TestCase
 
         $registerParticipant = new RegisterParticipant(
             $participantDto,
-            (string) $segmentId,
+            [(string) $segmentId],
             Modality::WALK->value,
         );
 
@@ -140,8 +138,8 @@ class RegisterParticipantTest extends TestCase
 
         $registerParticipant = new RegisterParticipant(
             $participantDto,
-            (string) $segmentId,
-            Modality::WALK->value
+            [(string) $segmentId],
+            Modality::WALK->value,
         );
 
         self::handleCommand($registerParticipant);
@@ -179,8 +177,8 @@ class RegisterParticipantTest extends TestCase
 
         $registerParticipant = new RegisterParticipant(
             $participantDto,
-            (string) $segmentId,
-            Modality::BIKE->value
+            [(string) $segmentId],
+            Modality::BIKE->value,
         );
 
         self::handleCommand($registerParticipant);
@@ -233,8 +231,8 @@ class RegisterParticipantTest extends TestCase
 
         $registerParticipant = new RegisterParticipant(
             $participantDto,
-            (string) $segmentId,
-            Modality::WALK->value
+            [(string) $segmentId],
+            Modality::WALK->value,
         );
 
         self::handleCommand($registerParticipant);
@@ -289,8 +287,8 @@ class RegisterParticipantTest extends TestCase
 
         $registerParticipant = new RegisterParticipant(
             $participantDto,
-            (string) $segmentId,
-            Modality::WALK->value
+            [(string) $segmentId],
+            Modality::WALK->value,
         );
 
         self::handleCommand($registerParticipant);
@@ -354,8 +352,8 @@ class RegisterParticipantTest extends TestCase
 
         $registerParticipant = new RegisterParticipant(
             $participantDto,
-            (string) $segmentId,
-            Modality::WALK->value
+            [(string) $segmentId],
+            Modality::WALK->value,
         );
 
         self::handleCommand($registerParticipant);
