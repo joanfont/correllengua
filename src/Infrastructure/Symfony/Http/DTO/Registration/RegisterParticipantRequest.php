@@ -25,8 +25,8 @@ use OpenApi\Attributes as OA;
         new OA\Property(
             property: 'modality',
             type: 'string',
-            enum: ['walk', 'bike', 'mixed'],
-            example: 'walk',
+            enum: ['WALK', 'BIKE'],
+            example: 'WALK',
         ),
     ],
 )]
