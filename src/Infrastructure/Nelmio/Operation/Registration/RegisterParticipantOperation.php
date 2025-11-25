@@ -1,0 +1,64 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Infrastructure\Nelmio\Operation\Registration;
+
+use App\Infrastructure\Symfony\Http\DTO\Common\ErrorResponse;
+use App\Infrastructure\Symfony\Http\DTO\Route\RegisterParticipantRequest;
+use Nelmio\ApiDocBundle\Attribute\Model;
+use OpenApi\Attributes as OA;
+
+#[\Attribute(\Attribute::TARGET_METHOD)]
+final class RegisterParticipantOperation extends OA\Post
+{
+    public function __construct()
+    {
+        parent::__construct(
+            path: '/registration',
+            summary: 'Register a participant to segments',
+            description: 'Register a new or existing participant to one or more route segments (max 5)',
+            requestBody: new OA\RequestBody(
+                required: true,
+                content: new OA\JsonContent(ref: new Model(type: RegisterParticipantRequest::class)),
+            ),
+            tags: ['Registration'],
+            responses: [
+                new OA\Response(
+                    response: 201,
+                    description: 'Participant registered successfully',
+                ),
+                new OA\Response(
+                    response: 400,
+                    description: 'Invalid request data or business rule violation',
+                    content: new OA\JsonContent(
+                        type: 'object',
+                        properties: [
+                            new OA\Property(property: 'error', type: 'string', example: 'Validation failed'),
+                            new OA\Property(
+                                property: 'violations',
+                                type: 'array',
+                                items: new OA\Items(
+                                    type: 'object',
+                                    properties: [
+                                        new OA\Property(property: 'field', type: 'string', example: 'segments'),
+                                        new OA\Property(
+                                            property: 'message',
+                                            type: 'string',
+                                            example: 'The segments array cannot contain more than 5 elements.',
+                                        ),
+                                    ],
+                                ),
+                            ),
+                        ],
+                    ),
+                ),
+                new OA\Response(
+                    response: 409,
+                    description: 'Conflict - segment is full, participant already joined, or max segments reached',
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                ),
+            ],
+        );
+    }
+}

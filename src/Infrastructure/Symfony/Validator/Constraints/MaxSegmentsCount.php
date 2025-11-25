@@ -19,4 +19,3 @@ class MaxSegmentsCount extends Constraint
         parent::__construct($options, $groups, $payload);
     }
 }
-
