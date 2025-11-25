@@ -130,4 +130,8 @@ return function (ContainerConfigurator $container): void {
     $services
         ->set(\App\Infrastructure\Symfony\Http\File\SymfonyLocalUrlGenerator::class)
         ->arg('$prefix', param('app.uploads.local.prefix'));
+
+    $services
+        ->set(\App\Infrastructure\Symfony\Validator\Constraints\MaxSegmentsCountValidator::class)
+        ->arg('$maxSegmentsPerParticipant', param('app.registration.max_registrations_per_participant'));
 };
