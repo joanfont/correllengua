@@ -11,7 +11,7 @@ use App\Application\Commons\Command\CommandBus;
 use App\Infrastructure\Nelmio\Operation\Registration\DeregisterParticipantOperation;
 use App\Infrastructure\Nelmio\Operation\Registration\RegisterParticipantOperation;
 use App\Infrastructure\Nelmio\Tag\RegistrationTag;
-use App\Infrastructure\Symfony\Http\DTO\Route\RegisterParticipantRequest;
+use App\Infrastructure\Symfony\Http\DTO\Registration\RegisterParticipantRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;

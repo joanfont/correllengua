@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Symfony\Http\DTO\Route;
+namespace App\Infrastructure\Symfony\Http\DTO\Registration;
 
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;

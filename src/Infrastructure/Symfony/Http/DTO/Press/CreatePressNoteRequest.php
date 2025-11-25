@@ -7,21 +7,21 @@ namespace App\Infrastructure\Symfony\Http\DTO\Press;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    required: ['title', 'body', 'featured'],
+    required: ['title', 'subtitle', 'body', 'featured', 'image'],
     properties: [
         new OA\Property(
             property: 'title',
             type: 'string',
-            minLength: 1,
             maxLength: 255,
+            minLength: 1,
             example: 'Correllengua 2025 Official Announcement',
         ),
         new OA\Property(
             property: 'subtitle',
             type: 'string',
-            nullable: true,
             maxLength: 255,
             example: 'Join us for the biggest event of the year',
+            nullable: true,
         ),
         new OA\Property(
             property: 'body',
@@ -31,15 +31,15 @@ use OpenApi\Attributes as OA;
         ),
         new OA\Property(
             property: 'featured',
-            type: 'boolean',
             description: 'Whether this press note should be featured on the homepage',
+            type: 'boolean',
             example: true,
         ),
         new OA\Property(
             property: 'image',
+            description: 'Press note image file (JPEG, PNG, GIF)',
             type: 'string',
             format: 'binary',
-            description: 'Press note image file (JPEG, PNG, GIF)',
             nullable: true,
         ),
     ],

@@ -7,7 +7,6 @@ namespace App\Infrastructure\Symfony\Http\DTO\Route\Response;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    type: 'object',
     properties: [
         new OA\Property(property: 'id', type: 'string', format: 'uuid', example: '550e8400-e29b-41d4-a716-446655440000'),
         new OA\Property(property: 'name', type: 'string', example: 'Barcelona - Girona'),
@@ -17,6 +16,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'capacity', type: 'integer', example: 100),
         new OA\Property(property: 'registrations', type: 'integer', example: 45),
     ],
+    type: 'object',
 )]
 final readonly class SegmentResponse
 {

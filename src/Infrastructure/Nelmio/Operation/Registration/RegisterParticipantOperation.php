@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Nelmio\Operation\Registration;
 
 use App\Infrastructure\Symfony\Http\DTO\Common\ErrorResponse;
-use App\Infrastructure\Symfony\Http\DTO\Route\RegisterParticipantRequest;
+use App\Infrastructure\Symfony\Http\DTO\Registration\RegisterParticipantRequest;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 
@@ -16,8 +16,8 @@ final class RegisterParticipantOperation extends OA\Post
     {
         parent::__construct(
             path: '/registration',
-            summary: 'Register a participant to segments',
             description: 'Register a new or existing participant to one or more route segments (max 5)',
+            summary: 'Register a participant to segments',
             requestBody: new OA\RequestBody(
                 required: true,
                 content: new OA\JsonContent(ref: new Model(type: RegisterParticipantRequest::class)),
@@ -32,14 +32,12 @@ final class RegisterParticipantOperation extends OA\Post
                     response: 400,
                     description: 'Invalid request data or business rule violation',
                     content: new OA\JsonContent(
-                        type: 'object',
                         properties: [
                             new OA\Property(property: 'error', type: 'string', example: 'Validation failed'),
                             new OA\Property(
                                 property: 'violations',
                                 type: 'array',
                                 items: new OA\Items(
-                                    type: 'object',
                                     properties: [
                                         new OA\Property(property: 'field', type: 'string', example: 'segments'),
                                         new OA\Property(
@@ -48,9 +46,11 @@ final class RegisterParticipantOperation extends OA\Post
                                             example: 'The segments array cannot contain more than 5 elements.',
                                         ),
                                     ],
+                                    type: 'object',
                                 ),
                             ),
                         ],
+                        type: 'object',
                     ),
                 ),
                 new OA\Response(

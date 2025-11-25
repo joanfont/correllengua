@@ -8,7 +8,6 @@ use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    type: 'object',
     properties: [
         new OA\Property(property: 'id', type: 'string', format: 'uuid', example: '7c9e6679-7425-40de-944b-e07fc1f90ae7'),
         new OA\Property(property: 'name', type: 'string', example: 'Correllengua 2025'),
@@ -18,6 +17,7 @@ use OpenApi\Attributes as OA;
             items: new OA\Items(ref: new Model(type: ItineraryResponse::class)),
         ),
     ],
+    type: 'object',
 )]
 final readonly class RouteResponse
 {

@@ -15,14 +15,14 @@ final class DeregisterParticipantOperation extends OA\Get
     {
         parent::__construct(
             path: '/registration/deregister',
-            summary: 'Deregister a participant from a segment',
             description: 'Remove a participant registration using the unique hash provided in the registration confirmation',
+            summary: 'Deregister a participant from a segment',
             tags: ['Registration'],
             parameters: [
                 new OA\Parameter(
                     name: 'hash',
-                    in: 'query',
                     description: 'The unique registration hash for deregistration',
+                    in: 'query',
                     required: true,
                     schema: new OA\Schema(type: 'string', example: 'abc123def456'),
                 ),

@@ -16,8 +16,8 @@ final class ListRoutesOperation extends OA\Get
     {
         parent::__construct(
             path: '/route',
-            summary: 'List all routes',
             description: 'Returns a list of all available routes with their itineraries and segments',
+            summary: 'List all routes',
             tags: ['Routes'],
             responses: [
                 new OA\Response(

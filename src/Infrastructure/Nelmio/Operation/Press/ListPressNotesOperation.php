@@ -16,8 +16,8 @@ final class ListPressNotesOperation extends OA\Get
     {
         parent::__construct(
             path: '/press',
-            summary: 'List all press notes',
             description: 'Returns a list of all published press notes and releases',
+            summary: 'List all press notes',
             tags: ['Press'],
             responses: [
                 new OA\Response(

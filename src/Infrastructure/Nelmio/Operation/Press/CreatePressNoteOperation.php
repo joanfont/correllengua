@@ -16,8 +16,8 @@ final class CreatePressNoteOperation extends OA\Post
     {
         parent::__construct(
             path: '/press',
-            summary: 'Create a new press note',
             description: 'Create a new press note with optional image upload',
+            summary: 'Create a new press note',
             requestBody: new OA\RequestBody(
                 required: true,
                 content: new OA\MediaType(
