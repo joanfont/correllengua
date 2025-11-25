@@ -53,7 +53,7 @@ class CreatePressNoteTest extends TestCase
             subtitle: $subtitle,
             body: $body,
             featured: $featured,
-            image: $image
+            image: $image,
         );
 
         self::handleCommand($createPressNote);

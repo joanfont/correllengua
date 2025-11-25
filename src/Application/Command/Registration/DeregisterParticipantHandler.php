@@ -9,7 +9,8 @@ readonly class DeregisterParticipantHandler implements CommandHandler
 {
     public function __construct(
         private RegistrationRepository $registrationRepository,
-    ) {}
+    ) {
+    }
 
     public function __invoke(DeregisterParticipant $deregisterParticipant): void
     {

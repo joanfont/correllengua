@@ -9,7 +9,9 @@ use Symfony\Component\Messenger\Middleware\StackInterface;
 
 class RaiseEntityEventsMiddleware implements MiddlewareInterface
 {
-    public function __construct(private readonly EventPublisher $eventPublisher) {}
+    public function __construct(private readonly EventPublisher $eventPublisher)
+    {
+    }
 
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {

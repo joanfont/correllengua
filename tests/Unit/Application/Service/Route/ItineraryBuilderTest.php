@@ -2,8 +2,8 @@
 
 namespace App\Tests\Unit\Application\Service\Route;
 
-use App\Application\Service\Route\ItineraryBuilder;
 use App\Application\Service\Route\DTO\Itinerary as ItineraryDTO;
+use App\Application\Service\Route\ItineraryBuilder;
 use App\Tests\TestCase;
 
 class ItineraryBuilderTest extends TestCase
@@ -24,4 +24,3 @@ class ItineraryBuilderTest extends TestCase
         static::assertSame($input['name'], $itinerary->name);
     }
 }
-

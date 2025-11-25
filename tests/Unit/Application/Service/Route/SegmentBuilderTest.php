@@ -2,8 +2,8 @@
 
 namespace App\Tests\Unit\Application\Service\Route;
 
-use App\Application\Service\Route\SegmentBuilder;
 use App\Application\Service\Route\DTO\Segment as SegmentDTO;
+use App\Application\Service\Route\SegmentBuilder;
 use App\Tests\TestCase;
 
 class SegmentBuilderTest extends TestCase
@@ -36,4 +36,3 @@ class SegmentBuilderTest extends TestCase
         static::assertSame($input['capacity'], $segment->capacity);
     }
 }
-

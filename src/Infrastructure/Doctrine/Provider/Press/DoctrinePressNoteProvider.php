@@ -7,6 +7,9 @@ use App\Domain\Model\Press\PressNote as PressNoteEntity;
 use App\Domain\Provider\Press\PressNoteProvider;
 use App\Infrastructure\Doctrine\Provider\DoctrineProvider;
 use App\Infrastructure\Doctrine\Provider\File\FileFactory;
+
+use function array_map;
+
 use Doctrine\ORM\EntityManagerInterface;
 
 class DoctrinePressNoteProvider extends DoctrineProvider implements PressNoteProvider

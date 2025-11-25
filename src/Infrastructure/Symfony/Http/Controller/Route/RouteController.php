@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Symfony\Http\Controller\Route;
 
 use App\Application\Commons\Query\QueryBus;

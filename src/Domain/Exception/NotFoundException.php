@@ -2,4 +2,6 @@
 
 namespace App\Domain\Exception;
 
-abstract class NotFoundException extends Exception {}
+abstract class NotFoundException extends Exception
+{
+}

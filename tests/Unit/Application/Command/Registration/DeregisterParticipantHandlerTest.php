@@ -3,8 +3,8 @@
 namespace App\Tests\Unit\Application\Command\Registration;
 
 use App\Application\Command\Registration\DeregisterParticipant;
-use App\Domain\Repository\Registration\RegistrationRepository;
 use App\Domain\Model\Registration\Registration;
+use App\Domain\Repository\Registration\RegistrationRepository;
 use App\Tests\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 

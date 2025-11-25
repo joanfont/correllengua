@@ -2,10 +2,11 @@
 
 namespace App\Tests\Unit\Application\Service\Route;
 
-use App\Application\Service\Route\RouteBuilder;
 use App\Application\Service\Calendar\Calendar;
 use App\Application\Service\Route\DTO\Route as RouteDTO;
+use App\Application\Service\Route\RouteBuilder;
 use App\Tests\TestCase;
+use DateTimeImmutable;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class RouteBuilderTest extends TestCase
@@ -25,7 +26,7 @@ class RouteBuilderTest extends TestCase
             'start_date' => '23/11/2025',
         ];
 
-        $expectedDate = new \DateTimeImmutable('2025-11-23');
+        $expectedDate = new DateTimeImmutable('2025-11-23');
 
         $this->calendar
             ->expects(static::once())
@@ -43,4 +44,3 @@ class RouteBuilderTest extends TestCase
         static::assertEquals($expectedDate, $route->startDate);
     }
 }
-

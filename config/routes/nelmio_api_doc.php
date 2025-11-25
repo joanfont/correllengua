@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return static function (RoutingConfigurator $routes): void {
@@ -13,4 +11,3 @@ return static function (RoutingConfigurator $routes): void {
         ->methods(['GET'])
         ->defaults(['_controller' => 'nelmio_api_doc.controller.swagger_ui']);
 };
-

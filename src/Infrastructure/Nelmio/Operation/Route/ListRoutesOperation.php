@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Nelmio\Operation\Route;
 
 use App\Infrastructure\Symfony\Http\DTO\Common\ErrorResponse;
 use App\Infrastructure\Symfony\Http\DTO\Route\Response\RouteResponse;
+use Attribute;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 
-#[\Attribute(\Attribute::TARGET_METHOD)]
+#[Attribute(Attribute::TARGET_METHOD)]
 final class ListRoutesOperation extends OA\Get
 {
     public function __construct()

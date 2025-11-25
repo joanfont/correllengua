@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Tests\Unit\Infrastructure\Symfony\Validator\Constraints;
 
 use App\Infrastructure\Symfony\Validator\Constraints\MaxSegmentsCount;
 use App\Infrastructure\Symfony\Validator\Constraints\MaxSegmentsCountValidator;
+use ArrayObject;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -117,7 +117,7 @@ final class MaxSegmentsCountValidatorTest extends TestCase
     public function testValidateWithCountableObjectAboveMaxAddsViolation(): void
     {
         $constraint = new MaxSegmentsCount();
-        $value = new \ArrayObject(['s1', 's2', 's3', 's4', 's5', 's6']);
+        $value = new ArrayObject(['s1', 's2', 's3', 's4', 's5', 's6']);
 
         $violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
 
@@ -189,6 +189,6 @@ final class MaxSegmentsCountValidatorTest extends TestCase
 
         $this->expectException(UnexpectedValueException::class);
 
-        $this->validator->validate(new \stdClass(), $constraint);
+        $this->validator->validate(new stdClass(), $constraint);
     }
 }

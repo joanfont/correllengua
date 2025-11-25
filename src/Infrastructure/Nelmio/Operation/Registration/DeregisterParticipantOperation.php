@@ -1,14 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Nelmio\Operation\Registration;
 
 use App\Infrastructure\Symfony\Http\DTO\Common\ErrorResponse;
+use Attribute;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 
-#[\Attribute(\Attribute::TARGET_METHOD)]
+#[Attribute(Attribute::TARGET_METHOD)]
 final class DeregisterParticipantOperation extends OA\Get
 {
     public function __construct()

@@ -7,6 +7,9 @@ use App\Domain\Model\Route\Itinerary as ItineraryModel;
 use App\Domain\Model\Route\Route as RouteModel;
 use App\Domain\Provider\Route\RouteProvider;
 use App\Infrastructure\Doctrine\Provider\DoctrineProvider;
+
+use function array_map;
+
 use Doctrine\ORM\EntityManagerInterface;
 
 class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider

@@ -2,6 +2,8 @@
 
 namespace App\Domain\Model;
 
+use function array_map;
+
 use BackedEnum;
 
 /**
@@ -14,6 +16,6 @@ trait EnumValues
      */
     public static function values(): array
     {
-        return array_map(fn (\BackedEnum $e) => $e->value, static::cases());
+        return array_map(fn (BackedEnum $e) => $e->value, static::cases());
     }
 }

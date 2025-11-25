@@ -7,7 +7,9 @@ use App\Application\Service\Route\DTO\Route;
 
 class RouteBuilder
 {
-    public function __construct(private readonly Calendar $calendar) {}
+    public function __construct(private readonly Calendar $calendar)
+    {
+    }
 
     /**
      * @param array{

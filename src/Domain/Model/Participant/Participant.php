@@ -5,6 +5,9 @@ namespace App\Domain\Model\Participant;
 use App\Domain\Model\Entity;
 use App\Domain\Model\Registration\Registration;
 use App\Domain\Model\Route\Segment;
+
+use function array_map;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 

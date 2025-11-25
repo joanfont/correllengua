@@ -8,7 +8,19 @@ use App\Application\Service\File\FileUploader;
 use App\Domain\Model\File\File;
 use App\Domain\Model\File\FileId;
 use App\Domain\Repository\File\FileRepository;
+
+use const DIRECTORY_SEPARATOR;
+
+use function implode;
+
+use SplFileInfo;
+
+use function sprintf;
+
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
+use UnexpectedValueException;
+
+use function uniqid;
 
 class SymfonyFileUploader implements FileUploader
 {
@@ -17,12 +29,13 @@ class SymfonyFileUploader implements FileUploader
         private readonly Filesystem $uploadsFilesystem,
         private readonly FileRepository $fileRepository,
         private readonly Calendar $calendar,
-    ) {}
+    ) {
+    }
 
-    public function upload(\SplFileInfo $file): File
+    public function upload(SplFileInfo $file): File
     {
         if (!$file instanceof SymfonyUploadedFile) {
-            throw new \UnexpectedValueException(\sprintf('Expected instance of %s', SymfonyUploadedFile::class));
+            throw new UnexpectedValueException(sprintf('Expected instance of %s', SymfonyUploadedFile::class));
         }
 
         $fileContents = $this->rootFilesystem->read($file->getRealPath());
@@ -30,7 +43,7 @@ class SymfonyFileUploader implements FileUploader
 
         $basePath = $this->calendar->now()->format('Y/m/d');
         $fileName = $this->buildName($file);
-        $path = implode(\DIRECTORY_SEPARATOR, [$basePath, $fileName]);
+        $path = implode(DIRECTORY_SEPARATOR, [$basePath, $fileName]);
         $this->uploadsFilesystem->write($path, $fileContents);
 
         $file = new File(
@@ -49,6 +62,6 @@ class SymfonyFileUploader implements FileUploader
         $fileName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
 
-        return \sprintf('%s.%s', uniqid($fileName . '-'), $extension);
+        return sprintf('%s.%s', uniqid($fileName.'-'), $extension);
     }
 }

@@ -4,6 +4,9 @@ namespace App\Tests\Unit\Application\Service\Calendar;
 
 use App\Application\Service\Calendar\Calendar;
 use App\Tests\TestCase;
+use DateTimeInterface;
+
+use function time;
 
 class CalendarTest extends TestCase
 {
@@ -13,7 +16,7 @@ class CalendarTest extends TestCase
 
         $now = $calendar->now();
 
-        static::assertInstanceOf(\DateTimeInterface::class, $now);
+        static::assertInstanceOf(DateTimeInterface::class, $now);
 
         $nowTimestamp = $now->getTimestamp();
         $current = time();
@@ -30,14 +33,13 @@ class CalendarTest extends TestCase
         $dateStr = '2025-11-23 12:34:56';
         $dt = $calendar->fromString($dateStr);
 
-        static::assertInstanceOf(\DateTimeInterface::class, $dt);
+        static::assertInstanceOf(DateTimeInterface::class, $dt);
         static::assertSame($dateStr, $dt->format('Y-m-d H:i:s'));
 
         $dateDay = '23/11/2025';
         $dt2 = $calendar->fromString($dateDay, 'd/m/Y');
 
-        static::assertInstanceOf(\DateTimeInterface::class, $dt2);
+        static::assertInstanceOf(DateTimeInterface::class, $dt2);
         static::assertSame($dateDay, $dt2->format('d/m/Y'));
     }
 }
-

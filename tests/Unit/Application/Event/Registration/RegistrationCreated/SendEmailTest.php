@@ -5,14 +5,14 @@ namespace App\Tests\Unit\Application\Event\Registration\RegistrationCreated;
 use App\Application\Event\Registration\RegistrationCreated\SendEmail;
 use App\Application\Service\Notification\RegistrationCreatedNotification;
 use App\Domain\DTO\Coordinates;
-use App\Domain\DTO\Registration\Registration as RegistrationDTO;
 use App\Domain\DTO\Participant\Participant as ParticipantDTO;
+use App\Domain\DTO\Registration\Registration as RegistrationDTO;
 use App\Domain\DTO\Route\Segment as SegmentDTO;
-use App\Domain\Model\Registration\RegistrationId;
+use App\Domain\Event\Registration\RegistrationCreated;
 use App\Domain\Model\Participant\ParticipantId;
+use App\Domain\Model\Registration\RegistrationId;
 use App\Domain\Model\Route\SegmentId;
 use App\Domain\Provider\Registration\RegistrationProvider;
-use App\Domain\Event\Registration\RegistrationCreated;
 use App\Tests\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -40,7 +40,7 @@ class SendEmailTest extends TestCase
             id: $participantId,
             name: 'John',
             surname: 'Doe',
-            email: 'john@example.com'
+            email: 'john@example.com',
         );
 
         $segment = new SegmentDTO(
@@ -48,7 +48,7 @@ class SendEmailTest extends TestCase
             start: new Coordinates(0.0, 0.0),
             end: new Coordinates(1.0, 1.0),
             capacity: 100,
-            modality: 'road'
+            modality: 'road',
         );
 
         $registrationDto = new RegistrationDTO(
@@ -80,4 +80,3 @@ class SendEmailTest extends TestCase
         $handler($event);
     }
 }
-

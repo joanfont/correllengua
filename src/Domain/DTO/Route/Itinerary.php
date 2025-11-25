@@ -9,5 +9,6 @@ readonly class Itinerary
         public string $name,
         /** @var array<int, Segment> */
         public array $segments,
-    ) {}
+    ) {
+    }
 }

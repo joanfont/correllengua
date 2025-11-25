@@ -14,6 +14,10 @@ use App\Domain\Model\Route\Route;
 use App\Domain\Repository\Route\ItineraryRepository;
 use App\Domain\Repository\Route\RouteRepository;
 use App\Tests\TestCase;
+
+use function array_unique;
+
+use ArrayIterator;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ImportItinerariesFromFileTest extends TestCase
@@ -67,18 +71,18 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         $itineraryDTO = new ItineraryDTO(
             'Route 1',
-            'Itinerary A'
+            'Itinerary A',
         );
 
         $this->itineraryBuilder
             ->expects($this->once())
             ->method('fromArray')
             ->with($csvData[0])
-            ->willReturnCallback(fn(array $d): ItineraryDTO => $itineraryDTO);
+            ->willReturnCallback(fn (array $d): ItineraryDTO => $itineraryDTO);
 
         $this->routeRepository
             ->expects($this->once())
@@ -124,7 +128,7 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         $this->itineraryBuilder
             ->expects($this->exactly(3))
@@ -132,7 +136,7 @@ class ImportItinerariesFromFileTest extends TestCase
             ->willReturnCallback(function (array $data): ItineraryDTO {
                 return new ItineraryDTO(
                     $data['route_name'],
-                    $data['name']
+                    $data['name'],
                 );
             });
 
@@ -180,7 +184,7 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator([]));
+            ->willReturn(new ArrayIterator([]));
 
         $this->itineraryBuilder
             ->expects($this->never())
@@ -222,7 +226,7 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         $this->itineraryBuilder
             ->expects($this->exactly(2))
@@ -230,7 +234,7 @@ class ImportItinerariesFromFileTest extends TestCase
             ->willReturnCallback(function (array $data): ItineraryDTO {
                 return new ItineraryDTO(
                     $data['route_name'],
-                    $data['name']
+                    $data['name'],
                 );
             });
 
@@ -279,18 +283,18 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         $itineraryDTO = new ItineraryDTO(
             'Route Test',
-            'Itinerary Test'
+            'Itinerary Test',
         );
 
         $this->itineraryBuilder
             ->expects($this->once())
             ->method('fromArray')
             ->with($csvData[0])
-            ->willReturnCallback(fn(array $d): ItineraryDTO => $itineraryDTO);
+            ->willReturnCallback(fn (array $d): ItineraryDTO => $itineraryDTO);
 
         $this->routeRepository
             ->expects($this->once())
@@ -313,4 +317,3 @@ class ImportItinerariesFromFileTest extends TestCase
         self::handleCommand($command);
     }
 }
-

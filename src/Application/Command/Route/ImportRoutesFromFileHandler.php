@@ -17,7 +17,8 @@ readonly class ImportRoutesFromFileHandler implements CommandHandler
         private CSVReaderFactory $csvReaderFactory,
         private RouteBuilder $routeBuilder,
         private RouteRepository $routeRepository,
-    ) {}
+    ) {
+    }
 
     public function __invoke(ImportRoutesFromFile $importRoutesFromFile): void
     {

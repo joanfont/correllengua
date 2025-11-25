@@ -3,6 +3,7 @@
 namespace App\Application\Command\Press;
 
 use App\Application\Commons\Command\Command;
+use SplFileInfo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class CreatePressNote implements Command
@@ -16,6 +17,7 @@ readonly class CreatePressNote implements Command
         public string $body,
         public bool $featured,
         #[Assert\Image(maxSize: '2M')]
-        public \SplFileInfo $image,
-    ) {}
+        public SplFileInfo $image,
+    ) {
+    }
 }

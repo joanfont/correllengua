@@ -6,12 +6,17 @@ use App\Application\Command\Route\ImportRoutesFromFile;
 use App\Application\Service\CSV\CSVReader;
 use App\Application\Service\CSV\CSVReaderFactory;
 use App\Application\Service\File\Filesystem;
-use App\Application\Service\Route\RouteBuilder;
 use App\Application\Service\Route\DTO\Route as RouteDTO;
+use App\Application\Service\Route\RouteBuilder;
 use App\Domain\Model\Route\Route;
 use App\Domain\Model\Route\RouteId;
 use App\Domain\Repository\Route\RouteRepository;
 use App\Tests\TestCase;
+
+use function array_unique;
+
+use ArrayIterator;
+use DateTimeImmutable;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ImportRoutesFromFileTest extends TestCase
@@ -60,20 +65,20 @@ class ImportRoutesFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         /** @var RouteDTO $parsedRoute */
         $parsedRoute = new RouteDTO(
             'Ruta 1',
             'Descripción',
-            new \DateTimeImmutable('2025-01-01')
+            new DateTimeImmutable('2025-01-01'),
         );
 
         $this->routeParser
             ->expects($this->once())
             ->method('fromArray')
             ->with($csvData[0])
-            ->willReturnCallback(fn(array $d): RouteDTO => $parsedRoute);
+            ->willReturnCallback(fn (array $d): RouteDTO => $parsedRoute);
 
         $this->routeRepository
             ->expects($this->once())
@@ -114,17 +119,17 @@ class ImportRoutesFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         $this->routeParser
             ->expects($this->exactly(3))
             ->method('fromArray')
-            /** @return RouteDTO */
+            /* @return RouteDTO */
             ->willReturnCallback(function (array $data): RouteDTO {
                 return new RouteDTO(
                     $data['name'],
                     $data['description'],
-                    new \DateTimeImmutable($data['start_date'])
+                    new DateTimeImmutable($data['start_date']),
                 );
             });
 
@@ -165,7 +170,7 @@ class ImportRoutesFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator([]));
+            ->willReturn(new ArrayIterator([]));
 
         $this->routeParser
             ->expects($this->never())
@@ -203,17 +208,17 @@ class ImportRoutesFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         $this->routeParser
             ->expects($this->exactly(2))
             ->method('fromArray')
-            /** @return RouteDTO */
+            /* @return RouteDTO */
             ->willReturnCallback(function (array $data): RouteDTO {
                 return new RouteDTO(
                     $data['name'],
                     $data['description'],
-                    new \DateTimeImmutable($data['start_date'])
+                    new DateTimeImmutable($data['start_date']),
                 );
             });
 
@@ -257,20 +262,20 @@ class ImportRoutesFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         /** @var RouteDTO $parsedRoute */
         $parsedRoute = new RouteDTO(
             'Ruta de Prova',
             'Descripció de prova',
-            new \DateTimeImmutable('2025-06-15')
+            new DateTimeImmutable('2025-06-15'),
         );
 
         $this->routeParser
             ->expects($this->once())
             ->method('fromArray')
             ->with($csvData[0])
-            ->willReturnCallback(fn(array $d): RouteDTO => $parsedRoute);
+            ->willReturnCallback(fn (array $d): RouteDTO => $parsedRoute);
 
         $this->routeRepository
             ->expects($this->once())

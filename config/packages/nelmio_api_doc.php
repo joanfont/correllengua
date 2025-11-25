@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Symfony\Config\NelmioApiDocConfig;
 
 return static function (NelmioApiDocConfig $nelmioApiDoc): void {
@@ -22,4 +20,3 @@ return static function (NelmioApiDocConfig $nelmioApiDoc): void {
     // DTOs are automatically discovered through Model references in Operation classes
     // No manual configuration needed!
 };
-

@@ -5,6 +5,8 @@ namespace App\Infrastructure\System\Service\Registration;
 use App\Application\Service\Registration\RegistrationHasher;
 use App\Domain\Model\Registration\RegistrationId;
 
+use function md5;
+
 class Md5RegistrationHasher implements RegistrationHasher
 {
     public function hash(RegistrationId $id): string

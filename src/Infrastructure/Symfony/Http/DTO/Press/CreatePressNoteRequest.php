@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Symfony\Http\DTO\Press;
 
 use OpenApi\Attributes as OA;
+use SplFileInfo;
 
 #[OA\Schema(
     required: ['title', 'subtitle', 'body', 'featured', 'image'],
@@ -51,6 +50,7 @@ readonly class CreatePressNoteRequest
         public string $subtitle,
         public string $body,
         public bool $featured,
-        public \SplFileInfo $image,
-    ) {}
+        public SplFileInfo $image,
+    ) {
+    }
 }

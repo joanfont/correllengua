@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Nelmio\Tag;
 
+use Attribute;
 use OpenApi\Attributes as OA;
 
-#[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
 final class RoutesTag extends OA\Tag
 {
     public function __construct()

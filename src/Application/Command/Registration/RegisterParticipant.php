@@ -20,5 +20,6 @@ readonly class RegisterParticipant implements Command
         public array $segments = [],
         #[Assert\Choice(callback: [Modality::class, 'values'])]
         public string $modality,
-    ) {}
+    ) {
+    }
 }

@@ -1,10 +1,10 @@
 <?php
 
-use Symfony\Config\DoctrineConfig;
-use Symfony\Config\FrameworkConfig;
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
+
+use Symfony\Config\DoctrineConfig;
+use Symfony\Config\FrameworkConfig;
 
 return static function (DoctrineConfig $doctrine, FrameworkConfig $framework): void {
     $doctrine

@@ -2,6 +2,10 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use function env;
+use function param;
+use function service;
+
 return function (ContainerConfigurator $container): void {
     $parameters = $container->parameters();
     $parameters
@@ -14,7 +18,7 @@ return function (ContainerConfigurator $container): void {
         ->set('app.email.default_from', 'Correllengua <no-reply@correllengua.cat>')
         ->set('app.email.from', env('EMAIL_FROM')->default('app.email.default_from'))
         ->set('app.uploads.local.prefix', 'uploads')
-        ->set('app.uploads.local.dir', param('kernel.project_dir') . '/public/' . param('app.uploads.local.prefix'));
+        ->set('app.uploads.local.dir', param('kernel.project_dir').'/public/'.param('app.uploads.local.prefix'));
 
     $services = $container->services()
         ->defaults()

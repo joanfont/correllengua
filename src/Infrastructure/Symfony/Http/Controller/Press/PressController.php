@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Symfony\Http\Controller\Press;
 
 use App\Application\Command\Press\CreatePressNote;

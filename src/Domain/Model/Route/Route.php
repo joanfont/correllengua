@@ -3,6 +3,7 @@
 namespace App\Domain\Model\Route;
 
 use App\Domain\Model\Entity;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -19,7 +20,7 @@ class Route extends Entity
         RouteId $id,
         private string $name,
         private string $description,
-        private \DateTimeInterface $startsAt,
+        private DateTimeInterface $startsAt,
     ) {
         $this->id = (string) $id;
         $this->itineraries = new ArrayCollection();
@@ -40,7 +41,7 @@ class Route extends Entity
         return $this->description;
     }
 
-    public function startsAt(): \DateTimeInterface
+    public function startsAt(): DateTimeInterface
     {
         return $this->startsAt;
     }

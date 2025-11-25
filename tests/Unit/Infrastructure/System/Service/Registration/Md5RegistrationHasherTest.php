@@ -2,9 +2,11 @@
 
 namespace App\Tests\Unit\Infrastructure\System\Service\Registration;
 
-use App\Infrastructure\System\Service\Registration\Md5RegistrationHasher;
 use App\Domain\Model\Registration\RegistrationId;
+use App\Infrastructure\System\Service\Registration\Md5RegistrationHasher;
 use App\Tests\TestCase;
+
+use function md5;
 
 class Md5RegistrationHasherTest extends TestCase
 {

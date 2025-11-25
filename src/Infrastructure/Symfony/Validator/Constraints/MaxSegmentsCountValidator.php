@@ -1,8 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Symfony\Validator\Constraints;
+
+use function count;
+
+use Countable;
+
+use function is_array;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -13,7 +17,8 @@ class MaxSegmentsCountValidator extends ConstraintValidator
 {
     public function __construct(
         private readonly int $maxSegmentsPerParticipant,
-    ) {}
+    ) {
+    }
 
     public function validate(mixed $value, Constraint $constraint): void
     {
@@ -25,11 +30,11 @@ class MaxSegmentsCountValidator extends ConstraintValidator
             return;
         }
 
-        if (!\is_array($value) && !$value instanceof \Countable) {
+        if (!is_array($value) && !$value instanceof Countable) {
             throw new UnexpectedValueException($value, 'array|\Countable');
         }
 
-        $count = \count($value);
+        $count = count($value);
 
         if ($count > $this->maxSegmentsPerParticipant) {
             $this->context->buildViolation($constraint->message)

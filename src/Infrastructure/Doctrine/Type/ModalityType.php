@@ -3,7 +3,12 @@
 namespace App\Infrastructure\Doctrine\Type;
 
 use App\Domain\Model\Route\Modality;
+
+use function array_map;
+
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+
+use function max;
 
 class ModalityType extends Type
 {

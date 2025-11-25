@@ -2,12 +2,18 @@
 
 namespace App\Tests\Unit\Infrastructure\Symfony\Http\File;
 
-use App\Infrastructure\Symfony\Http\File\SymfonyFileUploader;
-use App\Application\Service\File\Filesystem;
-use App\Domain\Repository\File\FileRepository;
 use App\Application\Service\Calendar\Calendar;
+use App\Application\Service\File\Filesystem;
 use App\Domain\Model\File\File;
+use App\Domain\Repository\File\FileRepository;
+use App\Infrastructure\Symfony\Http\File\SymfonyFileUploader;
 use App\Tests\TestCase;
+use DateTimeImmutable;
+
+use function explode;
+use function file_get_contents;
+use function pathinfo;
+
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
 
 class SymfonyFileUploaderTest extends TestCase
@@ -23,7 +29,7 @@ class SymfonyFileUploaderTest extends TestCase
             $fileInfo->getFilename(),
             null,
             null,
-            true
+            true,
         );
 
         $rootFs = $this->createMock(Filesystem::class);
@@ -46,7 +52,7 @@ class SymfonyFileUploaderTest extends TestCase
 
         $calendar
             ->method('now')
-            ->willReturn(new \DateTimeImmutable('2025-11-23'));
+            ->willReturn(new DateTimeImmutable('2025-11-23'));
 
         $uploadsFs
             ->expects($this->once())
@@ -65,7 +71,7 @@ class SymfonyFileUploaderTest extends TestCase
 
                     return true;
                 }),
-                $contents
+                $contents,
             );
 
         $capturedPath = null;

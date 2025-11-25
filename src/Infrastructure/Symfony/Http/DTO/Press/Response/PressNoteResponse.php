@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Symfony\Http\DTO\Press\Response;
 
 use OpenApi\Attributes as OA;
@@ -28,5 +26,6 @@ final readonly class PressNoteResponse
         public bool $featured,
         public ?string $imageUrl,
         public string $createdAt,
-    ) {}
+    ) {
+    }
 }

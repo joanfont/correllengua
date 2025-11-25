@@ -2,6 +2,8 @@
 
 namespace App\Domain\Model;
 
+use function array_map;
+
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
 abstract class Uuid

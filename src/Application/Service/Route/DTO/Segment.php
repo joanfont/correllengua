@@ -13,5 +13,6 @@ readonly class Segment
         public float $endLongitude,
         public string $modality,
         public int $capacity,
-    ) {}
+    ) {
+    }
 }

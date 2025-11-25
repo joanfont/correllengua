@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Symfony\Http\DTO\Common;
 
 use OpenApi\Attributes as OA;
@@ -20,5 +18,6 @@ final readonly class ErrorResponse
         public string $error,
         public string $message,
         public int $code,
-    ) {}
+    ) {
+    }
 }

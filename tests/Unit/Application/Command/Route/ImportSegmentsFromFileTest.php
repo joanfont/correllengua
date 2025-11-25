@@ -15,6 +15,10 @@ use App\Domain\Model\Route\SegmentId;
 use App\Domain\Repository\Route\ItineraryRepository;
 use App\Domain\Repository\Route\SegmentRepository;
 use App\Tests\TestCase;
+
+use function array_unique;
+
+use ArrayIterator;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ImportSegmentsFromFileTest extends TestCase
@@ -77,7 +81,7 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         $segmentDTO = new SegmentDTO(
             itineraryName: 'Itinerary 1',
@@ -87,14 +91,14 @@ class ImportSegmentsFromFileTest extends TestCase
             endLatitude: 40.417000,
             endLongitude: -3.703990,
             modality: 'BIKE',
-            capacity: 8
+            capacity: 8,
         );
 
         $this->segmentParser
             ->expects($this->once())
             ->method('fromArray')
             ->with($csvData[0])
-            ->willReturnCallback(fn(array $d): SegmentDTO => $segmentDTO);
+            ->willReturnCallback(fn (array $d): SegmentDTO => $segmentDTO);
 
         $this->itineraryRepository
             ->expects($this->once())
@@ -173,7 +177,7 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         $this->segmentParser
             ->expects($this->exactly(3))
@@ -187,7 +191,7 @@ class ImportSegmentsFromFileTest extends TestCase
                     endLatitude: (float) $data['end_latitude'],
                     endLongitude: (float) $data['end_longitude'],
                     modality: $data['modality'],
-                    capacity: (int) $data['capacity']
+                    capacity: (int) $data['capacity'],
                 );
             });
 
@@ -244,7 +248,7 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator([]));
+            ->willReturn(new ArrayIterator([]));
 
         $this->segmentParser
             ->expects($this->never())
@@ -304,7 +308,7 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         $this->segmentParser
             ->expects($this->exactly(2))
@@ -318,7 +322,7 @@ class ImportSegmentsFromFileTest extends TestCase
                     endLatitude: (float) $data['end_latitude'],
                     endLongitude: (float) $data['end_longitude'],
                     modality: $data['modality'],
-                    capacity: (int) $data['capacity']
+                    capacity: (int) $data['capacity'],
                 );
             });
 
@@ -376,7 +380,7 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->csvReader
             ->expects($this->once())
             ->method('readLine')
-            ->willReturn(new \ArrayIterator($csvData));
+            ->willReturn(new ArrayIterator($csvData));
 
         $segmentDTO = new SegmentDTO(
             itineraryName: 'Itinerary Test',
@@ -386,14 +390,14 @@ class ImportSegmentsFromFileTest extends TestCase
             endLatitude: 42.234567,
             endLongitude: 1.345678,
             modality: 'MIXED',
-            capacity: 6
+            capacity: 6,
         );
 
         $this->segmentParser
             ->expects($this->once())
             ->method('fromArray')
             ->with($csvData[0])
-            ->willReturnCallback(fn(array $d): SegmentDTO => $segmentDTO);
+            ->willReturnCallback(fn (array $d): SegmentDTO => $segmentDTO);
 
         $this->itineraryRepository
             ->expects($this->once())

@@ -7,7 +7,9 @@ use App\Domain\Provider\Route\RouteProvider;
 
 readonly class ListRoutesHandler implements QueryHandler
 {
-    public function __construct(private RouteProvider $routeProvider) {}
+    public function __construct(private RouteProvider $routeProvider)
+    {
+    }
 
     public function __invoke(ListRoutes $listRoutes): array
     {

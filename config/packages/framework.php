@@ -1,8 +1,8 @@
 <?php
 
+use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 use Symfony\Config\FrameworkConfig;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 return static function (FrameworkConfig $framework): void {
     $framework

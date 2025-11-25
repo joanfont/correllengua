@@ -14,7 +14,8 @@ abstract readonly class RegistrationEvent implements Event
         public RegistrationId $id,
         public ParticipantId $participantId,
         public SegmentId $segmentId,
-    ) {}
+    ) {
+    }
 
     final public static function fromRegistration(Registration $registration): static
     {

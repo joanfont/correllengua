@@ -7,6 +7,11 @@ use App\Application\Commons\Command\CommandBus;
 use App\Application\Commons\Event\Event;
 use App\Application\Commons\Query\Query;
 use App\Application\Commons\Query\QueryBus;
+
+use function get_class;
+use function implode;
+
+use SplFileInfo;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Messenger\Transport\TransportInterface;
 
@@ -64,7 +69,7 @@ class TestCase extends KernelTestCase
         return $events;
     }
 
-    public static function asset(string $path): \SplFileInfo
+    public static function asset(string $path): SplFileInfo
     {
         $projectDir = self::getParameter('kernel.project_dir');
         $fullPath = implode(DIRECTORY_SEPARATOR, [
@@ -74,7 +79,6 @@ class TestCase extends KernelTestCase
             $path,
         ]);
 
-        return new \SplFileInfo($fullPath);
+        return new SplFileInfo($fullPath);
     }
-
 }

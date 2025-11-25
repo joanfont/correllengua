@@ -21,7 +21,8 @@ readonly class ImportSegmentsFromFileHandler implements CommandHandler
         private SegmentBuilder $segmentBuilder,
         private ItineraryRepository $itineraryRepository,
         private SegmentRepository $segmentRepository,
-    ) {}
+    ) {
+    }
 
     public function __invoke(ImportSegmentsFromFile $importSegmentsFromFile): void
     {

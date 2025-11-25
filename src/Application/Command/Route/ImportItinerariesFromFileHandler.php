@@ -19,7 +19,8 @@ readonly class ImportItinerariesFromFileHandler implements CommandHandler
         private ItineraryBuilder $itineraryBuilder,
         private RouteRepository $routeRepository,
         private ItineraryRepository $itineraryRepository,
-    ) {}
+    ) {
+    }
 
     public function __invoke(ImportItinerariesFromFile $importItineraries): void
     {

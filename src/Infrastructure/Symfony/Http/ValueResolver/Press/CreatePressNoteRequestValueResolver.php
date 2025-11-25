@@ -3,6 +3,9 @@
 namespace App\Infrastructure\Symfony\Http\ValueResolver\Press;
 
 use App\Infrastructure\Symfony\Http\DTO\Press\CreatePressNoteRequest;
+
+use function is_a;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;

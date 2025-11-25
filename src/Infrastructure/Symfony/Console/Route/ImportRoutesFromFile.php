@@ -4,6 +4,9 @@ namespace App\Infrastructure\Symfony\Console\Route;
 
 use App\Application\Command\Route\ImportRoutesFromFile as ImportRoutesFromFileCommand;
 use App\Application\Commons\Command\CommandBus;
+
+use function sprintf;
+
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,12 +29,12 @@ class ImportRoutesFromFile extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $path = $input->getArgument('path');
-        $output->writeln(\sprintf('<info>Importing routes from file %s</info>', $path));
+        $output->writeln(sprintf('<info>Importing routes from file %s</info>', $path));
 
         $importRoutesFromFile = new ImportRoutesFromFileCommand($path);
         $this->commandBus->dispatch($importRoutesFromFile);
 
-        $output->writeln(\sprintf('<info>Successfully imported routes from file %s</info>', $path));
+        $output->writeln(sprintf('<info>Successfully imported routes from file %s</info>', $path));
 
         return self::SUCCESS;
     }

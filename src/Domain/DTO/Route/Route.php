@@ -11,5 +11,6 @@ readonly class Route
         public string $name,
         /** @var array<int, Itinerary> */
         public array $itineraries,
-    ) {}
+    ) {
+    }
 }

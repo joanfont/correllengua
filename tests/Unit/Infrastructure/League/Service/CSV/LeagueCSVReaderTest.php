@@ -3,9 +3,9 @@
 namespace App\Tests\Unit\Infrastructure\League\Service\CSV;
 
 use App\Infrastructure\League\Service\CSV\LeagueCSVReader;
-use League\Csv\Reader;
 use App\Tests\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
+use ArrayIterator;
+use League\Csv\Reader;
 
 class LeagueCSVReaderTest extends TestCase
 {
@@ -21,7 +21,7 @@ class LeagueCSVReaderTest extends TestCase
         $reader
             ->expects(static::once())
             ->method('getRecords')
-            ->willReturn(new \ArrayIterator($records));
+            ->willReturn(new ArrayIterator($records));
 
         $csvReader = new LeagueCSVReader($reader);
 
@@ -35,4 +35,3 @@ class LeagueCSVReaderTest extends TestCase
         static::assertSame($records[1], $collected[1]);
     }
 }
-

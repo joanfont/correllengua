@@ -1,8 +1,8 @@
 <?php
 
-use Symfony\Config\FrameworkConfig;
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
+
+use Symfony\Config\FrameworkConfig;
 
 return static function (FrameworkConfig $framework): void {
     $messenger = $framework->messenger();
@@ -28,7 +28,7 @@ return static function (FrameworkConfig $framework): void {
         ->senders(['sync']);
 
     $messenger
-        ->routing(\Symfony\Component\Mailer\Messenger\SendEmailMessage::class)
+        ->routing(Symfony\Component\Mailer\Messenger\SendEmailMessage::class)
         ->senders(['async']);
 
     $messenger

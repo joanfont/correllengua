@@ -7,7 +7,9 @@ class EventPublisher
     /** @var Event[] */
     private array $events = [];
 
-    public function __construct(private readonly EventBus $eventBus) {}
+    public function __construct(private readonly EventBus $eventBus)
+    {
+    }
 
     /**
      * @return Event[]

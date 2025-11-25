@@ -6,6 +6,9 @@ use App\Domain\Model\Coordinates;
 use App\Domain\Model\Entity;
 use App\Domain\Model\Participant\Participant;
 use App\Domain\Model\Registration\Registration;
+
+use function array_map;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 

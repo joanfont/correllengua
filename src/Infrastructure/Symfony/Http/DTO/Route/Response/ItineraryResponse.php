@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Symfony\Http\DTO\Route\Response;
 
 use Nelmio\ApiDocBundle\Attribute\Model;
@@ -28,5 +26,6 @@ final readonly class ItineraryResponse
         public string $description,
         /** @var array<SegmentResponse> */
         public array $segments,
-    ) {}
+    ) {
+    }
 }

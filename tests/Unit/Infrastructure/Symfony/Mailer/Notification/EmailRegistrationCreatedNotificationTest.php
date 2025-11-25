@@ -14,7 +14,13 @@ use App\Domain\Model\Registration\RegistrationId;
 use App\Domain\Model\Route\SegmentId;
 use App\Infrastructure\Symfony\Mailer\Notification\EmailRegistrationCreatedNotification;
 use App\Tests\TestCase;
+
+use function method_exists;
+
 use PHPUnit\Framework\MockObject\MockObject;
+
+use function quoted_printable_decode;
+
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
@@ -43,7 +49,7 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
             id: $participantId,
             name: 'John',
             surname: 'Doe',
-            email: 'john@example.com'
+            email: 'john@example.com',
         );
 
         $segment = new SegmentDTO(
@@ -51,7 +57,7 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
             start: new Coordinates(0.0, 0.0),
             end: new Coordinates(1.0, 1.0),
             capacity: 100,
-            modality: 'road'
+            modality: 'road',
         );
 
         $registration = new RegistrationDTO(

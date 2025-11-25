@@ -6,9 +6,13 @@ use App\Application\Commons\Event\EventPublisher;
 use App\Domain\Model\Entity;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
+use function is_subclass_of;
+
 class EntityEventsListener
 {
-    public function __construct(private readonly EventPublisher $eventPublisher) {}
+    public function __construct(private readonly EventPublisher $eventPublisher)
+    {
+    }
 
     public function postPersist(LifecycleEventArgs $args): void
     {

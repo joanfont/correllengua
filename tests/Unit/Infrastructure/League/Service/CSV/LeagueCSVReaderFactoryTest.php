@@ -2,8 +2,8 @@
 
 namespace App\Tests\Unit\Infrastructure\League\Service\CSV;
 
-use App\Infrastructure\League\Service\CSV\LeagueCSVReaderFactory;
 use App\Domain\Exception\CSV\InvalidSourceException;
+use App\Infrastructure\League\Service\CSV\LeagueCSVReaderFactory;
 use App\Tests\TestCase;
 
 class LeagueCSVReaderFactoryTest extends TestCase
@@ -37,4 +37,3 @@ class LeagueCSVReaderFactoryTest extends TestCase
         $factory->makeFromString('');
     }
 }
-

@@ -15,5 +15,6 @@ readonly class CreateParticipant implements Command
         public string $surname,
         #[Assert\Email]
         public string $email,
-    ) {}
+    ) {
+    }
 }

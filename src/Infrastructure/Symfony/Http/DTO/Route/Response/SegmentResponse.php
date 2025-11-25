@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Symfony\Http\DTO\Route\Response;
 
 use OpenApi\Attributes as OA;
@@ -28,5 +26,6 @@ final readonly class SegmentResponse
         public string $modality,
         public int $capacity,
         public int $registrations,
-    ) {}
+    ) {
+    }
 }

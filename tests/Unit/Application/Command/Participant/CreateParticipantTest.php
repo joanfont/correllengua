@@ -41,7 +41,7 @@ class CreateParticipantTest extends TestCase
         $createParticipant = new CreateParticipant(
             name: 'foo',
             surname: 'bar',
-            email: 'foo@bar.com'
+            email: 'foo@bar.com',
         );
 
         self::handleCommand($createParticipant);
@@ -64,7 +64,7 @@ class CreateParticipantTest extends TestCase
         $createParticipant = new CreateParticipant(
             name: 'foo',
             surname: 'bar',
-            email: 'foo@bar.com'
+            email: 'foo@bar.com',
         );
 
         self::handleCommand($createParticipant);

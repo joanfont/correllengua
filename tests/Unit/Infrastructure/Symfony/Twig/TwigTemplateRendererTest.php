@@ -29,4 +29,3 @@ class TwigTemplateRendererTest extends TestCase
         static::assertSame('Static content', $output);
     }
 }
-

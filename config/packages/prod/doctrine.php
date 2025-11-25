@@ -3,7 +3,6 @@
 use Symfony\Config\DoctrineConfig;
 use Symfony\Config\FrameworkConfig;
 
-
 return static function (DoctrineConfig $doctrine, FrameworkConfig $framework): void {
     $doctrine
         ->orm()

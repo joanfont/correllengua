@@ -12,5 +12,6 @@ readonly class Registration
         public string $modality,
         public Participant $participant,
         public Segment $segment,
-    ) {}
+    ) {
+    }
 }

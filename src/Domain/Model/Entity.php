@@ -3,23 +3,25 @@
 namespace App\Domain\Model;
 
 use App\Application\Commons\Event\Event;
+use DateTime;
+use DateTimeInterface;
 
 abstract class Entity
 {
-    protected \DateTimeInterface $createdAt;
-    protected \DateTimeInterface $updatedAt;
+    protected DateTimeInterface $createdAt;
+    protected DateTimeInterface $updatedAt;
 
     /** @var array<int, Event> */
     private array $events = [];
 
     public function created(): void
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
     }
 
     public function updated(): void
     {
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     public function events(): array

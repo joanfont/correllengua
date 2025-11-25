@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Symfony\Http\DTO\Registration;
 
 use OpenApi\Attributes as OA;
@@ -20,5 +18,6 @@ readonly class Participant
         public string $name,
         public string $surname,
         public string $email,
-    ) {}
+    ) {
+    }
 }

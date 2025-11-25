@@ -16,7 +16,7 @@ migrate:
 
 .PHONY: php-cs
 php-cs:
-	$(COMPOSER) run php-cs
+	$(DOCKER_COMPOSE) app ./vendor/bin/php-cs-fixer fix
 
 .PHONY: test
 test:
