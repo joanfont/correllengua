@@ -6,7 +6,6 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-
 return function (ContainerConfigurator $container): void {
     $parameters = $container->parameters();
     $parameters
