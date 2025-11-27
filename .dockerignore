@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+.github
+
+# Docker
+docker-compose.yaml
+Dockerfile
+.dockerignore
+
+# Development
+.env.local
+.env.*.local
+.env.dev
+
+# Cache and logs
+var/cache/*
+var/log/*
+!var/cache/.gitkeep
+!var/log/.gitkeep
+
+# Vendor (will be installed during build)
+vendor/*
+!vendor/.gitkeep
+
+# PHPUnit
+.phpunit.cache
+phpunit.xml
+
+# PHP CS Fixer
+.php-cs-fixer.cache
+.php-cs-fixer.php
+
+# Uploads
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Data
+data/*
+!data/.gitkeep
+
+
+# Other
+README.md
+Makefile
+

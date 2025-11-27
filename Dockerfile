@@ -28,8 +28,7 @@ USER app
 
 COPY --chown=app:app . .
 
-RUN mkdir -p var/cache var/log && \
-    sh -c '[ "$ENV" == "prod" ] && composer install --ignore-platform-reqs --prefer-dist --no-dev --no-interaction || exit 0' && \
+RUN sh -c '[ "$ENV" == "prod" ] && composer install --ignore-platform-reqs --prefer-dist --no-dev --no-interaction || exit 0' && \
     sh -c '[ "$ENV" != "prod" ] && composer install --ignore-platform-reqs --prefer-dist --no-interaction || exit 0'
 
 ENTRYPOINT ["/entrypoint.sh"]
