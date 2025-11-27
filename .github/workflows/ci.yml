@@ -26,15 +26,13 @@ jobs:
       - name: Run PHP CS Fixer (check only)
         run: |
           docker run --rm \
-            --entrypoint=./vendor/bin/php-cs-fixer \
             correllengua:ci \
-            fix --dry-run --diff --verbose
+            ./vendor/bin/php-cs-fixer fix --dry-run --diff --verbose
 
       - name: Run PHPUnit tests
         run: |
           docker run --rm \
-            --entrypoint=php \
             -e APP_ENV=test \
             correllengua:ci \
-            ./vendor/bin/phpunit
+            php vendor/bin/phpunit
 
