@@ -35,4 +35,3 @@ jobs:
             -e APP_ENV=test \
             correllengua:ci \
             php vendor/bin/phpunit --do-not-cache-result
-
