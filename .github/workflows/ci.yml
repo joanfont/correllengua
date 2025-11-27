@@ -17,7 +17,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            --build-arg ENV=test \
+            --build-arg ENV=dev \
             --build-arg UID=1000 \
             --build-arg GID=1000 \
             -t correllengua:ci \
