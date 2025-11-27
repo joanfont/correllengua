@@ -21,13 +21,15 @@ ARG GID
 RUN addgroup --gid $GID app && \
     adduser --shell /sbin/nologin --disabled-password --no-create-home --home /app --uid $UID --ingroup app app
 
+ADD docker/entrypoint.sh /entrypoint.sh
+ADD docker/php.ini /usr/local/etc/php/conf.d/zzz-php.ini
+
 USER app
 
 COPY --chown=app:app . .
 
-RUN sh -c '[ "$ENV" == "prod" ] && composer install --ignore-platform-reqs --prefer-dist --no-dev --no-interaction || exit 0'
-RUN sh -c '[ "$ENV" != "prod" ] && composer install --ignore-platform-reqs --prefer-dist --no-interaction || exit 0'
+RUN mkdir -p var/cache var/log && \
+    sh -c '[ "$ENV" == "prod" ] && composer install --ignore-platform-reqs --prefer-dist --no-dev --no-interaction || exit 0' && \
+    sh -c '[ "$ENV" != "prod" ] && composer install --ignore-platform-reqs --prefer-dist --no-interaction || exit 0'
 
-ADD docker/entrypoint.sh /entrypoint.sh
-ADD docker/php.ini /usr/local/etc/php/conf.d/zzz-php.ini
 ENTRYPOINT ["/entrypoint.sh"]
