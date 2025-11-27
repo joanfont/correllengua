@@ -28,14 +28,14 @@ jobs:
       - name: Run PHP CS Fixer (check only)
         run: |
           docker run --rm \
-            correllengua:ci \
+            correllengua:test \
             ./vendor/bin/php-cs-fixer fix --dry-run --diff --verbose --using-cache=no
 
       - name: Run PHPUnit tests
         run: |
           docker run --rm \
             -e APP_ENV=test \
-            correllengua:ci \
+            correllengua:test \
             php vendor/bin/phpunit --do-not-cache-result
 
   build-and-push-prod:
