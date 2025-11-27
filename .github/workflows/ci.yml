@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            --build-arg ENV=test \
+            --build-arg UID=1000 \
+            --build-arg GID=1000 \
+            -t correllengua:ci \
+            .
+
+      - name: Run PHP CS Fixer (check only)
+        run: |
+          docker run --rm \
+            --entrypoint=./vendor/bin/php-cs-fixer \
+            correllengua:ci \
+            fix --dry-run --diff --verbose
+
+      - name: Run PHPUnit tests
+        run: |
+          docker run --rm \
+            --entrypoint=php \
+            -e APP_ENV=test \
+            correllengua:ci \
+            ./vendor/bin/phpunit
+
