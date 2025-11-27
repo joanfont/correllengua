@@ -28,7 +28,7 @@ USER app
 
 COPY --chown=app:app . .
 
-RUN sh -c '[ "$ENV" == "prod" ] && APP_ENV=$ENV composer install --ignore-platform-reqs --prefer-dist --no-dev --no-interaction || exit 0' && \
-    sh -c '[ "$ENV" != "prod" ] && APP_ENV=$ENV composer install --ignore-platform-reqs --prefer-dist --no-interaction || exit 0'
+RUN sh -c '[ "$ENV" == "prod" ] && composer install --ignore-platform-reqs --prefer-dist --no-dev --no-interaction --no-scripts || exit 0' && \
+    sh -c '[ "$ENV" != "prod" ] && composer install --ignore-platform-reqs --prefer-dist --no-interaction --no-scripts || exit 0'
 
 ENTRYPOINT ["/entrypoint.sh"]
