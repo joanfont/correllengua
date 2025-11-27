@@ -14,10 +14,8 @@ Dockerfile
 .env.dev
 
 # Cache and logs
-var/cache/*
-var/log/*
-!var/cache/.gitkeep
-!var/log/.gitkeep
+var/*
+!var/.gitkeep
 
 # Vendor (will be installed during build)
 vendor/*
