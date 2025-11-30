@@ -1,10 +1,12 @@
 <?php
 
-use Symfony\Config\FrameworkConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (FrameworkConfig $framework): void {
-    $framework->test(true);
-    $framework
-        ->session()
-        ->storageFactoryId('session.storage.factory.mock_file');
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', [
+        'test' => true,
+        'session' => [
+            'storage_factory_id' => 'session.storage.factory.mock_file',
+        ],
+    ]);
 };

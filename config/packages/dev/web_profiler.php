@@ -1,13 +1,15 @@
 <?php
 
-use Symfony\Config\FrameworkConfig;
-use Symfony\Config\WebProfilerConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (WebProfilerConfig $webProfiler, FrameworkConfig $framework): void {
-    $webProfiler
-        ->toolbar(true);
+return static function (ContainerConfigurator $container): void {
+    $container->extension('web_profiler', [
+        'toolbar' => true,
+    ]);
 
-    $framework
-        ->profiler()
-        ->collectSerializerData(true);
+    $container->extension('framework', [
+        'profiler' => [
+            'collect_serializer_data' => true,
+        ],
+    ]);
 };

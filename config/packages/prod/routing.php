@@ -1,9 +1,11 @@
 <?php
 
-use Symfony\Config\FrameworkConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (FrameworkConfig $framework): void {
-    $framework
-        ->router()
-        ->strictRequirements(null);
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', [
+        'router' => [
+            'strict_requirements' => null,
+        ],
+    ]);
 };
