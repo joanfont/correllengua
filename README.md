@@ -1,8 +1,12 @@
-# Overview
+# joanfont/correllengua
+
+[![Build Status](https://github.com/joanfont/correllengua/actions/workflows/build-and-push-prod.yml/badge.svg?branch=main)](https://github.com/joanfont/correllengua/actions/workflows/build-and-push-prod.yml)
+
+## Overview
 
 This project is a small PHP domain-model application focused on managing participants, registrations and route segments. It implements domain entities and collections to represent participants and their registrations. The codebase is organized following modern PHP practices and uses Composer for dependency management.
 
-# Technologies
+## Technologies
 
 - Language & Runtime: PHP 8.5 (CLI, Alpine), Composer (dependency management)
 - Framework: Symfony 7.4 (FrameworkBundle, Console, Runtime, Serializer, Validator, Twig, Asset)
@@ -17,7 +21,7 @@ This project is a small PHP domain-model application focused on managing partici
 - Utilities: ramsey/uuid for unique IDs, phpdocumentor/phpstan parsers for docblocks
 - Dev & QA: PHPUnit 12, PHP-CS-Fixer, Rector, PHPStan, Symfony Web Profiler & Debug bundles
 
-# How to run
+## How to run
 
 Prerequisites: Docker and Docker Compose installed.
 
@@ -81,6 +85,6 @@ make shell
 docker compose run --rm app ./bin/console messenger:consume async -v
 ```
 
-# Authors
+## Authors
 
 - Joan Font <joanfont@gmail.com>
