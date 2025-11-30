@@ -12,7 +12,7 @@ class Route extends Entity
     private readonly string $id;
 
     /**
-     * @var Collection<Itinerary>
+     * @var Collection<int, Itinerary>
      */
     private readonly Collection $itineraries;
 
@@ -47,7 +47,7 @@ class Route extends Entity
     }
 
     /**
-     * @return array<int, Itinerary>
+     * @return array<Itinerary>
      */
     public function itineraries(): array
     {

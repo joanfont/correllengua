@@ -6,6 +6,7 @@ use App\Domain\Model\EnumValues;
 
 enum Modality: string
 {
+    /** @use EnumValues<self> */
     use EnumValues;
 
     case WALK = 'WALK';

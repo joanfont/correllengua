@@ -12,10 +12,10 @@ use BackedEnum;
 trait EnumValues
 {
     /**
-     * @return list<T::value>
+     * @return list<string>
      */
     public static function values(): array
     {
-        return array_map(fn (BackedEnum $e): int|string => $e->value, static::cases());
+        return array_map(fn (BackedEnum $e): string => (string) $e->value, static::cases());
     }
 }

@@ -10,6 +10,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class RegisterParticipant implements Command
 {
+    /**
+     * @param list<string> $segments
+     */
     public function __construct(
         #[Assert\Valid]
         public Participant $participant,
@@ -17,6 +20,7 @@ readonly class RegisterParticipant implements Command
         #[Assert\All([
             new Assert\Uuid(),
         ])]
+        /** @var list<string> */
         public array $segments,
         #[Assert\Choice(callback: [Modality::class, 'values'])]
         public string $modality,

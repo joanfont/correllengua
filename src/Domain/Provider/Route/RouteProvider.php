@@ -7,7 +7,7 @@ use App\Domain\DTO\Route\Route;
 interface RouteProvider
 {
     /**
-     * @return array<int, Route>
+     * @return array<Route>
      */
     public function findAll(): array;
 }

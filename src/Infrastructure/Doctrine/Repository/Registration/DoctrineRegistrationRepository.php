@@ -18,18 +18,20 @@ class DoctrineRegistrationRepository extends DoctrineRepository implements Regis
             throw RegistrationNotFoundException::fromId($id);
         }
 
+        /* @var Registration $registration */
         return $registration;
     }
 
     public function findByHash(string $hash): Registration
     {
+        /** @var ?Registration $registration */
         $registration = $this->entityManager->createQueryBuilder()
             ->select('r')
             ->from(Registration::class, 'r')
             ->where('r.id = :id')
             ->setParameter('id', $hash)
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
 
         if (null === $registration) {
             throw RegistrationNotFoundException::fromHash($hash);

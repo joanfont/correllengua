@@ -18,6 +18,9 @@ migrate:
 php-cs:
 	$(DOCKER_COMPOSE) app ./vendor/bin/php-cs-fixer fix
 
+phpstan:
+	$(DOCKER_COMPOSE) app ./vendor/bin/phpstan analyse src tests --level=max
+
 .PHONY: test
 test:
 	$(DOCKER_COMPOSE) --entrypoint=php app vendor/bin/phpunit $(ARGS)

@@ -6,7 +6,7 @@ use App\Application\Commons\Query\Query;
 use App\Domain\DTO\Route\Route;
 
 /**
- * @implements Query<array<int, Route>>
+ * @implements Query<array<Route>>
  */
 readonly class ListRoutes implements Query
 {

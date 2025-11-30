@@ -11,11 +11,13 @@ use function array_map;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+use function in_array;
+
 class Participant extends Entity
 {
     private readonly string $id;
 
-    /** @var Collection<Registration> */
+    /** @var Collection<int, Registration> */
     private readonly Collection $registrations;
 
     public function __construct(
@@ -50,21 +52,30 @@ class Participant extends Entity
     }
 
     /**
-     * @return array<int, Segment>
+     * @return array<Segment>
      */
     public function segments(): array
     {
+        /** @var array<Registration> $registrations */
+        $registrations = $this->registrations->toArray();
+
         return array_map(
             fn (Registration $registration): Segment => $registration->segment(),
-            $this->registrations->toArray(),
+            $registrations,
         );
     }
 
     public function hasJoinedSegment(Segment $segment): bool
     {
-        return $this->registrations
-            ->map(fn (Registration $registration): string => (string) $registration->segment()->id())
-            ->contains((string) $segment->id());
+        /** @var array<Registration> $registrations */
+        $registrations = $this->registrations->toArray();
+
+        $ids = array_map(
+            fn (Registration $registration): string => (string) $registration->segment()->id(),
+            $registrations,
+        );
+
+        return in_array((string) $segment->id(), $ids, true);
     }
 
     public function hasReachedMaxSegments(int $maxSegments): bool

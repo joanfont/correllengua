@@ -7,7 +7,7 @@ readonly class Itinerary
     public function __construct(
         public string $id,
         public string $name,
-        /** @var array<int, Segment> */
+        /** @var array<Segment> */
         public array $segments,
     ) {
     }

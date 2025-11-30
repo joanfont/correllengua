@@ -8,6 +8,9 @@ use League\Csv\Reader;
 
 class LeagueCSVReader implements CSVReader
 {
+    /**
+     * @param Reader<array<string, string>> $reader
+     */
     public function __construct(private readonly Reader $reader)
     {
     }

@@ -27,13 +27,23 @@ readonly class ImportItinerariesFromFileHandler implements CommandHandler
         $csvData = $this->filesystem->read($importItineraries->path);
         $csvReader = $this->csvReaderFactory->makeFromString($csvData);
         foreach ($csvReader->readLine() as $route) {
+            /* @var array<string, string> $route */
             $this->createItinerary($route);
         }
     }
 
+    /**
+     * @param array<string, string> $route
+     */
     private function createItinerary(array $route): void
     {
-        $parsedItinerary = $this->itineraryBuilder->fromArray($route);
+        /** @var array{route_name: string, name: string} $payload */
+        $payload = [
+            'route_name' => $route['route_name'] ?? '',
+            'name' => $route['name'] ?? '',
+        ];
+
+        $parsedItinerary = $this->itineraryBuilder->fromArray($payload);
         $route = $this->routeRepository->findByName($parsedItinerary->routeName);
 
         $itinerary = new Itinerary(

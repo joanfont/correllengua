@@ -10,6 +10,6 @@ abstract class Type extends DoctrineType
 
     public function getName(): string
     {
-        return static::type();
+        return static::name();
     }
 }

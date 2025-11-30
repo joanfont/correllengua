@@ -29,13 +29,29 @@ readonly class ImportSegmentsFromFileHandler implements CommandHandler
         $csvData = $this->filesystem->read($importSegmentsFromFile->path);
         $csvReader = $this->csvReaderFactory->makeFromString($csvData);
         foreach ($csvReader->readLine() as $segment) {
+            /* @var array<string, string> $segment */
             $this->createSegment($segment);
         }
     }
 
+    /**
+     * @param array<string, string> $segment
+     */
     private function createSegment(array $segment): void
     {
-        $parsedSegment = $this->segmentBuilder->fromArray($segment);
+        /** @var array{itinerary_name: string, position: int, start_latitude: float, start_longitude: float, end_latitude: float, end_longitude: float, modality: string, capacity: int} $payload */
+        $payload = [
+            'itinerary_name' => $segment['itinerary_name'] ?? '',
+            'position' => (int) ($segment['position'] ?? 0),
+            'start_latitude' => (float) ($segment['start_latitude'] ?? 0.0),
+            'start_longitude' => (float) ($segment['start_longitude'] ?? 0.0),
+            'end_latitude' => (float) ($segment['end_latitude'] ?? 0.0),
+            'end_longitude' => (float) ($segment['end_longitude'] ?? 0.0),
+            'modality' => $segment['modality'] ?? '',
+            'capacity' => (int) ($segment['capacity'] ?? 0),
+        ];
+
+        $parsedSegment = $this->segmentBuilder->fromArray($payload);
         $itinerary = $this->itineraryRepository->findByName($parsedSegment->itineraryName);
 
         $segment = new Segment(

@@ -12,7 +12,7 @@ abstract class Entity
 
     protected DateTimeInterface $updatedAt;
 
-    /** @var array<int, Event> */
+    /** @var array<Event> */
     private array $events = [];
 
     public function created(): void
@@ -25,14 +25,12 @@ abstract class Entity
         $this->updatedAt = new DateTime();
     }
 
+    /**
+     * @return array<Event>
+     */
     public function events(): array
     {
         return $this->events;
-    }
-
-    public function clearEvents(): void
-    {
-        $this->events = [];
     }
 
     protected function addEvent(Event $event): void

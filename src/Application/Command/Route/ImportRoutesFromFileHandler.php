@@ -25,13 +25,24 @@ readonly class ImportRoutesFromFileHandler implements CommandHandler
         $csvData = $this->filesystem->read($importRoutesFromFile->path);
         $csvReader = $this->csvReaderFactory->makeFromString($csvData);
         foreach ($csvReader->readLine() as $route) {
+            /* @var array<string, string> $route */
             $this->createRoute($route);
         }
     }
 
+    /**
+     * @param array<string, string> $route
+     */
     private function createRoute(array $route): void
     {
-        $parsedRoute = $this->routeBuilder->fromArray($route);
+        /** @var array{name: string, description: string, start_date: string} $payload */
+        $payload = [
+            'name' => $route['name'] ?? '',
+            'description' => $route['description'] ?? '',
+            'start_date' => $route['start_date'] ?? '',
+        ];
+
+        $parsedRoute = $this->routeBuilder->fromArray($payload);
         $route = new Route(
             id: RouteId::generate(),
             name: $parsedRoute->name,

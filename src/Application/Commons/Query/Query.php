@@ -3,7 +3,7 @@
 namespace App\Application\Commons\Query;
 
 /**
- * @template T of mixed
+ * @template-covariant T of mixed
  */
 interface Query
 {

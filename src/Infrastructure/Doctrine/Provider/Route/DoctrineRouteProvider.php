@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Doctrine\Provider\Route;
 
 use App\Domain\DTO\Route\Route;
-use App\Domain\Model\Route\Route as RouteModel;
+use App\Domain\Model\Route\Route as RouteEntity;
 use App\Domain\Provider\Route\RouteProvider;
 use App\Infrastructure\Doctrine\Provider\DoctrineProvider;
 
@@ -20,13 +20,17 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
         parent::__construct($entityManager);
     }
 
+    /**
+     * @return array<Route>
+     */
     public function findAll(): array
     {
+        /** @var array<RouteEntity> $routes */
         $routes = $this->entityManager->createQueryBuilder()
-            ->select('r', 's')
-            ->from(RouteModel::class, 'r')
-            ->leftJoin('r.segments', 's')
+            ->select('r', 'i', 's')
+            ->from(RouteEntity::class, 'r')
             ->leftJoin('r.itineraries', 'i')
+            ->leftJoin('i.segments', 's')
             ->getQuery()
             ->getResult();
 
@@ -36,7 +40,7 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
         );
     }
 
-    private function buildRoute(RouteModel $route): Route
+    private function buildRoute(RouteEntity $route): Route
     {
         return new Route(
             id: (string) $route->id(),

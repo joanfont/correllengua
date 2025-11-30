@@ -16,6 +16,7 @@ class DoctrineRouteRepository extends DoctrineRepository implements RouteReposit
 
     public function findByName(string $name): Route
     {
+        /** @var ?Route $route */
         $route = $this->entityManager->createQueryBuilder()
             ->select('r')
             ->from(Route::class, 'r')

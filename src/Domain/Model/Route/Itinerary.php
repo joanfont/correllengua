@@ -38,7 +38,7 @@ class Itinerary extends Entity
     }
 
     /**
-     * @return array<int, Segment>
+     * @return array<Segment>
      */
     public function segments(): array
     {

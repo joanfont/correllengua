@@ -20,7 +20,6 @@ class DoctrineParticipantProvider extends DoctrineProvider implements Participan
 
     public function findByEmail(string $email): Participant
     {
-        /** @var ParticipantModel $participant */
         $participant = $this->entityManager->createQueryBuilder()
             ->select('p')
             ->from(ParticipantModel::class, 'p')
@@ -33,6 +32,7 @@ class DoctrineParticipantProvider extends DoctrineProvider implements Participan
             throw ParticipantNotFoundException::fromEmail($email);
         }
 
+        /* @var ParticipantModel $participant */
         return $this->participantFactory->fromEntity($participant);
     }
 }
