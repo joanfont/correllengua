@@ -31,7 +31,7 @@ use OpenApi\Attributes as OA;
 readonly class RegisterParticipantRequest
 {
     public function __construct(
-        public array $segments = [],
+        public array $segments,
         public Participant $participant,
         public string $modality,
     ) {

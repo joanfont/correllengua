@@ -17,7 +17,7 @@ readonly class RegisterParticipant implements Command
         #[Assert\All([
             new Assert\Uuid(),
         ])]
-        public array $segments = [],
+        public array $segments,
         #[Assert\Choice(callback: [Modality::class, 'values'])]
         public string $modality,
     ) {
