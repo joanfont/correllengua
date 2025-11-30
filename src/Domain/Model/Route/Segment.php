@@ -14,21 +14,18 @@ use Doctrine\Common\Collections\Collection;
 
 class Segment extends Entity
 {
-    private string $id;
-
     /** @var Collection<Registration> */
-    private Collection $registrations;
+    private readonly Collection $registrations;
 
     public function __construct(
-        SegmentId $id,
-        private Itinerary $itinerary,
-        private int $position,
-        private Coordinates $start,
-        private Coordinates $end,
-        private int $capacity,
-        private Modality $modality,
+        private readonly string $id,
+        private readonly Itinerary $itinerary,
+        private readonly int $position,
+        private readonly Coordinates $start,
+        private readonly Coordinates $end,
+        private readonly int $capacity,
+        private readonly Modality $modality,
     ) {
-        $this->id = $id;
         $this->registrations = new ArrayCollection();
     }
 
@@ -73,7 +70,7 @@ class Segment extends Entity
     public function participants(): array
     {
         return array_map(
-            fn (Registration $registration) => $registration->participant(),
+            fn (Registration $registration): \App\Domain\Model\Participant\Participant => $registration->participant(),
             $this->registrations->toArray(),
         );
     }

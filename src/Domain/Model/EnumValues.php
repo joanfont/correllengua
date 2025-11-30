@@ -16,6 +16,6 @@ trait EnumValues
      */
     public static function values(): array
     {
-        return array_map(fn (BackedEnum $e) => $e->value, static::cases());
+        return array_map(fn (BackedEnum $e): int|string => $e->value, static::cases());
     }
 }

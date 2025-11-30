@@ -14,7 +14,7 @@ class ExceptionCatchMiddleware implements MiddlewareInterface
         try {
             return $stack->next()->handle($envelope, $stack);
         } catch (HandlerFailedException $handlerFailedException) {
-            if (null !== $handlerFailedException->getPrevious()) {
+            if ($handlerFailedException->getPrevious() instanceof \Throwable) {
                 throw $handlerFailedException->getPrevious();
             }
 

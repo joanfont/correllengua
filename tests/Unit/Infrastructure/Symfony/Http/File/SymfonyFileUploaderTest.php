@@ -58,16 +58,16 @@ class SymfonyFileUploaderTest extends TestCase
             ->expects($this->once())
             ->method('write')
             ->with(
-                $this->callback(function (string $path) use ($uploaded) {
+                $this->callback(function (string $path) use ($uploaded): true {
                     // base path should be 2025/11/23
                     $parts = explode(DIRECTORY_SEPARATOR, $path);
-                    static::assertCount(4, $parts); // Y m d filename
-                    static::assertSame('2025', $parts[0]);
-                    static::assertSame('11', $parts[1]);
-                    static::assertSame('23', $parts[2]);
-                    static::assertStringEndsWith('.png', $parts[3]);
+                    self::assertCount(4, $parts); // Y m d filename
+                    self::assertSame('2025', $parts[0]);
+                    self::assertSame('11', $parts[1]);
+                    self::assertSame('23', $parts[2]);
+                    self::assertStringEndsWith('.png', $parts[3]);
                     // filename should contain the original client name
-                    static::assertStringContainsString(pathinfo($uploaded->getClientOriginalName(), PATHINFO_FILENAME), $parts[3]);
+                    self::assertStringContainsString(pathinfo($uploaded->getClientOriginalName(), PATHINFO_FILENAME), $parts[3]);
 
                     return true;
                 }),
@@ -79,8 +79,8 @@ class SymfonyFileUploaderTest extends TestCase
         $fileRepo
             ->expects($this->once())
             ->method('add')
-            ->with($this->callback(function (File $file) use (&$capturedPath) {
-                static::assertStringEndsWith('.png', $file->name());
+            ->with($this->callback(function (File $file) use (&$capturedPath): true {
+                self::assertStringEndsWith('.png', $file->name());
                 $capturedPath = $file->path();
 
                 return true;
@@ -97,8 +97,8 @@ class SymfonyFileUploaderTest extends TestCase
 
         $result = $uploader->upload($uploaded);
 
-        static::assertInstanceOf(File::class, $result);
-        static::assertSame($capturedPath, $result->path());
-        static::assertStringEndsWith('.png', $result->name());
+        self::assertInstanceOf(File::class, $result);
+        self::assertSame($capturedPath, $result->path());
+        self::assertStringEndsWith('.png', $result->name());
     }
 }

@@ -22,9 +22,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 class RegisterParticipantTest extends TestCase
 {
     private readonly SegmentRepository&MockObject $segmentRepository;
+
     private readonly ParticipantRepository&MockObject $participantRepository;
+
     private readonly RegistrationFactory&MockObject $registrationFactory;
+
     private readonly Segment&MockObject $segment;
+
     private readonly Participant&MockObject $participant;
 
     protected function setUp(): void

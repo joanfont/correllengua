@@ -61,7 +61,7 @@ class TestCase extends KernelTestCase
         foreach ($transport->get() as $envelope) {
             if (null === $class) {
                 $events[] = $envelope->getMessage();
-            } elseif (get_class($envelope->getMessage()) === $class) {
+            } elseif ($envelope->getMessage()::class === $class) {
                 $events[] = $envelope->getMessage();
             }
         }

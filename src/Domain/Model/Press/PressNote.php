@@ -7,15 +7,15 @@ use App\Domain\Model\File\File;
 
 class PressNote extends Entity
 {
-    private string $id;
+    private readonly string $id;
 
     public function __construct(
         PressNoteId $id,
-        private string $title,
-        private string $subtitle,
-        private string $body,
-        private File $image,
-        private bool $featured,
+        private readonly string $title,
+        private readonly string $subtitle,
+        private readonly string $body,
+        private readonly File $image,
+        private readonly bool $featured,
     ) {
         $this->id = (string) $id;
     }

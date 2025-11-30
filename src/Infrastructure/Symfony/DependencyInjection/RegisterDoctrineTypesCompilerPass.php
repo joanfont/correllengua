@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 final class RegisterDoctrineTypesCompilerPass implements CompilerPassInterface
 {
     private const string TYPE_DEFINITION_PARAMETER = 'doctrine.dbal.connection_factory.types';
+
     private const string TAG_NAME = 'app.doctrine.type';
 
     public function process(ContainerBuilder $container): void
@@ -15,7 +16,7 @@ final class RegisterDoctrineTypesCompilerPass implements CompilerPassInterface
         $doctrineTypes = $container->getParameter(self::TYPE_DEFINITION_PARAMETER);
 
         $types = $container->findTaggedServiceIds(self::TAG_NAME);
-        foreach ($types as $type => $_) {
+        foreach (array_keys($types) as $type) {
             $typeName = $type::name();
             $doctrineTypes[$typeName] = ['class' => $type];
         }

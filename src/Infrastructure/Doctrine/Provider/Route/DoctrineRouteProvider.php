@@ -32,7 +32,7 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
             ->getResult();
 
         return array_map(
-            fn (RouteModel $route) => $this->buildRoute($route),
+            $this->buildRoute(...),
             $routes,
         );
     }
@@ -43,7 +43,7 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
             id: (string) $route->id(),
             name: $route->name(),
             itineraries: array_map(
-                fn (ItineraryModel $itinerary) => $this->itineraryFactory->fromEntity($itinerary),
+                $this->itineraryFactory->fromEntity(...),
                 $route->itineraries(),
             ),
         );

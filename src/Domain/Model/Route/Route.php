@@ -9,18 +9,18 @@ use Doctrine\Common\Collections\Collection;
 
 class Route extends Entity
 {
-    private string $id;
+    private readonly string $id;
 
     /**
      * @var Collection<Itinerary>
      */
-    private Collection $itineraries;
+    private readonly Collection $itineraries;
 
     public function __construct(
         RouteId $id,
-        private string $name,
-        private string $description,
-        private DateTimeInterface $startsAt,
+        private readonly string $name,
+        private readonly string $description,
+        private readonly DateTimeInterface $startsAt,
     ) {
         $this->id = (string) $id;
         $this->itineraries = new ArrayCollection();

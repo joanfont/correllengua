@@ -8,15 +8,15 @@ use Doctrine\Common\Collections\Collection;
 
 class Itinerary extends Entity
 {
-    private string $id;
+    private readonly string $id;
 
     /** @var Collection<int, Segment> */
-    private Collection $segments;
+    private readonly Collection $segments;
 
     public function __construct(
         ItineraryId $id,
-        private Route $route,
-        private string $name,
+        private readonly Route $route,
+        private readonly string $name,
     ) {
         $this->id = (string) $id;
         $this->segments = new ArrayCollection();

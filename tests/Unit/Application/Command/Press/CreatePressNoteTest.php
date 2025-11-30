@@ -13,6 +13,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class CreatePressNoteTest extends TestCase
 {
     private readonly FileUploader&MockObject $fileUploader;
+
     private readonly PressNoteRepository&MockObject $repository;
 
     protected function setUp(): void

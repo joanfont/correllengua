@@ -14,21 +14,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand('app:route:import-from-file')]
-class ImportRoutesFromFile extends Command
+class ImportRoutesFromFile
 {
     public function __construct(private readonly CommandBus $commandBus)
     {
-        parent::__construct();
     }
 
-    protected function configure(): void
+    public function __invoke(#[\Symfony\Component\Console\Attribute\Argument(name: 'path')]
+    string $path, OutputInterface $output): int
     {
-        $this->addArgument('path', InputArgument::REQUIRED);
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $path = $input->getArgument('path');
         $output->writeln(sprintf('<info>Importing routes from file %s</info>', $path));
 
         $importRoutesFromFile = new ImportRoutesFromFileCommand($path);

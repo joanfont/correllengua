@@ -23,11 +23,17 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ImportItinerariesFromFileTest extends TestCase
 {
     private readonly Filesystem&MockObject $filesystem;
+
     private readonly CSVReaderFactory&MockObject $csvReaderFactory;
+
     private readonly ItineraryBuilder&MockObject $itineraryBuilder;
+
     private readonly RouteRepository&MockObject $routeRepository;
+
     private readonly ItineraryRepository&MockObject $itineraryRepository;
+
     private readonly CSVReader&MockObject $csvReader;
+
     private readonly Route&MockObject $route;
 
     protected function setUp(): void
@@ -93,9 +99,7 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->itineraryRepository
             ->expects($this->once())
             ->method('add')
-            ->with($this->callback(function (Itinerary $itinerary): bool {
-                return 'Itinerary A' === $itinerary->name();
-            }));
+            ->with($this->callback(fn(Itinerary $itinerary): bool => 'Itinerary A' === $itinerary->name()));
 
         $command = new ImportItinerariesFromFile($filePath);
 
@@ -133,19 +137,15 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->itineraryBuilder
             ->expects($this->exactly(3))
             ->method('fromArray')
-            ->willReturnCallback(function (array $data): ItineraryDTO {
-                return new ItineraryDTO(
-                    $data['route_name'],
-                    $data['name'],
-                );
-            });
+            ->willReturnCallback(fn(array $data): ItineraryDTO => new ItineraryDTO(
+                $data['route_name'],
+                $data['name'],
+            ));
 
         $this->routeRepository
             ->expects($this->exactly(3))
             ->method('findByName')
-            ->willReturnCallback(function (string $name): Route {
-                return $this->route;
-            });
+            ->willReturnCallback(fn(string $name): Route => $this->route);
 
         $addedItineraries = [];
         $this->itineraryRepository
@@ -231,12 +231,10 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->itineraryBuilder
             ->expects($this->exactly(2))
             ->method('fromArray')
-            ->willReturnCallback(function (array $data): ItineraryDTO {
-                return new ItineraryDTO(
-                    $data['route_name'],
-                    $data['name'],
-                );
-            });
+            ->willReturnCallback(fn(array $data): ItineraryDTO => new ItineraryDTO(
+                $data['route_name'],
+                $data['name'],
+            ));
 
         $this->routeRepository
             ->expects($this->exactly(2))

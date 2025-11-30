@@ -10,7 +10,7 @@ use function array_map;
 
 readonly class ItineraryFactory
 {
-    public function __construct(private readonly SegmentFactory $segmentFactory)
+    public function __construct(private SegmentFactory $segmentFactory)
     {
     }
 
@@ -20,7 +20,7 @@ readonly class ItineraryFactory
             id: (string) $itinerary->id(),
             name: $itinerary->name(),
             segments: array_map(
-                fn (Segment $segment) => $this->segmentFactory->fromEntity($segment),
+                $this->segmentFactory->fromEntity(...),
                 $itinerary->segments(),
             ),
         );

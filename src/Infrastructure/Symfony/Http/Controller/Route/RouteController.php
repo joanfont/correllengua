@@ -16,7 +16,7 @@ final class RouteController extends AbstractController
 {
     #[Route('', name: 'list_routes', methods: ['GET'])]
     #[ListRoutesOperation]
-    public function listAll(QueryBus $queryBus): Response
+    public function listAll(QueryBus $queryBus): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $listRoutes = new ListRoutes();
         $routes = $queryBus->query($listRoutes);

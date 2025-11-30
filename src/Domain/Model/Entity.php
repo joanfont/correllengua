@@ -9,6 +9,7 @@ use DateTimeInterface;
 abstract class Entity
 {
     protected DateTimeInterface $createdAt;
+
     protected DateTimeInterface $updatedAt;
 
     /** @var array<int, Event> */

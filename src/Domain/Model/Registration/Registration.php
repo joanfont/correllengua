@@ -10,14 +10,14 @@ use App\Domain\Model\Route\Segment;
 
 class Registration extends Entity
 {
-    private string $id;
+    private readonly string $id;
 
     public function __construct(
         RegistrationId $id,
-        private Participant $participant,
-        private Segment $segment,
-        private Modality $modality,
-        private string $hash,
+        private readonly Participant $participant,
+        private readonly Segment $segment,
+        private readonly Modality $modality,
+        private readonly string $hash,
     ) {
         $this->id = (string) $id;
 

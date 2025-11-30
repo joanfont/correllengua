@@ -19,6 +19,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class SendEmailTest extends TestCase
 {
     private RegistrationProvider&MockObject $provider;
+
     private RegistrationCreatedNotification&MockObject $notification;
 
     protected function setUp(): void

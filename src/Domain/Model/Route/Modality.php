@@ -9,6 +9,8 @@ enum Modality: string
     use EnumValues;
 
     case WALK = 'WALK';
+
     case BIKE = 'BIKE';
+
     case MIXED = 'MIXED';
 }

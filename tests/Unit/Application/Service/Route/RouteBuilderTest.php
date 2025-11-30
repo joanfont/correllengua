@@ -38,9 +38,9 @@ class RouteBuilderTest extends TestCase
 
         $route = $builder->fromArray($input);
 
-        static::assertInstanceOf(RouteDTO::class, $route);
-        static::assertSame('My Route', $route->name);
-        static::assertSame('A lovely route', $route->description);
-        static::assertEquals($expectedDate, $route->startDate);
+        self::assertInstanceOf(RouteDTO::class, $route);
+        self::assertSame('My Route', $route->name);
+        self::assertSame('A lovely route', $route->description);
+        self::assertEquals($expectedDate, $route->startDate);
     }
 }

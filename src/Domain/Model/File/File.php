@@ -6,12 +6,12 @@ use App\Domain\Model\Entity;
 
 class File extends Entity
 {
-    private string $id;
+    private readonly string $id;
 
     public function __construct(
         FileId $id,
-        private string $name,
-        private string $path,
+        private readonly string $name,
+        private readonly string $path,
     ) {
         $this->id = (string) $id;
     }
