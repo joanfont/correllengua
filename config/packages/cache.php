@@ -1,7 +1,7 @@
 <?php
 
-use Symfony\Config\FrameworkConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (FrameworkConfig $framework): void {
-    $framework->cache();
+return static function (ContainerConfigurator $container): void {
+    // Cache configuration is managed by default settings
 };

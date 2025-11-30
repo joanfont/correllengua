@@ -1,16 +1,17 @@
 <?php
 
-use Symfony\Config\DoctrineMigrationsConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (DoctrineMigrationsConfig $doctrineMigrations): void {
-    $doctrineMigrations
-        ->enableProfiler(false);
-
-    $doctrineMigrations
-        ->migrationsPath('DoctrineMigrations', '%kernel.project_dir%/migrations');
-
-    $doctrineMigrations
-        ->storage()
-        ->tableStorage()
-        ->tableName('doctrine_migrations');
+return static function (ContainerConfigurator $container): void {
+    $container->extension('doctrine_migrations', [
+        'enable_profiler' => false,
+        'migrations_paths' => [
+            'DoctrineMigrations' => '%kernel.project_dir%/migrations',
+        ],
+        'storage' => [
+            'table_storage' => [
+                'table_name' => 'doctrine_migrations',
+            ],
+        ],
+    ]);
 };

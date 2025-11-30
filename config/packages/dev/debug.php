@@ -1,7 +1,9 @@
 <?php
 
-use Symfony\Config\DebugConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (DebugConfig $debug) {
-    $debug->dumpDestination('tcp://%env(VAR_DUMPER_SERVER)%');
+return static function (ContainerConfigurator $container): void {
+    $container->extension('debug', [
+        'dump_destination' => 'tcp://%env(VAR_DUMPER_SERVER)%',
+    ]);
 };

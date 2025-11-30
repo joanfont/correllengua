@@ -1,22 +1,25 @@
 <?php
 
-use Symfony\Config\NelmioApiDocConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (NelmioApiDocConfig $nelmioApiDoc): void {
-    $nelmioApiDoc->documentation('info', [
-        'title' => 'Correllengua API',
-        'description' => 'API for managing route registrations and participants',
-        'version' => '1.0.0',
+return static function (ContainerConfigurator $container): void {
+    $container->extension('nelmio_api_doc', [
+        'documentation' => [
+            'info' => [
+                'title' => 'Correllengua API',
+                'description' => 'API for managing route registrations and participants',
+                'version' => '1.0.0',
+            ],
+        ],
+        'areas' => [
+            'default' => [
+                'path_patterns' => [
+                    '^/!doc$',
+                    '^/route',
+                    '^/press',
+                    '^/registration',
+                ],
+            ],
+        ],
     ]);
-
-    $nelmioApiDoc->areas('default')
-        ->pathPatterns([
-            '^/!doc$',
-            '^/route',
-            '^/press',
-            '^/registration',
-        ]);
-
-    // DTOs are automatically discovered through Model references in Operation classes
-    // No manual configuration needed!
 };

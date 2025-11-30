@@ -1,11 +1,13 @@
 <?php
 
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
-use Symfony\Config\FrameworkConfig;
-
-return static function (FrameworkConfig $framework): void {
-    $framework
-        ->mailer()
-        ->dsn(env('MAILER_DSN'));
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', [
+        'mailer' => [
+            'dsn' => env('MAILER_DSN'),
+        ],
+    ]);
 };

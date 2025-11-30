@@ -1,28 +1,37 @@
 <?php
 
-use Symfony\Config\DoctrineConfig;
-use Symfony\Config\FrameworkConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (DoctrineConfig $doctrine, FrameworkConfig $framework): void {
-    $doctrine
-        ->orm()
-        ->autoGenerateProxyClasses(false)
-        ->proxyDir('%kernel.build_dir%/doctrine/orm/Proxies');
+return static function (ContainerConfigurator $container): void {
+    $container->extension('doctrine', [
+        'orm' => [
+            'auto_generate_proxy_classes' => false,
+            'proxy_dir' => '%kernel.build_dir%/doctrine/orm/Proxies',
+            'entity_managers' => [
+                'default' => [
+                    'query_cache_driver' => [
+                        'type' => 'pool',
+                        'pool' => 'doctrine.system_cache_pool',
+                    ],
+                    'result_cache_driver' => [
+                        'type' => 'pool',
+                        'pool' => 'doctrine.result_cache_pool',
+                    ],
+                ],
+            ],
+        ],
+    ]);
 
-    $doctrine
-        ->orm()
-        ->entityManager('default')
-        ->queryCacheDriver()
-        ->type('pool')
-        ->pool('doctrine.system_cache_pool')
-        ->resultCacheDriver()
-        ->type('pool')
-        ->pool('doctrine.result_cache_pool');
-
-    $framework
-        ->cache()
-        ->pool('doctrine.result_cache_pool')
-        ->adapters('cache.app')
-        ->pool('doctrine.system_cache_pool')
-        ->adapters('cache.system');
+    $container->extension('framework', [
+        'cache' => [
+            'pools' => [
+                'doctrine.result_cache_pool' => [
+                    'adapters' => ['cache.app'],
+                ],
+                'doctrine.system_cache_pool' => [
+                    'adapters' => ['cache.system'],
+                ],
+            ],
+        ],
+    ]);
 };

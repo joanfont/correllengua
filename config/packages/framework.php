@@ -1,22 +1,21 @@
 <?php
 
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
-use Symfony\Config\FrameworkConfig;
-
-return static function (FrameworkConfig $framework): void {
-    $framework
-        ->secret(env('APP_SECRET'))
-        ->httpMethodOverride(false)
-        ->handleAllThrowables(true);
-
-    $framework
-        ->session()
-        ->handlerId(null)
-        ->cookieSecure('auto')
-        ->cookieSamesite('lax');
-
-    $framework
-        ->phpErrors()
-        ->log(true);
+return static function (ContainerConfigurator $container): void {
+    $container->extension('framework', [
+        'secret' => env('APP_SECRET'),
+        'http_method_override' => false,
+        'handle_all_throwables' => true,
+        'session' => [
+            'handler_id' => null,
+            'cookie_secure' => 'auto',
+            'cookie_samesite' => 'lax',
+        ],
+        'php_errors' => [
+            'log' => true,
+        ],
+    ]);
 };

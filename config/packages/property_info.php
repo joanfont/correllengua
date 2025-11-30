@@ -4,8 +4,9 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return static function (ContainerConfigurator $container): void {
     $container->extension('framework', [
-        'profiler' => [
-            'collect' => false,
+        'property_info' => [
+            'enabled' => true,
+            'with_constructor_extractor' => true,
         ],
     ]);
 };

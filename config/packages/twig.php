@@ -1,7 +1,9 @@
 <?php
 
-use Symfony\Config\TwigConfig;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (TwigConfig $twig): void {
-    $twig->fileNamePattern('*.twig');
+return static function (ContainerConfigurator $container): void {
+    $container->extension('twig', [
+        'file_name_pattern' => '*.twig',
+    ]);
 };
