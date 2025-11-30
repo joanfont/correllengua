@@ -24,11 +24,17 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ImportSegmentsFromFileTest extends TestCase
 {
     private readonly Filesystem&MockObject $filesystem;
+
     private readonly CSVReaderFactory&MockObject $csvReaderFactory;
+
     private readonly SegmentBuilder&MockObject $segmentParser;
+
     private readonly ItineraryRepository&MockObject $itineraryRepository;
+
     private readonly SegmentRepository&MockObject $segmentRepository;
+
     private readonly CSVReader&MockObject $csvReader;
+
     private readonly Itinerary&MockObject $itinerary;
 
     protected function setUp(): void
@@ -109,15 +115,13 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->segmentRepository
             ->expects($this->once())
             ->method('add')
-            ->with($this->callback(function (Segment $segment): bool {
-                return 1 === $segment->position()
-                    && 40.416775 === $segment->start()->latitude()
-                    && -3.703790 === $segment->start()->longitude()
-                    && 40.417000 === $segment->end()->latitude()
-                    && -3.703990 === $segment->end()->longitude()
-                    && Modality::BIKE === $segment->modality()
-                    && 8 === $segment->capacity();
-            }));
+            ->with($this->callback(fn (Segment $segment): bool => 1 === $segment->position()
+                && 40.416775 === $segment->start()->latitude()
+                && -3.703790 === $segment->start()->longitude()
+                && 40.417000 === $segment->end()->latitude()
+                && -3.703990 === $segment->end()->longitude()
+                && Modality::BIKE === $segment->modality()
+                && 8 === $segment->capacity()));
 
         $command = new ImportSegmentsFromFile($filePath);
 
@@ -182,25 +186,21 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->segmentParser
             ->expects($this->exactly(3))
             ->method('fromArray')
-            ->willReturnCallback(function (array $data): SegmentDTO {
-                return new SegmentDTO(
-                    itineraryName: $data['itinerary_name'],
-                    position: (int) $data['position'],
-                    startLatitude: (float) $data['start_latitude'],
-                    startLongitude: (float) $data['start_longitude'],
-                    endLatitude: (float) $data['end_latitude'],
-                    endLongitude: (float) $data['end_longitude'],
-                    modality: $data['modality'],
-                    capacity: (int) $data['capacity'],
-                );
-            });
+            ->willReturnCallback(fn (array $data): SegmentDTO => new SegmentDTO(
+                itineraryName: $data['itinerary_name'],
+                position: (int) $data['position'],
+                startLatitude: (float) $data['start_latitude'],
+                startLongitude: (float) $data['start_longitude'],
+                endLatitude: (float) $data['end_latitude'],
+                endLongitude: (float) $data['end_longitude'],
+                modality: $data['modality'],
+                capacity: (int) $data['capacity'],
+            ));
 
         $this->itineraryRepository
             ->expects($this->exactly(3))
             ->method('findByName')
-            ->willReturnCallback(function (string $name): Itinerary {
-                return $this->itinerary;
-            });
+            ->willReturnCallback(fn (string $name): Itinerary => $this->itinerary);
 
         $addedSegments = [];
         $this->segmentRepository
@@ -313,18 +313,16 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->segmentParser
             ->expects($this->exactly(2))
             ->method('fromArray')
-            ->willReturnCallback(function (array $data): SegmentDTO {
-                return new SegmentDTO(
-                    itineraryName: $data['itinerary_name'],
-                    position: (int) $data['position'],
-                    startLatitude: (float) $data['start_latitude'],
-                    startLongitude: (float) $data['start_longitude'],
-                    endLatitude: (float) $data['end_latitude'],
-                    endLongitude: (float) $data['end_longitude'],
-                    modality: $data['modality'],
-                    capacity: (int) $data['capacity'],
-                );
-            });
+            ->willReturnCallback(fn (array $data): SegmentDTO => new SegmentDTO(
+                itineraryName: $data['itinerary_name'],
+                position: (int) $data['position'],
+                startLatitude: (float) $data['start_latitude'],
+                startLongitude: (float) $data['start_longitude'],
+                endLatitude: (float) $data['end_latitude'],
+                endLongitude: (float) $data['end_longitude'],
+                modality: $data['modality'],
+                capacity: (int) $data['capacity'],
+            ));
 
         $this->itineraryRepository
             ->expects($this->exactly(2))

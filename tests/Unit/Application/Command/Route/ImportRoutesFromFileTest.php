@@ -22,9 +22,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ImportRoutesFromFileTest extends TestCase
 {
     private readonly Filesystem&MockObject $filesystem;
+
     private readonly CSVReaderFactory&MockObject $csvReaderFactory;
+
     private readonly RouteBuilder&MockObject $routeParser;
+
     private readonly RouteRepository&MockObject $routeRepository;
+
     private readonly CSVReader&MockObject $csvReader;
 
     protected function setUp(): void
@@ -83,10 +87,8 @@ class ImportRoutesFromFileTest extends TestCase
         $this->routeRepository
             ->expects($this->once())
             ->method('add')
-            ->with($this->callback(function (Route $route): bool {
-                return 'Ruta 1' === $route->name()
-                    && 'Descripción' === $route->description();
-            }));
+            ->with($this->callback(fn (Route $route): bool => 'Ruta 1' === $route->name()
+                && 'Descripción' === $route->description()));
 
         $command = new ImportRoutesFromFile($filePath);
 
@@ -125,13 +127,11 @@ class ImportRoutesFromFileTest extends TestCase
             ->expects($this->exactly(3))
             ->method('fromArray')
             /* @return RouteDTO */
-            ->willReturnCallback(function (array $data): RouteDTO {
-                return new RouteDTO(
-                    $data['name'],
-                    $data['description'],
-                    new DateTimeImmutable($data['start_date']),
-                );
-            });
+            ->willReturnCallback(fn (array $data): RouteDTO => new RouteDTO(
+                $data['name'],
+                $data['description'],
+                new DateTimeImmutable($data['start_date']),
+            ));
 
         $addedRoutes = [];
         $this->routeRepository
@@ -214,13 +214,11 @@ class ImportRoutesFromFileTest extends TestCase
             ->expects($this->exactly(2))
             ->method('fromArray')
             /* @return RouteDTO */
-            ->willReturnCallback(function (array $data): RouteDTO {
-                return new RouteDTO(
-                    $data['name'],
-                    $data['description'],
-                    new DateTimeImmutable($data['start_date']),
-                );
-            });
+            ->willReturnCallback(fn (array $data): RouteDTO => new RouteDTO(
+                $data['name'],
+                $data['description'],
+                new DateTimeImmutable($data['start_date']),
+            ));
 
         $routeIds = [];
         $this->routeRepository

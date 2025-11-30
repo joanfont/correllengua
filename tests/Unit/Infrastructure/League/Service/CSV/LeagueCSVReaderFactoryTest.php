@@ -16,16 +16,16 @@ class LeagueCSVReaderFactoryTest extends TestCase
 
         $reader = $factory->makeFromString($csv);
 
-        static::assertInstanceOf(\App\Application\Service\CSV\CSVReader::class, $reader);
+        self::assertInstanceOf(\App\Application\Service\CSV\CSVReader::class, $reader);
 
         $collected = [];
         foreach ($reader->readLine() as $row) {
             $collected[] = $row;
         }
 
-        static::assertCount(2, $collected);
-        static::assertSame(['col1' => 'foo', 'col2' => '1'], $collected[0]);
-        static::assertSame(['col1' => 'bar', 'col2' => '2'], $collected[1]);
+        self::assertCount(2, $collected);
+        self::assertSame(['col1' => 'foo', 'col2' => '1'], $collected[0]);
+        self::assertSame(['col1' => 'bar', 'col2' => '2'], $collected[1]);
     }
 
     public function testMakeFromStringThrowsWhenSourceIsEmpty(): void

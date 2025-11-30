@@ -20,7 +20,7 @@ final class PressController extends AbstractController
 {
     #[Route('', name: 'list_press_notes', methods: ['GET'])]
     #[ListPressNotesOperation]
-    public function listPressNotes(QueryBus $queryBus): Response
+    public function listPressNotes(QueryBus $queryBus): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $listPressNotes = new ListPressNotes();
         $pressNotes = $queryBus->query($listPressNotes);

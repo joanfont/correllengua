@@ -25,14 +25,14 @@ class SegmentBuilderTest extends TestCase
 
         $segment = $parser->fromArray($input);
 
-        static::assertInstanceOf(SegmentDTO::class, $segment);
-        static::assertSame($input['itinerary_name'], $segment->itineraryName);
-        static::assertSame($input['position'], $segment->position);
-        static::assertEqualsWithDelta($input['start_latitude'], $segment->startLatitude, 0.000001);
-        static::assertEqualsWithDelta($input['start_longitude'], $segment->startLongitude, 0.000001);
-        static::assertEqualsWithDelta($input['end_latitude'], $segment->endLatitude, 0.000001);
-        static::assertEqualsWithDelta($input['end_longitude'], $segment->endLongitude, 0.000001);
-        static::assertSame($input['modality'], $segment->modality);
-        static::assertSame($input['capacity'], $segment->capacity);
+        self::assertInstanceOf(SegmentDTO::class, $segment);
+        self::assertSame($input['itinerary_name'], $segment->itineraryName);
+        self::assertSame($input['position'], $segment->position);
+        self::assertEqualsWithDelta($input['start_latitude'], $segment->startLatitude, 0.000001);
+        self::assertEqualsWithDelta($input['start_longitude'], $segment->startLongitude, 0.000001);
+        self::assertEqualsWithDelta($input['end_latitude'], $segment->endLatitude, 0.000001);
+        self::assertEqualsWithDelta($input['end_longitude'], $segment->endLongitude, 0.000001);
+        self::assertSame($input['modality'], $segment->modality);
+        self::assertSame($input['capacity'], $segment->capacity);
     }
 }

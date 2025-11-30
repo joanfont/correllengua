@@ -8,7 +8,6 @@ use App\Application\Commons\Event\Event;
 use App\Application\Commons\Query\Query;
 use App\Application\Commons\Query\QueryBus;
 
-use function get_class;
 use function implode;
 
 use SplFileInfo;
@@ -61,7 +60,7 @@ class TestCase extends KernelTestCase
         foreach ($transport->get() as $envelope) {
             if (null === $class) {
                 $events[] = $envelope->getMessage();
-            } elseif (get_class($envelope->getMessage()) === $class) {
+            } elseif ($envelope->getMessage()::class === $class) {
                 $events[] = $envelope->getMessage();
             }
         }

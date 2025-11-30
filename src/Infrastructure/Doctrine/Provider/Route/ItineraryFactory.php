@@ -3,14 +3,13 @@
 namespace App\Infrastructure\Doctrine\Provider\Route;
 
 use App\Domain\DTO\Route\Itinerary;
-use App\Domain\DTO\Route\Segment;
 use App\Domain\Model\Route\Itinerary as ItineraryEntity;
 
 use function array_map;
 
 readonly class ItineraryFactory
 {
-    public function __construct(private readonly SegmentFactory $segmentFactory)
+    public function __construct(private SegmentFactory $segmentFactory)
     {
     }
 
@@ -20,7 +19,7 @@ readonly class ItineraryFactory
             id: (string) $itinerary->id(),
             name: $itinerary->name(),
             segments: array_map(
-                fn (Segment $segment) => $this->segmentFactory->fromEntity($segment),
+                $this->segmentFactory->fromEntity(...),
                 $itinerary->segments(),
             ),
         );

@@ -5,8 +5,9 @@ namespace App\Domain\Model;
 use function array_map;
 
 use Ramsey\Uuid\Uuid as RamseyUuid;
+use Stringable;
 
-abstract class Uuid
+abstract class Uuid implements Stringable
 {
     public function __construct(private readonly string $id)
     {
@@ -40,6 +41,6 @@ abstract class Uuid
 
     final public static function fromMany(array $ids): array
     {
-        return array_map(fn (string $id) => static::from($id), $ids);
+        return array_map(static::from(...), $ids);
     }
 }

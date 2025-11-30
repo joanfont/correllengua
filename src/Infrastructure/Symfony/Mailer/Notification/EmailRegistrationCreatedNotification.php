@@ -18,7 +18,7 @@ use Twig\Loader\ArrayLoader;
 
 class EmailRegistrationCreatedNotification implements RegistrationCreatedNotification
 {
-    private Environment $twig;
+    private readonly Environment $twig;
 
     public function __construct(
         private readonly MailerInterface $mailer,

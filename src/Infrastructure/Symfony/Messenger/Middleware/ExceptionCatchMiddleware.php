@@ -6,6 +6,7 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
+use Throwable;
 
 class ExceptionCatchMiddleware implements MiddlewareInterface
 {
@@ -14,7 +15,7 @@ class ExceptionCatchMiddleware implements MiddlewareInterface
         try {
             return $stack->next()->handle($envelope, $stack);
         } catch (HandlerFailedException $handlerFailedException) {
-            if (null !== $handlerFailedException->getPrevious()) {
+            if ($handlerFailedException->getPrevious() instanceof Throwable) {
                 throw $handlerFailedException->getPrevious();
             }
 

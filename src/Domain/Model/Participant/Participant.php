@@ -13,16 +13,16 @@ use Doctrine\Common\Collections\Collection;
 
 class Participant extends Entity
 {
-    private string $id;
+    private readonly string $id;
 
     /** @var Collection<Registration> */
-    private Collection $registrations;
+    private readonly Collection $registrations;
 
     public function __construct(
         ParticipantId $id,
-        private string $name,
-        private string $surname,
-        private string $email,
+        private readonly string $name,
+        private readonly string $surname,
+        private readonly string $email,
     ) {
         $this->id = (string) $id;
 
@@ -55,7 +55,7 @@ class Participant extends Entity
     public function segments(): array
     {
         return array_map(
-            fn (Registration $registration) => $registration->segment(),
+            fn (Registration $registration): Segment => $registration->segment(),
             $this->registrations->toArray(),
         );
     }
@@ -63,7 +63,7 @@ class Participant extends Entity
     public function hasJoinedSegment(Segment $segment): bool
     {
         return $this->registrations
-            ->map(fn (Registration $registration) => (string) $registration->segment()->id())
+            ->map(fn (Registration $registration): string => (string) $registration->segment()->id())
             ->contains((string) $segment->id());
     }
 

@@ -27,8 +27,11 @@ use Symfony\Component\Mime\Email;
 class EmailRegistrationCreatedNotificationTest extends TestCase
 {
     private MailerInterface&MockObject $mailer;
+
     private Filesystem&MockObject $filesystem;
+
     private UrlGenerator&MockObject $urlGenerator;
+
     private RegistrationHasher&MockObject $registrationHasher;
 
     protected function setUp(): void
@@ -90,26 +93,22 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
         $this->mailer
             ->expects(static::once())
             ->method('send')
-            ->with($this->callback(function ($email) use ($participant) {
-                static::assertInstanceOf(Email::class, $email);
+            ->with($this->callback(function ($email) use ($participant): true {
+                self::assertInstanceOf(Email::class, $email);
 
                 $subject = $email->getSubject();
-                static::assertSame('Correllengua', $subject);
+                self::assertSame('Correllengua', $subject);
 
                 $tos = $email->getTo();
-                static::assertNotEmpty($tos);
-                static::assertStringContainsString($participant->email, $tos[0]->getAddress());
+                self::assertNotEmpty($tos);
+                self::assertStringContainsString($participant->email, $tos[0]->getAddress());
 
-                if (method_exists($email, 'getHtmlBody')) {
-                    $body = $email->getHtmlBody();
-                } else {
-                    $body = $email->toString();
-                }
+                $body = method_exists($email, 'getHtmlBody') ? $email->getHtmlBody() : $email->toString();
 
                 $decodedBody = quoted_printable_decode((string) $body);
 
-                static::assertStringContainsString($participant->name.' '.$participant->surname, $decodedBody);
-                static::assertStringContainsString('http://example/deregister', $decodedBody);
+                self::assertStringContainsString($participant->name.' '.$participant->surname, $decodedBody);
+                self::assertStringContainsString('http://example/deregister', $decodedBody);
 
                 return true;
             }));

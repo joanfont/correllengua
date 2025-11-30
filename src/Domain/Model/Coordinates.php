@@ -5,8 +5,8 @@ namespace App\Domain\Model;
 class Coordinates
 {
     public function __construct(
-        private float $latitude,
-        private float $longitude,
+        private readonly float $latitude,
+        private readonly float $longitude,
     ) {
     }
 

@@ -41,3 +41,7 @@ data/*
 
 public/uploads/*
 !public/uploads/.gitkeep
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###

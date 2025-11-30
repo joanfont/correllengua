@@ -15,7 +15,8 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 final class MaxSegmentsCountValidatorTest extends TestCase
 {
-    private ExecutionContextInterface $context;
+    private \PHPUnit\Framework\MockObject\MockObject $context;
+
     private MaxSegmentsCountValidator $validator;
 
     protected function setUp(): void
@@ -88,9 +89,9 @@ final class MaxSegmentsCountValidatorTest extends TestCase
         $violationBuilder
             ->expects($this->exactly(2))
             ->method('setParameter')
-            ->willReturnCallback(function (string $key, string $value) use ($violationBuilder) {
-                static::assertContains($key, ['{{ limit }}', '{{ count }}']);
-                static::assertContains($value, ['5', '6']);
+            ->willReturnCallback(function (string $key, string $value) use ($violationBuilder): \PHPUnit\Framework\MockObject\MockObject {
+                self::assertContains($key, ['{{ limit }}', '{{ count }}']);
+                self::assertContains($value, ['5', '6']);
 
                 return $violationBuilder;
             });
@@ -130,9 +131,9 @@ final class MaxSegmentsCountValidatorTest extends TestCase
         $violationBuilder
             ->expects($this->exactly(2))
             ->method('setParameter')
-            ->willReturnCallback(function (string $key, string $value) use ($violationBuilder) {
-                static::assertContains($key, ['{{ limit }}', '{{ count }}']);
-                static::assertContains($value, ['5', '6']);
+            ->willReturnCallback(function (string $key, string $value) use ($violationBuilder): \PHPUnit\Framework\MockObject\MockObject {
+                self::assertContains($key, ['{{ limit }}', '{{ count }}']);
+                self::assertContains($value, ['5', '6']);
 
                 return $violationBuilder;
             });

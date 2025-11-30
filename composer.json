@@ -5,7 +5,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.4",
+        "php": ">=8.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "baldinof/roadrunner-bundle": "^3.3",
@@ -38,6 +38,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.89",
         "phpunit/phpunit": "^12.4",
+        "rector/rector": "^2.2",
         "symfony/debug-bundle": "7.4.*",
         "symfony/stopwatch": "7.4.*",
         "symfony/web-profiler-bundle": "7.4.*"

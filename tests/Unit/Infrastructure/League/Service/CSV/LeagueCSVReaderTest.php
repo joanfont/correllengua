@@ -30,8 +30,8 @@ class LeagueCSVReaderTest extends TestCase
             $collected[] = $record;
         }
 
-        static::assertCount(2, $collected);
-        static::assertSame($records[0], $collected[0]);
-        static::assertSame($records[1], $collected[1]);
+        self::assertCount(2, $collected);
+        self::assertSame($records[0], $collected[0]);
+        self::assertSame($records[1], $collected[1]);
     }
 }

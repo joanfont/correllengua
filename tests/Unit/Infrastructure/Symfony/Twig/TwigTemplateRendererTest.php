@@ -15,7 +15,7 @@ class TwigTemplateRendererTest extends TestCase
 
         $output = $renderer->render($template, ['name' => 'John']);
 
-        static::assertSame('Hello John!', $output);
+        self::assertSame('Hello John!', $output);
     }
 
     public function testRenderWithEmptyContext(): void
@@ -26,6 +26,6 @@ class TwigTemplateRendererTest extends TestCase
 
         $output = $renderer->render($template);
 
-        static::assertSame('Static content', $output);
+        self::assertSame('Static content', $output);
     }
 }

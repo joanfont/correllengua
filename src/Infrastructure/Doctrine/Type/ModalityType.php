@@ -10,6 +10,8 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 use function max;
 
+use Override;
+
 class ModalityType extends Type
 {
     public static function name(): string
@@ -20,21 +22,24 @@ class ModalityType extends Type
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         $enumValues = Modality::values();
-        $maxEnumLength = max(array_map('mb_strlen', $enumValues));
+        $maxEnumLength = max(array_map(mb_strlen(...), $enumValues));
 
         return $platform->getStringTypeDeclarationSQL(['length' => $maxEnumLength, 'nullable' => false]);
     }
 
+    #[Override]
     public function convertToPHPValue($value, AbstractPlatform $platform): Modality
     {
         return Modality::from($value);
     }
 
+    #[Override]
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
         return $value instanceof Modality ? $value->value : $value;
     }
 
+    #[Override]
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return false;

@@ -8,7 +8,7 @@ use Twig\Loader\ArrayLoader;
 
 class TwigTemplateRenderer implements TemplateRenderer
 {
-    private Environment $twig;
+    private readonly Environment $twig;
 
     public function __construct()
     {
