@@ -10,6 +10,10 @@ class MaxSegmentsCount extends Constraint
 {
     public string $message = 'The segments array cannot contain more than {{ limit }} elements.';
 
+    /**
+     * @param array<string, mixed>|null $options
+     * @param array<string>|null $groups
+     */
     public function __construct(
         ?array $options = null,
         ?array $groups = null,

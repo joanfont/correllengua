@@ -4,6 +4,7 @@ namespace App\Domain\Model;
 
 use function array_map;
 
+use InvalidArgumentException;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 use Stringable;
 
@@ -11,7 +12,9 @@ abstract class Uuid implements Stringable
 {
     public function __construct(private readonly string $id)
     {
-        RamseyUuid::isValid($id);
+        if (!RamseyUuid::isValid($id)) {
+            throw new InvalidArgumentException('Invalid UUID: '.$id);
+        }
     }
 
     public function __toString(): string
@@ -31,16 +34,30 @@ abstract class Uuid implements Stringable
 
     protected static function v4(): static
     {
-        return new static(RamseyUuid::uuid4());
+        /** @var static $instance */
+        $instance = new static((string) RamseyUuid::uuid4());
+
+        return $instance;
     }
 
     public static function from(string $id): static
     {
-        return new static($id);
+        /** @var static $instance */
+        $instance = new static($id);
+
+        return $instance;
     }
 
+    /**
+     * @param array<string> $ids
+     *
+     * @return array<static>
+     */
     final public static function fromMany(array $ids): array
     {
-        return array_map(static::from(...), $ids);
+        return array_map(
+            fn (string $id): static => static::from($id),
+            $ids,
+        );
     }
 }

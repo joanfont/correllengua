@@ -7,9 +7,6 @@ use App\Domain\Model\Press\PressNote as PressNoteEntity;
 use App\Domain\Provider\Press\PressNoteProvider;
 use App\Infrastructure\Doctrine\Provider\DoctrineProvider;
 use App\Infrastructure\Doctrine\Provider\File\FileFactory;
-
-use function array_map;
-
 use Doctrine\ORM\EntityManagerInterface;
 
 class DoctrinePressNoteProvider extends DoctrineProvider implements PressNoteProvider
@@ -21,9 +18,12 @@ class DoctrinePressNoteProvider extends DoctrineProvider implements PressNotePro
         parent::__construct($entityManager);
     }
 
+    /**
+     * @return array<PressNote>
+     */
     public function listAll(): array
     {
-        $pressNotes = $this->entityManager->createQueryBuilder()
+        $result = $this->entityManager->createQueryBuilder()
             ->select('p', 'f')
             ->from(PressNoteEntity::class, 'p')
             ->join('p.image', 'f')
@@ -32,10 +32,15 @@ class DoctrinePressNoteProvider extends DoctrineProvider implements PressNotePro
             ->getQuery()
             ->getResult();
 
-        return array_map(
-            $this->buildPressNote(...),
-            $pressNotes,
-        );
+        /** @var array<PressNoteEntity> $pressNotes */
+        $pressNotes = $result;
+
+        $mapped = [];
+        foreach ($pressNotes as $pressNote) {
+            $mapped[] = $this->buildPressNote($pressNote);
+        }
+
+        return $mapped;
     }
 
     private function buildPressNote(PressNoteEntity $pressNote): PressNote

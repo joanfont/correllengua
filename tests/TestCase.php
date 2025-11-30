@@ -8,7 +8,9 @@ use App\Application\Commons\Event\Event;
 use App\Application\Commons\Query\Query;
 use App\Application\Commons\Query\QueryBus;
 
+use function assert;
 use function implode;
+use function is_object;
 
 use SplFileInfo;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -18,12 +20,24 @@ class TestCase extends KernelTestCase
 {
     protected static function handleCommand(Command $command): void
     {
-        static::get(CommandBus::class)->dispatch($command);
+        $commandBus = static::get(CommandBus::class);
+        assert($commandBus instanceof CommandBus);
+        $commandBus->dispatch($command);
     }
 
+    /**
+     * @template T
+     *
+     * @param Query<T> $query
+     *
+     * @return T
+     */
     protected static function handleQuery(Query $query): mixed
     {
-        return static::get(QueryBus::class)->query($query);
+        $queryBus = static::get(QueryBus::class);
+        assert($queryBus instanceof QueryBus);
+
+        return $queryBus->query($query);
     }
 
     protected static function get(string $id): mixed
@@ -33,7 +47,9 @@ class TestCase extends KernelTestCase
 
     protected static function set(string $id, mixed $value): void
     {
-        static::getContainer()->set($id, $value);
+        if (is_object($value)) {
+            static::getContainer()->set($id, $value);
+        }
     }
 
     protected static function getParameter(string $name): mixed
@@ -49,7 +65,7 @@ class TestCase extends KernelTestCase
     /**
      * @param class-string|null $class
      *
-     * @return Event[]
+     * @return array<Event>
      */
     public static function events(?string $class = null): array
     {
@@ -58,10 +74,15 @@ class TestCase extends KernelTestCase
 
         $events = [];
         foreach ($transport->get() as $envelope) {
+            $message = $envelope->getMessage();
+            if (!$message instanceof Event) {
+                continue;
+            }
+
             if (null === $class) {
-                $events[] = $envelope->getMessage();
-            } elseif ($envelope->getMessage()::class === $class) {
-                $events[] = $envelope->getMessage();
+                $events[] = $message;
+            } elseif ($message::class === $class) {
+                $events[] = $message;
             }
         }
 

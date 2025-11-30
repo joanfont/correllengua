@@ -30,6 +30,9 @@ use OpenApi\Attributes as OA;
 )]
 readonly class RegisterParticipantRequest
 {
+    /**
+     * @param list<string> $segments
+     */
     public function __construct(
         public array $segments,
         public Participant $participant,

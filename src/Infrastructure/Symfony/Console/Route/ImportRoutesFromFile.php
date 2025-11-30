@@ -8,6 +8,7 @@ use App\Application\Commons\Command\CommandBus;
 use function sprintf;
 
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand('app:route:import-from-file')]
@@ -27,6 +28,6 @@ class ImportRoutesFromFile
 
         $output->writeln(sprintf('<info>Successfully imported routes from file %s</info>', $path));
 
-        return self::SUCCESS;
+        return Command::SUCCESS;
     }
 }

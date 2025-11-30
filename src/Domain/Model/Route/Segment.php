@@ -4,17 +4,13 @@ namespace App\Domain\Model\Route;
 
 use App\Domain\Model\Coordinates;
 use App\Domain\Model\Entity;
-use App\Domain\Model\Participant\Participant;
 use App\Domain\Model\Registration\Registration;
-
-use function array_map;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 class Segment extends Entity
 {
-    /** @var Collection<Registration> */
+    /** @var Collection<int, Registration> */
     private readonly Collection $registrations;
 
     public function __construct(
@@ -62,17 +58,6 @@ class Segment extends Entity
     public function modality(): Modality
     {
         return $this->modality;
-    }
-
-    /**
-     * @return array<int, Participant>
-     */
-    public function participants(): array
-    {
-        return array_map(
-            fn (Registration $registration): Participant => $registration->participant(),
-            $this->registrations->toArray(),
-        );
     }
 
     public function isFull(): bool

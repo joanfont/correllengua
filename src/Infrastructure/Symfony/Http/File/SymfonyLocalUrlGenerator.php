@@ -7,6 +7,7 @@ use App\Domain\Model\File\File;
 
 use function implode;
 
+use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class SymfonyLocalUrlGenerator implements UrlGenerator
@@ -19,8 +20,13 @@ class SymfonyLocalUrlGenerator implements UrlGenerator
 
     public function generate(File $file): string
     {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
+            throw new RuntimeException('No current request available');
+        }
+
         return implode('/', [
-            $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost(),
+            $request->getSchemeAndHttpHost(),
             $this->prefix,
             $file->path(),
         ]);

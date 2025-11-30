@@ -7,7 +7,9 @@ use App\Domain\Model\Route\Modality;
 use function array_map;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use InvalidArgumentException;
 
+use function is_string;
 use function max;
 
 use Override;
@@ -22,7 +24,8 @@ class ModalityType extends Type
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         $enumValues = Modality::values();
-        $maxEnumLength = max(array_map(mb_strlen(...), $enumValues));
+        $lengths = array_map(mb_strlen(...), $enumValues);
+        $maxEnumLength = !empty($lengths) ? max($lengths) : 10;
 
         return $platform->getStringTypeDeclarationSQL(['length' => $maxEnumLength, 'nullable' => false]);
     }
@@ -30,13 +33,25 @@ class ModalityType extends Type
     #[Override]
     public function convertToPHPValue($value, AbstractPlatform $platform): Modality
     {
+        if (!is_string($value)) {
+            throw new InvalidArgumentException('Modality value must be a string');
+        }
+
         return Modality::from($value);
     }
 
     #[Override]
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
-        return $value instanceof Modality ? $value->value : $value;
+        if ($value instanceof Modality) {
+            return $value->value;
+        }
+
+        if (!is_string($value)) {
+            throw new InvalidArgumentException('Modality value must be a string or Modality instance');
+        }
+
+        return $value;
     }
 
     #[Override]

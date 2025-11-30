@@ -27,6 +27,7 @@ class DoctrineParticipantRepository extends DoctrineRepository implements Partic
 
     public function findByEmail(string $email): Participant
     {
+        /** @var ?Participant $participant */
         $participant = $this->entityManager->createQueryBuilder()
             ->select('p')
             ->from(Participant::class, 'p')

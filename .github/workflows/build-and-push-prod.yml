@@ -36,6 +36,12 @@ jobs:
             ${{ env.IMAGE }}:test \
             ./vendor/bin/php-cs-fixer fix --dry-run --diff --verbose --using-cache=no
 
+      - name: Run PHPStan
+        run: |
+          docker run --rm \
+            ${{ env.IMAGE }}:test \
+            ./vendor/bin/phpstan analyse src tests --level=max
+
       - name: Run PHPUnit tests
         run: |
           docker run --rm \

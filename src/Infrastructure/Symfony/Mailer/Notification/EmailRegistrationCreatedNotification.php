@@ -56,6 +56,9 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
         $this->mailer->send($email);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function buildContext(Registration $registration): array
     {
         $registrationHash = $this->registrationHasher->hash(RegistrationId::from($registration->id));

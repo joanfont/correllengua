@@ -18,6 +18,8 @@ class Calendar
     {
         $format ??= self::DEFAULT_FORMAT;
 
-        return DateTimeImmutable::createFromFormat($format, $dateTime);
+        $dt = DateTimeImmutable::createFromFormat($format, $dateTime);
+
+        return $dt instanceof DateTimeImmutable ? $dt : new DateTimeImmutable('now');
     }
 }

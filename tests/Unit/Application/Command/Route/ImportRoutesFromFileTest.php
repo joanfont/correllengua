@@ -63,7 +63,7 @@ class ImportRoutesFromFileTest extends TestCase
             ->willReturn($this->csvReader);
 
         $csvData = [
-            ['code' => '1', 'name' => 'Ruta 1', 'description' => 'Descripció', 'start_date' => '2025-01-01'],
+            ['name' => 'Ruta 1', 'description' => 'Descripció', 'start_date' => '2025-01-01'],
         ];
 
         $this->csvReader
@@ -74,21 +74,21 @@ class ImportRoutesFromFileTest extends TestCase
         /** @var RouteDTO $parsedRoute */
         $parsedRoute = new RouteDTO(
             'Ruta 1',
-            'Descripción',
+            'Descripció',
             new DateTimeImmutable('2025-01-01'),
         );
 
         $this->routeParser
             ->expects($this->once())
             ->method('fromArray')
-            ->with($csvData[0])
-            ->willReturnCallback(fn (array $d): RouteDTO => $parsedRoute);
+            ->with(['name' => 'Ruta 1', 'description' => 'Descripció', 'start_date' => '2025-01-01'])
+            ->willReturn($parsedRoute);
 
         $this->routeRepository
             ->expects($this->once())
             ->method('add')
             ->with($this->callback(fn (Route $route): bool => 'Ruta 1' === $route->name()
-                && 'Descripción' === $route->description()));
+                && 'Descripció' === $route->description()));
 
         $command = new ImportRoutesFromFile($filePath);
 
@@ -272,8 +272,8 @@ class ImportRoutesFromFileTest extends TestCase
         $this->routeParser
             ->expects($this->once())
             ->method('fromArray')
-            ->with($csvData[0])
-            ->willReturnCallback(fn (array $d): RouteDTO => $parsedRoute);
+            ->with(['name' => 'Ruta de Prova', 'description' => 'Descripció de prova', 'start_date' => '2025-06-15'])
+            ->willReturn($parsedRoute);
 
         $this->routeRepository
             ->expects($this->once())

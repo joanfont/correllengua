@@ -7,7 +7,7 @@ use App\Domain\DTO\Press\PressNote;
 interface PressNoteProvider
 {
     /**
-     * @return array<int, PressNote>
+     * @return array<PressNote>
      */
     public function listAll(): array;
 }

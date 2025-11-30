@@ -24,6 +24,7 @@ class DoctrineRegistrationProvider extends DoctrineProvider implements Registrat
 
     public function findById(string $id): Registration
     {
+        /** @var ?RegistrationEntity $registration */
         $registration = $this->entityManager->createQueryBuilder()
             ->select('r', 's', 'p')
             ->from(RegistrationEntity::class, 'r')

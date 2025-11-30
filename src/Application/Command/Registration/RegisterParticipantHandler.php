@@ -32,20 +32,22 @@ readonly class RegisterParticipantHandler implements CommandHandler
     public function __invoke(RegisterParticipant $registerParticipant): void
     {
         $modality = Modality::from($registerParticipant->modality);
-        $segments = $this->loadAndValidateSegments($registerParticipant->segments, $modality);
+        /** @var list<string> $segmentIds */
+        $segmentIds = $registerParticipant->segments;
+        $segments = $this->loadAndValidateSegments($segmentIds, $modality);
         $participant = $this->findOrCreateParticipant($registerParticipant->participant);
 
         $this->registerParticipantToSegments($participant, $segments, $modality);
     }
 
     /**
-     * @param array<int, string> $segmentIds
+     * @param array<string> $segmentIds
      *
      * @throws ModalityMismatchException
      * @throws SegmentIsFullException
      * @throws SegmentNotFoundException
      *
-     * @return array<int, Segment>
+     * @return array<Segment>
      */
     private function loadAndValidateSegments(array $segmentIds, Modality $modality): array
     {
@@ -79,7 +81,7 @@ readonly class RegisterParticipantHandler implements CommandHandler
     }
 
     /**
-     * @param array<int, Segment> $segments
+     * @param array<Segment> $segments
      *
      * @throws ParticipantAlreadyJoinedSegmentException
      * @throws ParticipantReachedMaxSegmentsException
