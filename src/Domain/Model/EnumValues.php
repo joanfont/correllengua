@@ -12,7 +12,7 @@ use BackedEnum;
 trait EnumValues
 {
     /**
-     * @return list<string>
+     * @return array<string>
      */
     public static function values(): array
     {

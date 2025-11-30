@@ -32,7 +32,7 @@ readonly class RegisterParticipantHandler implements CommandHandler
     public function __invoke(RegisterParticipant $registerParticipant): void
     {
         $modality = Modality::from($registerParticipant->modality);
-        /** @var list<string> $segmentIds */
+        /** @var array<string> $segmentIds */
         $segmentIds = $registerParticipant->segments;
         $segments = $this->loadAndValidateSegments($segmentIds, $modality);
         $participant = $this->findOrCreateParticipant($registerParticipant->participant);
