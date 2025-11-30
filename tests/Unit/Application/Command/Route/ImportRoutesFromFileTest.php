@@ -87,7 +87,7 @@ class ImportRoutesFromFileTest extends TestCase
         $this->routeRepository
             ->expects($this->once())
             ->method('add')
-            ->with($this->callback(fn(Route $route): bool => 'Ruta 1' === $route->name()
+            ->with($this->callback(fn (Route $route): bool => 'Ruta 1' === $route->name()
                 && 'Descripción' === $route->description()));
 
         $command = new ImportRoutesFromFile($filePath);
@@ -127,7 +127,7 @@ class ImportRoutesFromFileTest extends TestCase
             ->expects($this->exactly(3))
             ->method('fromArray')
             /* @return RouteDTO */
-            ->willReturnCallback(fn(array $data): RouteDTO => new RouteDTO(
+            ->willReturnCallback(fn (array $data): RouteDTO => new RouteDTO(
                 $data['name'],
                 $data['description'],
                 new DateTimeImmutable($data['start_date']),
@@ -214,7 +214,7 @@ class ImportRoutesFromFileTest extends TestCase
             ->expects($this->exactly(2))
             ->method('fromArray')
             /* @return RouteDTO */
-            ->willReturnCallback(fn(array $data): RouteDTO => new RouteDTO(
+            ->willReturnCallback(fn (array $data): RouteDTO => new RouteDTO(
                 $data['name'],
                 $data['description'],
                 new DateTimeImmutable($data['start_date']),

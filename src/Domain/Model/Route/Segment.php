@@ -70,7 +70,7 @@ class Segment extends Entity
     public function participants(): array
     {
         return array_map(
-            fn (Registration $registration): \App\Domain\Model\Participant\Participant => $registration->participant(),
+            fn (Registration $registration): Participant => $registration->participant(),
             $this->registrations->toArray(),
         );
     }

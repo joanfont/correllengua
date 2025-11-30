@@ -115,7 +115,7 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->segmentRepository
             ->expects($this->once())
             ->method('add')
-            ->with($this->callback(fn(Segment $segment): bool => 1 === $segment->position()
+            ->with($this->callback(fn (Segment $segment): bool => 1 === $segment->position()
                 && 40.416775 === $segment->start()->latitude()
                 && -3.703790 === $segment->start()->longitude()
                 && 40.417000 === $segment->end()->latitude()
@@ -186,7 +186,7 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->segmentParser
             ->expects($this->exactly(3))
             ->method('fromArray')
-            ->willReturnCallback(fn(array $data): SegmentDTO => new SegmentDTO(
+            ->willReturnCallback(fn (array $data): SegmentDTO => new SegmentDTO(
                 itineraryName: $data['itinerary_name'],
                 position: (int) $data['position'],
                 startLatitude: (float) $data['start_latitude'],
@@ -200,7 +200,7 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->itineraryRepository
             ->expects($this->exactly(3))
             ->method('findByName')
-            ->willReturnCallback(fn(string $name): Itinerary => $this->itinerary);
+            ->willReturnCallback(fn (string $name): Itinerary => $this->itinerary);
 
         $addedSegments = [];
         $this->segmentRepository
@@ -313,7 +313,7 @@ class ImportSegmentsFromFileTest extends TestCase
         $this->segmentParser
             ->expects($this->exactly(2))
             ->method('fromArray')
-            ->willReturnCallback(fn(array $data): SegmentDTO => new SegmentDTO(
+            ->willReturnCallback(fn (array $data): SegmentDTO => new SegmentDTO(
                 itineraryName: $data['itinerary_name'],
                 position: (int) $data['position'],
                 startLatitude: (float) $data['start_latitude'],

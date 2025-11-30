@@ -31,7 +31,7 @@ class CreateParticipantTest extends TestCase
         $this->participantRepository
             ->expects($this->once())
             ->method('add')
-            ->with($this->callback(fn(Participant $participant): bool => Uuid::isValid($participant->id())
+            ->with($this->callback(fn (Participant $participant): bool => Uuid::isValid($participant->id())
                 && 'foo@bar.com' === $participant->email()
                 && 'foo' === $participant->name()
                 && 'bar' === $participant->surname()));

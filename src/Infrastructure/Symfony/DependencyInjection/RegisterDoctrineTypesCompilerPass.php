@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\Symfony\DependencyInjection;
 
+use function array_keys;
+
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

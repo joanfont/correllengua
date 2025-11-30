@@ -99,7 +99,7 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->itineraryRepository
             ->expects($this->once())
             ->method('add')
-            ->with($this->callback(fn(Itinerary $itinerary): bool => 'Itinerary A' === $itinerary->name()));
+            ->with($this->callback(fn (Itinerary $itinerary): bool => 'Itinerary A' === $itinerary->name()));
 
         $command = new ImportItinerariesFromFile($filePath);
 
@@ -137,7 +137,7 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->itineraryBuilder
             ->expects($this->exactly(3))
             ->method('fromArray')
-            ->willReturnCallback(fn(array $data): ItineraryDTO => new ItineraryDTO(
+            ->willReturnCallback(fn (array $data): ItineraryDTO => new ItineraryDTO(
                 $data['route_name'],
                 $data['name'],
             ));
@@ -145,7 +145,7 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->routeRepository
             ->expects($this->exactly(3))
             ->method('findByName')
-            ->willReturnCallback(fn(string $name): Route => $this->route);
+            ->willReturnCallback(fn (string $name): Route => $this->route);
 
         $addedItineraries = [];
         $this->itineraryRepository
@@ -231,7 +231,7 @@ class ImportItinerariesFromFileTest extends TestCase
         $this->itineraryBuilder
             ->expects($this->exactly(2))
             ->method('fromArray')
-            ->willReturnCallback(fn(array $data): ItineraryDTO => new ItineraryDTO(
+            ->willReturnCallback(fn (array $data): ItineraryDTO => new ItineraryDTO(
                 $data['route_name'],
                 $data['name'],
             ));

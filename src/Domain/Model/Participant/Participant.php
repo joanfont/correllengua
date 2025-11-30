@@ -55,7 +55,7 @@ class Participant extends Entity
     public function segments(): array
     {
         return array_map(
-            fn (Registration $registration): \App\Domain\Model\Route\Segment => $registration->segment(),
+            fn (Registration $registration): Segment => $registration->segment(),
             $this->registrations->toArray(),
         );
     }

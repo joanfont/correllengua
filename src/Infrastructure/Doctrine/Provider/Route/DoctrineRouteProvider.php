@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Doctrine\Provider\Route;
 
 use App\Domain\DTO\Route\Route;
-use App\Domain\Model\Route\Itinerary as ItineraryModel;
 use App\Domain\Model\Route\Route as RouteModel;
 use App\Domain\Provider\Route\RouteProvider;
 use App\Infrastructure\Doctrine\Provider\DoctrineProvider;

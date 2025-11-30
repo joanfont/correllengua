@@ -5,8 +5,9 @@ namespace App\Domain\Model;
 use function array_map;
 
 use Ramsey\Uuid\Uuid as RamseyUuid;
+use Stringable;
 
-abstract class Uuid implements \Stringable
+abstract class Uuid implements Stringable
 {
     public function __construct(private readonly string $id)
     {

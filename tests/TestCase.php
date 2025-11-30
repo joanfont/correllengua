@@ -8,7 +8,6 @@ use App\Application\Commons\Event\Event;
 use App\Application\Commons\Query\Query;
 use App\Application\Commons\Query\QueryBus;
 
-use function get_class;
 use function implode;
 
 use SplFileInfo;

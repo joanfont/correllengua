@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Doctrine\Provider\Route;
 
 use App\Domain\DTO\Route\Itinerary;
-use App\Domain\DTO\Route\Segment;
 use App\Domain\Model\Route\Itinerary as ItineraryEntity;
 
 use function array_map;

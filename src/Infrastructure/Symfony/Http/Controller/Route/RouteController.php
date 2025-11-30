@@ -7,7 +7,6 @@ use App\Application\Query\Route\ListRoutes;
 use App\Infrastructure\Nelmio\Operation\Route\ListRoutesOperation;
 use App\Infrastructure\Nelmio\Tag\RoutesTag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/route')]
