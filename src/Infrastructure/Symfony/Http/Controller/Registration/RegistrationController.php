@@ -44,7 +44,7 @@ final class RegistrationController extends AbstractController
         return new Response(null, Response::HTTP_CREATED);
     }
 
-    #[Route('/deregister', name: 'deregister_participant', methods: ['GET'])]
+    #[Route('', name: 'deregister_participant', methods: ['DELETE'])]
     #[DeregisterParticipantOperation]
     public function deregisterParticipant(
         CommandBus $commandBus,
