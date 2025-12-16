@@ -18,5 +18,7 @@
         </one-to-one>
 
         <field name="featured" type="boolean" />
+
+        <field name="link" length="2048" nullable="true" />
     </entity>
 </doctrine-mapping>

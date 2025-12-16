@@ -15,6 +15,11 @@ abstract class Entity
     /** @var array<Event> */
     private array $events = [];
 
+    public function createdAt(): DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
     public function created(): void
     {
         $this->createdAt = new DateTime();

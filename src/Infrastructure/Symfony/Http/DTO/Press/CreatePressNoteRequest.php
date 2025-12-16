@@ -41,6 +41,14 @@ use SplFileInfo;
             format: 'binary',
             nullable: true,
         ),
+        new OA\Property(
+            property: 'link',
+            description: 'Optional external link related to this press note',
+            type: 'string',
+            format: 'uri',
+            example: 'https://example.com/event-details',
+            nullable: true,
+        ),
     ],
 )]
 readonly class CreatePressNoteRequest
@@ -51,6 +59,7 @@ readonly class CreatePressNoteRequest
         public string $body,
         public bool $featured,
         public SplFileInfo $image,
+        public ?string $link = null,
     ) {
     }
 }

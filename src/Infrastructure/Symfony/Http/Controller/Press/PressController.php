@@ -11,6 +11,7 @@ use App\Infrastructure\Nelmio\Operation\Press\ListPressNotesOperation;
 use App\Infrastructure\Nelmio\Tag\PressTag;
 use App\Infrastructure\Symfony\Http\DTO\Press\CreatePressNoteRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -20,7 +21,7 @@ final class PressController extends AbstractController
 {
     #[Route('', name: 'list_press_notes', methods: ['GET'])]
     #[ListPressNotesOperation]
-    public function listPressNotes(QueryBus $queryBus): \Symfony\Component\HttpFoundation\JsonResponse
+    public function listPressNotes(QueryBus $queryBus): JsonResponse
     {
         $listPressNotes = new ListPressNotes();
         $pressNotes = $queryBus->query($listPressNotes);
