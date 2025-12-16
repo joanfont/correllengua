@@ -18,6 +18,11 @@ readonly class CreatePressNote implements Command
         public bool $featured,
         #[Assert\Image(maxSize: '2M')]
         public SplFileInfo $image,
+        #[Assert\AtLeastOneOf([
+            new Assert\NotBlank(allowNull: true),
+            new Assert\Url(),
+        ])]
+        public ?string $link = null,
     ) {
     }
 }

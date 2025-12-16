@@ -32,6 +32,7 @@ class CreatePressNoteTest extends TestCase
         $body = 'Details of the press note.';
         $image = self::asset('image.png');
         $file = $this->createMock(File::class);
+        $link = 'https://example.com/press-note';
         $featured = true;
 
         $this->fileUploader
@@ -47,7 +48,8 @@ class CreatePressNoteTest extends TestCase
                 && $pressNote->subtitle() === $subtitle
                 && $pressNote->body() === $body
                 && $pressNote->image() === $file
-                && $pressNote->featured() === $featured));
+                && $pressNote->featured() === $featured
+                && $pressNote->link() === $link));
 
         $createPressNote = new CreatePressNote(
             title: $title,
@@ -55,6 +57,44 @@ class CreatePressNoteTest extends TestCase
             body: $body,
             featured: $featured,
             image: $image,
+            link: $link,
+        );
+
+        self::handleCommand($createPressNote);
+    }
+
+    public function testCreatesPressNoteWithoutLink(): void
+    {
+        $title = 'Another announcement';
+        $subtitle = 'Different subtitle';
+        $body = 'More details here.';
+        $image = self::asset('image.png');
+        $file = $this->createMock(File::class);
+        $featured = false;
+
+        $this->fileUploader
+            ->expects($this->once())
+            ->method('upload')
+            ->with($image)
+            ->willReturn($file);
+
+        $this->repository
+            ->expects($this->once())
+            ->method('add')
+            ->with($this->callback(fn (PressNote $pressNote): bool => $pressNote->title() === $title
+                && $pressNote->subtitle() === $subtitle
+                && $pressNote->body() === $body
+                && $pressNote->image() === $file
+                && $pressNote->featured() === $featured
+                && null === $pressNote->link()));
+
+        $createPressNote = new CreatePressNote(
+            title: $title,
+            subtitle: $subtitle,
+            body: $body,
+            featured: $featured,
+            image: $image,
+            link: null,
         );
 
         self::handleCommand($createPressNote);

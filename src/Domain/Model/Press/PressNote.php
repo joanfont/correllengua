@@ -16,6 +16,7 @@ class PressNote extends Entity
         private readonly string $body,
         private readonly File $image,
         private readonly bool $featured,
+        private readonly ?string $link = null,
     ) {
         $this->id = (string) $id;
     }
@@ -48,5 +49,10 @@ class PressNote extends Entity
     public function featured(): bool
     {
         return $this->featured;
+    }
+
+    public function link(): ?string
+    {
+        return $this->link;
     }
 }

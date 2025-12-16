@@ -52,6 +52,8 @@ class DoctrinePressNoteProvider extends DoctrineProvider implements PressNotePro
             body: $pressNote->body(),
             featured: $pressNote->featured(),
             image: $this->fileFactory->fromEntity($pressNote->image()),
+            link: $pressNote->link(),
+            createdAt: $pressNote->createdAt()->format('Y-m-d H:i:s')
         );
     }
 }

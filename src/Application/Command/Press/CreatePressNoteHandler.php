@@ -27,6 +27,7 @@ readonly class CreatePressNoteHandler implements CommandHandler
             body: $createPressNote->body,
             image: $image,
             featured: $createPressNote->featured,
+            link: $createPressNote->link,
         );
 
         $this->pressNoteRepository->add($pressNote);
