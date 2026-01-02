@@ -1,13 +1,13 @@
 <?php
 
-$finder = new PhpCsFixer\Finder()
+$finder = (new PhpCsFixer\Finder())
     ->in(__DIR__)
     ->exclude('var')
     ->exclude('vendor')
     ->notPath('bootstrap.php')
 ;
 
-return new PhpCsFixer\Config()
+return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PSR12' => true,

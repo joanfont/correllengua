@@ -25,7 +25,7 @@ class ModalityType extends Type
     {
         $enumValues = Modality::values();
         $lengths = array_map(mb_strlen(...), $enumValues);
-        $maxEnumLength = !empty($lengths) ? max($lengths) : 10;
+        $maxEnumLength = [] === $lengths ? 10 : max($lengths);
 
         return $platform->getStringTypeDeclarationSQL(['length' => $maxEnumLength, 'nullable' => false]);
     }

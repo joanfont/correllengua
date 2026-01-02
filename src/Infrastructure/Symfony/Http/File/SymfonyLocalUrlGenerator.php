@@ -21,7 +21,7 @@ class SymfonyLocalUrlGenerator implements UrlGenerator
     public function generate(File $file): string
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (null === $request) {
+        if (!$request instanceof \Symfony\Component\HttpFoundation\Request) {
             throw new RuntimeException('No current request available');
         }
 

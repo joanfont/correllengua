@@ -1,4 +1,4 @@
-FROM library/php:8.5-cli-alpine
+FROM library/php:8.3-cli-alpine
 LABEL maintainer="Joan Font <joanfont@gmail.com>"
 
 WORKDIR /app
