@@ -3,12 +3,10 @@ LABEL maintainer="Joan Font <joanfont@gmail.com>"
 
 WORKDIR /app
 
-RUN apk add --no-cache --upgrade icu-dev libpq-dev libzip-dev && \
+RUN apk add --no-cache --upgrade icu-dev libzip-dev && \
     apk add --no-cache --upgrade --virtual=.build-deps \
     linux-headers build-base $PHPIZE_DEPS && \
     docker-php-ext-install sockets zip intl pdo_mysql && \
-    pecl install redis && \
-    docker-php-ext-enable redis && \
     apk del .build-deps
 
 COPY --from=library/composer:lts /usr/bin/composer /usr/bin/composer
