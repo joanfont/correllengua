@@ -12,9 +12,7 @@ return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR12' => true,
         '@Symfony' => true,
-        '@PHP8x4Migration' => true,
-        '@PHP8x5Migration' => true,
-
+        '@PHP8x3Migration' => true,
         'array_syntax' => ['syntax' => 'short'],
         'ordered_imports' => ['sort_algorithm' => 'alpha'],
         'no_unused_imports' => true,
