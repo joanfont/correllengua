@@ -56,7 +56,7 @@ abstract class Uuid implements Stringable
     final public static function fromMany(array $ids): array
     {
         return array_map(
-            fn (string $id): static => static::from($id),
+            static::from(...),
             $ids,
         );
     }

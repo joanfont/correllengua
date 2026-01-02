@@ -18,7 +18,7 @@ return static function (ContainerConfigurator $container): void {
         ],
         'orm' => [
             'auto_generate_proxy_classes' => true,
-            'enable_native_lazy_objects' => true,
+            'enable_native_lazy_objects' => false,
             'controller_resolver' => [
                 'auto_mapping' => false,
             ],

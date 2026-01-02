@@ -11,7 +11,7 @@ return RectorConfig::configure()
         __DIR__.'/src',
         __DIR__.'/tests',
     ])
-    ->withPhpSets(php85: true)
+    ->withPhpSets(php83: true)
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,
@@ -23,4 +23,5 @@ return RectorConfig::configure()
     )
     ->withComposerBased(doctrine: true, phpunit: true, symfony: true)
     ->withAttributesSets(symfony: true, doctrine: true, phpunit: true)
-    ->withSymfonyContainerXml(__DIR__.'/var/cache/dev/App_KernelDevDebugContainer.xml');
+    ->withSymfonyContainerXml(__DIR__.'/var/cache/dev/App_KernelDevDebuContainer.xml')
+    ->withDowngradeSets(php83: true);

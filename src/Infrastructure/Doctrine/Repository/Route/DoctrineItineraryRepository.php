@@ -6,15 +6,9 @@ use App\Domain\Exception\Route\ItineraryNotFoundException;
 use App\Domain\Model\Route\Itinerary;
 use App\Domain\Repository\Route\ItineraryRepository;
 use App\Infrastructure\Doctrine\Repository\DoctrineRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 class DoctrineItineraryRepository extends DoctrineRepository implements ItineraryRepository
 {
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        parent::__construct($entityManager);
-    }
-
     public function add(Itinerary $itinerary): void
     {
         $this->entityManager->persist($itinerary);
