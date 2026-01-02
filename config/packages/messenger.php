@@ -2,8 +2,6 @@
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
-
 return static function (ContainerConfigurator $container): void {
     $container->extension('framework', [
         'messenger' => [
@@ -11,15 +9,11 @@ return static function (ContainerConfigurator $container): void {
                 'sync' => [
                     'dsn' => 'sync://',
                 ],
-                'async' => [
-                    'dsn' => env('MESSENGER_TRANSPORT_DSN'),
-                ],
             ],
             'routing' => [
                 App\Application\Commons\Command\Command::class => ['sync'],
-                App\Application\Commons\Event\Event::class => ['async'],
+                App\Application\Commons\Event\Event::class => ['sync'],
                 App\Application\Commons\Query\Query::class => ['sync'],
-                Symfony\Component\Mailer\Messenger\SendEmailMessage::class => ['async'],
             ],
             'default_bus' => 'command.bus',
             'buses' => [
