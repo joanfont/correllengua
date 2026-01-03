@@ -7,9 +7,6 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20251124182302 extends AbstractMigration
 {
     public function getDescription(): string
@@ -19,7 +16,6 @@ final class Version20251124182302 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE itinerary (id VARCHAR(36) NOT NULL, route_id VARCHAR(36) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, name VARCHAR(128) NOT NULL, INDEX IDX_FF2238F634ECB4E6 (route_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE itinerary ADD CONSTRAINT FK_FF2238F634ECB4E6 FOREIGN KEY (route_id) REFERENCES route (id)');
         $this->addSql('ALTER TABLE segment DROP FOREIGN KEY FK_1881F56534ECB4E6');
@@ -31,7 +27,6 @@ final class Version20251124182302 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE segment DROP FOREIGN KEY FK_1881F56515F737B2');
         $this->addSql('ALTER TABLE itinerary DROP FOREIGN KEY FK_FF2238F634ECB4E6');
         $this->addSql('DROP TABLE itinerary');

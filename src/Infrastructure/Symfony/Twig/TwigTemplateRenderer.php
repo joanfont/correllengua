@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Symfony\Twig;
 
 use App\Application\Service\Template\TemplateRenderer;

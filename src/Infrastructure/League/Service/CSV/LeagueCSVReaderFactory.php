@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\League\Service\CSV;
 
 use App\Application\Service\CSV\CSVReader;

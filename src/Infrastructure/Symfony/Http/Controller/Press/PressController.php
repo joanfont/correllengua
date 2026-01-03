@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Symfony\Http\Controller\Press;
 
 use App\Application\Command\Press\CreatePressNote;
@@ -13,7 +15,9 @@ use App\Infrastructure\Symfony\Http\DTO\Press\CreatePressNoteRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/press')]
 #[PressTag]
@@ -30,9 +34,11 @@ final class PressController extends AbstractController
     }
 
     #[Route('', name: 'create_press_note', methods: ['POST'])]
+    #[IsGranted('IS_AUTHENTICATED')]
     #[CreatePressNoteOperation]
     public function createPressNote(
         CommandBus $commandBus,
+        #[MapRequestPayload]
         CreatePressNoteRequest $createPressNoteRequest,
     ): Response {
         $createPressNote = new CreatePressNote(
@@ -41,6 +47,7 @@ final class PressController extends AbstractController
             body: $createPressNoteRequest->body,
             featured: $createPressNoteRequest->featured,
             image: $createPressNoteRequest->image,
+            link: $createPressNoteRequest->link,
         );
 
         $commandBus->dispatch($createPressNote);

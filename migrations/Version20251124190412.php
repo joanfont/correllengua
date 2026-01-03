@@ -7,9 +7,6 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20251124190412 extends AbstractMigration
 {
     public function getDescription(): string
@@ -19,14 +16,12 @@ final class Version20251124190412 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP INDEX UNIQ_2C4207977153098 ON route');
         $this->addSql('ALTER TABLE route DROP code');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE route ADD code INT NOT NULL');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2C4207977153098 ON route (code)');
     }

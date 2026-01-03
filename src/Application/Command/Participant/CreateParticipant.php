@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Command\Participant;
 
 use App\Application\Commons\Command\Command;

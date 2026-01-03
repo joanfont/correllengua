@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Service\Registration;
 
 use App\Domain\Model\Registration\RegistrationId;

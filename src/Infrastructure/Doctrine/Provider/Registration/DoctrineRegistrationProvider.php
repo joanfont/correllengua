@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Doctrine\Provider\Registration;
 
 use App\Domain\DTO\Registration\Registration;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Infrastructure\Symfony\Validator\Constraints;
 
 use App\Infrastructure\Symfony\Validator\Constraints\MaxSegmentsCount;

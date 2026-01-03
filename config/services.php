@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
@@ -138,4 +140,8 @@ return function (ContainerConfigurator $container): void {
     $services
         ->set(App\Infrastructure\Symfony\Validator\Constraints\MaxSegmentsCountValidator::class)
         ->arg('$maxSegmentsPerParticipant', param('app.registration.max_registrations_per_participant'));
+
+    $services
+        ->set(App\Infrastructure\System\Service\Auth\Sha256PasswordHasher::class)
+        ->arg('$salt', param('kernel.secret'));
 };

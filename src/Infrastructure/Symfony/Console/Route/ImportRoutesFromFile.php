@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Symfony\Console\Route;
 
 use App\Application\Command\Route\ImportRoutesFromFile as ImportRoutesFromFileCommand;

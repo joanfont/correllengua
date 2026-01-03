@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Model\Route;
 
 use App\Domain\Model\Coordinates;
@@ -10,11 +12,13 @@ use Doctrine\Common\Collections\Collection;
 
 class Segment extends Entity
 {
+    private readonly string $id;
+
     /** @var Collection<int, Registration> */
     private readonly Collection $registrations;
 
     public function __construct(
-        private readonly string $id,
+        SegmentId $id,
         private readonly Itinerary $itinerary,
         private readonly int $position,
         private readonly Coordinates $start,
@@ -22,6 +26,7 @@ class Segment extends Entity
         private readonly int $capacity,
         private readonly Modality $modality,
     ) {
+        $this->id = (string) $id;
         $this->registrations = new ArrayCollection();
     }
 

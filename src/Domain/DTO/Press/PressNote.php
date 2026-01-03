@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\DTO\Press;
 
 use App\Domain\DTO\File\File;

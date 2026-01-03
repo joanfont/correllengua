@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Doctrine\Provider\File;
 
 use App\Application\Service\File\UrlGenerator;

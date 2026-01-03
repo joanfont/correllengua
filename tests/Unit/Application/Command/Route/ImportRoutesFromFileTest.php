@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Application\Command\Route;
 
 use App\Application\Command\Route\ImportRoutesFromFile;

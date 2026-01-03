@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Repository\File;
 
 use App\Domain\Model\File\File;

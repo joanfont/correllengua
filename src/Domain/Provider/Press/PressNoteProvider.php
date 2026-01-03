@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Provider\Press;
 
 use App\Domain\DTO\Press\PressNote;

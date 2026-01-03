@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Application\Service\Route;
 
 use App\Application\Service\Route\DTO\Itinerary as ItineraryDTO;

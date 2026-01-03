@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Application\Command\Participant;
 
 use App\Application\Command\Participant\CreateParticipant;
@@ -31,7 +33,7 @@ class CreateParticipantTest extends TestCase
         $this->participantRepository
             ->expects($this->once())
             ->method('add')
-            ->with($this->callback(fn (Participant $participant): bool => Uuid::isValid($participant->id())
+            ->with($this->callback(fn (Participant $participant): bool => Uuid::isValid((string) $participant->id())
                 && 'foo@bar.com' === $participant->email()
                 && 'foo' === $participant->name()
                 && 'bar' === $participant->surname()));
