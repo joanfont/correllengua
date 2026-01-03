@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Application\Service\Calendar;
 
 use App\Application\Service\Calendar\Calendar;

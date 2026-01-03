@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Infrastructure\League\Service\CSV;
 
 use App\Domain\Exception\CSV\InvalidSourceException;

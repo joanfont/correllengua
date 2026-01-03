@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\System\Service\Registration;
 
 use App\Application\Service\Registration\RegistrationHasher;

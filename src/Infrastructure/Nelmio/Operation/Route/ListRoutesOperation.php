@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Nelmio\Operation\Route;
 
 use App\Infrastructure\Symfony\Http\DTO\Common\ErrorResponse;

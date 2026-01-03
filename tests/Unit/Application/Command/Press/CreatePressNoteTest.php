@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Application\Command\Press;
 
 use App\Application\Command\Press\CreatePressNote;

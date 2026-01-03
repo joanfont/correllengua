@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Symfony\Http\File;
 
 use App\Application\Service\Calendar\Calendar;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Symfony\Mailer\Notification;
 
 use App\Application\Service\File\Filesystem;

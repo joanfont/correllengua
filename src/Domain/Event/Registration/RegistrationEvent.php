@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\Event\Registration;
 
 use App\Application\Commons\Event\Event;

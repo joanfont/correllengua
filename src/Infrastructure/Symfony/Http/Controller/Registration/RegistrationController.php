@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Symfony\Http\Controller\Registration;
 
 use App\Application\Command\Registration\DeregisterParticipant;

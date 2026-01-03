@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Symfony\Messenger\Middleware;
 
 use Symfony\Component\Messenger\Envelope;

@@ -21,7 +21,7 @@ return (new PhpCsFixer\Config())
             'include' => ['@all'],
             'strict' => true,
         ],
-        'declare_strict_types' => false,
+        'declare_strict_types' => true,
 
         'nullable_type_declaration_for_default_null_value' => true,
         'global_namespace_import' => [

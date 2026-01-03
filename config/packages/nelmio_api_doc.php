@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $container): void {
@@ -9,6 +11,14 @@ return static function (ContainerConfigurator $container): void {
                 'title' => 'Correllengua API',
                 'description' => 'API for managing route registrations and participants',
                 'version' => '1.0.0',
+            ],
+            'components' => [
+                'securitySchemes' => [
+                    'basicAuth' => [
+                        'type' => 'http',
+                        'scheme' => 'basic',
+                    ],
+                ],
             ],
         ],
         'areas' => [

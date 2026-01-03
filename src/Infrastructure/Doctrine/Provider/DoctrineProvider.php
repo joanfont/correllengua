@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Doctrine\Provider;
 
 use Doctrine\ORM\EntityManagerInterface;
