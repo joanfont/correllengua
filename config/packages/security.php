@@ -22,6 +22,14 @@ return static function (ContainerConfigurator $container): void {
                 'pattern' => '^/(_profiler|_wdt|assets|build)/',
                 'security' => false,
             ],
+            'docs' => [
+                'lazy' => true,
+                'pattern' => '^/(doc\.json)?$',
+                'stateless' => true,
+                'http_basic' => [
+                    'realm' => 'Correllengua API',
+                ],
+            ],
             'main' => [
                 'lazy' => true,
                 'provider' => 'user_provider',
@@ -30,6 +38,10 @@ return static function (ContainerConfigurator $container): void {
                     'realm' => 'Correllengua API',
                 ],
             ],
+        ],
+        'access_control' => [
+            ['path' => '^/$', 'roles' => 'ROLE_USER'],
+            ['path' => '^/doc\.json$', 'roles' => 'ROLE_USER'],
         ],
     ]);
 };
