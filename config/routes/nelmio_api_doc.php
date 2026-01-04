@@ -9,7 +9,7 @@ return static function (RoutingConfigurator $routes): void {
         ->methods(['GET'])
         ->defaults(['_controller' => 'nelmio_api_doc.controller.swagger']);
 
-    $routes->add('app.swagger_ui', '/doc')
+    $routes->add('app.swagger_ui', '/')
         ->methods(['GET'])
         ->defaults(['_controller' => 'nelmio_api_doc.controller.swagger_ui']);
 };
