@@ -61,6 +61,10 @@ return function (ContainerConfigurator $container): void {
         ->tag('doctrine.event_listener', ['event' => 'postRemove']);
 
     $services
+        ->set(App\Infrastructure\Symfony\Http\EventListener\JsonExceptionListener::class)
+        ->tag('kernel.event_listener', ['event' => Symfony\Component\HttpKernel\KernelEvents::EXCEPTION, 'priority' => -10]);
+
+    $services
         ->alias(
             App\Application\Commons\Command\CommandBus::class,
             App\Infrastructure\Symfony\Messenger\MessengerCommandBus::class,

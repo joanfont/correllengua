@@ -6,6 +6,7 @@ namespace App\Domain\Model\Press;
 
 use App\Domain\Model\Entity;
 use App\Domain\Model\File\File;
+use App\Domain\Model\User\User;
 
 class PressNote extends Entity
 {
@@ -13,6 +14,7 @@ class PressNote extends Entity
 
     public function __construct(
         PressNoteId $id,
+        private readonly User $author,
         private readonly string $title,
         private readonly string $subtitle,
         private readonly string $body,
@@ -26,6 +28,11 @@ class PressNote extends Entity
     public function id(): PressNoteId
     {
         return PressNoteId::from($this->id);
+    }
+
+    public function author(): User
+    {
+        return $this->author;
     }
 
     public function title(): string

@@ -11,6 +11,7 @@ readonly class UserFactory
     public function fromEntity(UserEntity $user): User
     {
         return new User(
+            id: (string) $user->id(),
             email: $user->email(),
             password: $user->password(),
             roles: ['ROLE_USER']

@@ -6,15 +6,14 @@ namespace App\Infrastructure\Symfony\Http\EventListener;
 
 use function str_contains;
 
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Throwable;
 
-#[AsEventListener(event: KernelEvents::EXCEPTION, priority: 0)]
 final readonly class JsonExceptionListener
 {
     public function __invoke(ExceptionEvent $event): void
@@ -28,6 +27,21 @@ final readonly class JsonExceptionListener
 
         $exception = $event->getThrowable();
 
+        if ($exception instanceof ValidationFailedException) {
+            $statusCode = Response::HTTP_UNPROCESSABLE_ENTITY;
+            $data = [
+                'error' => 'validation_error',
+                'message' => 'Validation failed',
+                'status' => $statusCode,
+                'violations' => $this->extractViolationsFromValidationException($exception),
+            ];
+
+            $response = new JsonResponse($data, $statusCode);
+            $event->setResponse($response);
+
+            return;
+        }
+
         $statusCode = $exception instanceof HttpExceptionInterface
             ? $exception->getStatusCode()
             : Response::HTTP_INTERNAL_SERVER_ERROR;
@@ -39,6 +53,14 @@ final readonly class JsonExceptionListener
 
         if ($exception instanceof HttpExceptionInterface) {
             $data['status'] = $statusCode;
+        }
+
+        // Handle UnprocessableEntityHttpException with wrapped ValidationFailedException
+        if ($exception instanceof UnprocessableEntityHttpException && Response::HTTP_UNPROCESSABLE_ENTITY === $statusCode) {
+            $violations = $this->extractViolations($exception);
+            if (!empty($violations)) {
+                $data['violations'] = $violations;
+            }
         }
 
         $response = new JsonResponse($data, $statusCode);
@@ -69,5 +91,37 @@ final readonly class JsonExceptionListener
         }
 
         return 'server_error';
+    }
+
+    /**
+     * @return array<array{field: string, message: string}>
+     */
+    private function extractViolations(UnprocessableEntityHttpException $exception): array
+    {
+        $violations = [];
+        $previous = $exception->getPrevious();
+
+        if ($previous instanceof ValidationFailedException) {
+            return $this->extractViolationsFromValidationException($previous);
+        }
+
+        return $violations;
+    }
+
+    /**
+     * @return array<array{field: string, message: string}>
+     */
+    private function extractViolationsFromValidationException(ValidationFailedException $exception): array
+    {
+        $violations = [];
+
+        foreach ($exception->getViolations() as $violation) {
+            $violations[] = [
+                'field' => $violation->getPropertyPath(),
+                'message' => (string) $violation->getMessage(),
+            ];
+        }
+
+        return $violations;
     }
 }
