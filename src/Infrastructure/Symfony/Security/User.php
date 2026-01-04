@@ -14,11 +14,17 @@ readonly class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @param array<int, string> $roles
      */
     public function __construct(
+        private string $id,
         private string $email,
         private string $password,
         private array $roles,
     ) {
         Assert::notEmpty($this->email);
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getRoles(): array

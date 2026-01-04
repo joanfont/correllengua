@@ -25,7 +25,7 @@ class DeregisterParticipantHandlerTest extends TestCase
     {
         $hash = 'test-hash-123';
 
-        $registration = $this->createMock(Registration::class);
+        $registration = $this->createStub(Registration::class);
 
         $this->registrationRepository
             ->expects($this->once())

@@ -1,4 +1,5 @@
 DOCKER_COMPOSE = docker compose run --rm --no-deps
+PHP = $(DOCKER_COMPOSE) --entrypoint=php app
 COMPOSER = $(DOCKER_COMPOSE) --no-deps --entrypoint=composer app
 SYMFONY = $(DOCKER_COMPOSE) --entrypoint=php app ./bin/console
 
@@ -16,11 +17,11 @@ migrate:
 
 .PHONY: php-cs
 php-cs:
-	$(DOCKER_COMPOSE) app ./vendor/bin/php-cs-fixer fix
+	$(PHP) ./vendor/bin/php-cs-fixer fix
 
 phpstan:
-	$(DOCKER_COMPOSE) app ./vendor/bin/phpstan analyse src tests --level=max
+	$(PHP) ./vendor/bin/phpstan analyse src tests --level=max
 
 .PHONY: test
 test:
-	$(DOCKER_COMPOSE) --entrypoint=php app vendor/bin/phpunit $(ARGS)
+	$(PHP) ./vendor/bin/phpunit --configuration phpunit.dist.xml

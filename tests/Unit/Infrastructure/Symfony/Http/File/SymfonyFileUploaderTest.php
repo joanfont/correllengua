@@ -37,7 +37,7 @@ class SymfonyFileUploaderTest extends TestCase
         $rootFs = $this->createMock(Filesystem::class);
         $uploadsFs = $this->createMock(Filesystem::class);
         $fileRepo = $this->createMock(FileRepository::class);
-        $calendar = $this->createMock(Calendar::class);
+        $calendar = $this->createStub(Calendar::class);
 
         $contents = file_get_contents($fileInfo->getRealPath());
 

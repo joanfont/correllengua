@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Infrastructure\Symfony\Http\DTO\Press;
 
 use OpenApi\Attributes as OA;
-use SplFileInfo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[OA\Schema(
     description: 'Request body for creating a new press note with optional image upload',
-    required: ['title', 'subtitle', 'body', 'featured', 'image'],
+    required: ['title', 'subtitle', 'body', 'featured'],
     properties: [
         new OA\Property(
             property: 'title',
@@ -42,12 +41,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             example: true,
         ),
         new OA\Property(
-            property: 'image',
-            description: 'Press note cover image file. Accepted formats: JPEG, PNG, GIF. Maximum file size: 2MB. The image will be displayed as the main visual for the press note.',
-            type: 'string',
-            format: 'binary',
-        ),
-        new OA\Property(
             property: 'link',
             description: 'Optional external URL related to this press note (e.g., event page, external article, registration form). Must be a valid URL.',
             type: 'string',
@@ -67,8 +60,6 @@ readonly class CreatePressNoteRequest
         #[Assert\NotBlank]
         public string $body,
         public bool $featured,
-        #[Assert\Image(maxSize: '2M')]
-        public SplFileInfo $image,
         #[Assert\AtLeastOneOf([
             new Assert\NotBlank(allowNull: true),
             new Assert\Url(),

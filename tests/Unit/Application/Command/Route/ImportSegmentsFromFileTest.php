@@ -21,8 +21,10 @@ use App\Tests\TestCase;
 use function array_unique;
 
 use ArrayIterator;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 
+#[AllowMockObjectsWithoutExpectations]
 class ImportSegmentsFromFileTest extends TestCase
 {
     private readonly Filesystem&MockObject $filesystem;

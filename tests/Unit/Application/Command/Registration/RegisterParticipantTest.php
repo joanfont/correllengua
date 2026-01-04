@@ -19,8 +19,10 @@ use App\Domain\Model\Route\SegmentId;
 use App\Domain\Repository\Participant\ParticipantRepository;
 use App\Domain\Repository\Route\SegmentRepository;
 use App\Tests\TestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 
+#[AllowMockObjectsWithoutExpectations]
 class RegisterParticipantTest extends TestCase
 {
     private readonly SegmentRepository&MockObject $segmentRepository;
@@ -90,7 +92,7 @@ class RegisterParticipantTest extends TestCase
             ->with(5)
             ->willReturn(false);
 
-        $registration = $this->createMock(Registration::class);
+        $registration = $this->createStub(Registration::class);
 
         $this->registrationFactory
             ->expects($this->once())
@@ -343,7 +345,7 @@ class RegisterParticipantTest extends TestCase
             ->with(5)
             ->willReturn(false);
 
-        $registration = $this->createMock(Registration::class);
+        $registration = $this->createStub(Registration::class);
 
         $this->registrationFactory
             ->expects($this->once())

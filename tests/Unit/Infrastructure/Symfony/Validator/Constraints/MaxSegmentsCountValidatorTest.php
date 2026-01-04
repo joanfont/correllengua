@@ -7,6 +7,7 @@ namespace App\Tests\Unit\Infrastructure\Symfony\Validator\Constraints;
 use App\Infrastructure\Symfony\Validator\Constraints\MaxSegmentsCount;
 use App\Infrastructure\Symfony\Validator\Constraints\MaxSegmentsCountValidator;
 use ArrayObject;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Validator\Constraint;
@@ -159,15 +160,17 @@ final class MaxSegmentsCountValidatorTest extends TestCase
         $this->validator->validate($value, $constraint);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testValidateThrowsExceptionForWrongConstraintType(): void
     {
-        $wrongConstraint = $this->createMock(Constraint::class);
+        $wrongConstraint = $this->createStub(Constraint::class);
 
         $this->expectException(UnexpectedTypeException::class);
 
         $this->validator->validate([], $wrongConstraint);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testValidateThrowsExceptionForInvalidValueType(): void
     {
         $constraint = new MaxSegmentsCount();
@@ -177,6 +180,7 @@ final class MaxSegmentsCountValidatorTest extends TestCase
         $this->validator->validate('invalid', $constraint);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testValidateThrowsExceptionForIntegerValue(): void
     {
         $constraint = new MaxSegmentsCount();
@@ -186,6 +190,7 @@ final class MaxSegmentsCountValidatorTest extends TestCase
         $this->validator->validate(123, $constraint);
     }
 
+    #[AllowMockObjectsWithoutExpectations]
     public function testValidateThrowsExceptionForObjectValue(): void
     {
         $constraint = new MaxSegmentsCount();
