@@ -19,5 +19,12 @@ return static function (ContainerConfigurator $container): void {
         'php_errors' => [
             'log' => true,
         ],
+        'trusted_headers' => [
+            'x-forwarded-for',
+            'x-forwarded-proto',
+            'x-forwarded-host',
+            'x-forwarded-port',
+            'x-forwarded-prefix',
+        ],
     ]);
 };
