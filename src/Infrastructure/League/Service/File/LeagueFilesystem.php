@@ -8,12 +8,17 @@ use App\Application\Service\File\Filesystem;
 use League\Flysystem\Filesystem as Flysystem;
 use League\Flysystem\FilesystemAdapter;
 
-class LeagueFilesystem implements Filesystem
+readonly class LeagueFilesystem implements Filesystem
 {
     private readonly Flysystem $flysystem;
 
-    public function __construct(private readonly FilesystemAdapter $adapter)
-    {
+    public function __construct(
+        private FilesystemAdapter $adapter,
+        /**
+         * @var array<string, mixed>
+         */
+        private array $config,
+    ) {
         $this->flysystem = new Flysystem($this->adapter);
     }
 
@@ -24,7 +29,7 @@ class LeagueFilesystem implements Filesystem
 
     public function write(string $path, string $contents): void
     {
-        $this->flysystem->write($path, $contents);
+        $this->flysystem->write($path, $contents, $this->config);
     }
 
     public function delete(string $path): void

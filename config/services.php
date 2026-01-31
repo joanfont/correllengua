@@ -94,7 +94,8 @@ return function (ContainerConfigurator $container): void {
     $services
         ->set('app.filesystem.uploads', App\Application\Service\File\Filesystem::class)
         ->factory([App\Infrastructure\League\Service\File\LeagueFilesystemFactory::class, 'makeLocal'])
-        ->arg('$root', param('app.uploads.local.dir'));
+        ->arg('$root', param('app.uploads.local.dir'))
+        ->arg('$config', ['visibility' => 'public']);
 
     $services
         ->set('app.filesystem.root', App\Application\Service\File\Filesystem::class)
