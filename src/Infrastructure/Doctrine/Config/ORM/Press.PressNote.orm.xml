@@ -15,7 +15,7 @@
 
         <field name="title" />
         <field name="subtitle" />
-        <field name="body" />
+        <field name="body" type="text" />
 
         <many-to-one field="image" target-entity="App\Domain\Model\File\File">
             <cascade>
