@@ -26,6 +26,10 @@ readonly class ImportItinerariesFromFileHandler implements CommandHandler
 
     public function __invoke(ImportItinerariesFromFile $importItineraries): void
     {
+        if ($importItineraries->truncate) {
+            $this->itineraryRepository->deleteAll();
+        }
+
         $csvData = $this->filesystem->read($importItineraries->path);
         $csvReader = $this->csvReaderFactory->makeFromString($csvData);
         foreach ($csvReader->readLine() as $route) {

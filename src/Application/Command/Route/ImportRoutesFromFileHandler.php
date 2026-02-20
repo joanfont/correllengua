@@ -24,6 +24,10 @@ readonly class ImportRoutesFromFileHandler implements CommandHandler
 
     public function __invoke(ImportRoutesFromFile $importRoutesFromFile): void
     {
+        if ($importRoutesFromFile->truncate) {
+            $this->routeRepository->deleteAll();
+        }
+
         $csvData = $this->filesystem->read($importRoutesFromFile->path);
         $csvReader = $this->csvReaderFactory->makeFromString($csvData);
         foreach ($csvReader->readLine() as $route) {

@@ -12,19 +12,19 @@ use Doctrine\Common\Collections\Collection;
 
 class Segment extends Entity
 {
-    private readonly string $id;
+    private string $id;
 
     /** @var Collection<int, Registration> */
-    private readonly Collection $registrations;
+    private Collection $registrations;
 
     public function __construct(
         SegmentId $id,
-        private readonly Itinerary $itinerary,
-        private readonly int $position,
-        private readonly Coordinates $start,
-        private readonly Coordinates $end,
-        private readonly int $capacity,
-        private readonly Modality $modality,
+        private Itinerary $itinerary,
+        private int $position,
+        private Coordinates $start,
+        private Coordinates $end,
+        private ?int $capacity,
+        private Modality $modality,
     ) {
         $this->id = (string) $id;
         $this->registrations = new ArrayCollection();
@@ -55,7 +55,7 @@ class Segment extends Entity
         return $this->end;
     }
 
-    public function capacity(): int
+    public function capacity(): ?int
     {
         return $this->capacity;
     }
@@ -67,7 +67,7 @@ class Segment extends Entity
 
     public function isFull(): bool
     {
-        return $this->capacity === $this->registrations->count();
+        return null !== $this->capacity && $this->capacity === $this->registrations->count();
     }
 
     public function addRegistration(Registration $registration): void

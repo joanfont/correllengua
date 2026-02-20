@@ -12,6 +12,7 @@ readonly class ImportRoutesFromFile implements Command
     public function __construct(
         #[Assert\NotBlank]
         public string $path,
+        public bool $truncate,
     ) {
     }
 }

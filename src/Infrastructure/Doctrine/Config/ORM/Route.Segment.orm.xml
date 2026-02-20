@@ -9,7 +9,7 @@
         <field name="position" type="integer" />
         <embedded name="start" class="App\Domain\Model\Coordinates" column-prefix="start_" />
         <embedded name="end" class="App\Domain\Model\Coordinates" column-prefix="end_" />
-        <field name="capacity" type="integer" />
+        <field name="capacity" type="integer" nullable="true" />
         <field name="modality" type="modality" />
 
         <many-to-one field="itinerary" target-entity="App\Domain\Model\Route\Itinerary" inversed-by="segments">

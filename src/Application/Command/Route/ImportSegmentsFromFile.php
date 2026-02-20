@@ -12,6 +12,7 @@ readonly class ImportSegmentsFromFile implements Command
     public function __construct(
         #[Assert\NotBlank]
         public string $path,
+        bool $truncate,
     ) {
     }
 }

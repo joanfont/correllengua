@@ -41,7 +41,17 @@ readonly class ImportSegmentsFromFileHandler implements CommandHandler
      */
     private function createSegment(array $segment): void
     {
-        /** @var array{itinerary_name: string, position: int, start_latitude: float, start_longitude: float, end_latitude: float, end_longitude: float, modality: string, capacity: int} $payload */
+        /** @var array{
+         *     itinerary_name: string,
+         *     position: int,
+         *     start_latitude: float,
+         *     start_longitude: float,
+         *     end_latitude: float,
+         *     end_longitude: float,
+         *     modality: string,
+         *     capacity: int
+         * } $payload
+         */s
         $payload = [
             'itinerary_name' => $segment['itinerary_name'] ?? '',
             'position' => (int) ($segment['position'] ?? 0),

@@ -33,4 +33,12 @@ class DoctrineItineraryRepository extends DoctrineRepository implements Itinerar
 
         return $itinerary;
     }
+
+    public function deleteAll(): void
+    {
+        $this->entityManager->createQueryBuilder()
+            ->delete(Itinerary::class, 'i')
+            ->getQuery()
+            ->execute();
+    }
 }

@@ -16,4 +16,6 @@ enum Modality: string
     case BIKE = 'BIKE';
 
     case MIXED = 'MIXED';
+
+    case END = 'END';
 }
