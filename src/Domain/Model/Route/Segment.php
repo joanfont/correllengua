@@ -7,24 +7,26 @@ namespace App\Domain\Model\Route;
 use App\Domain\Model\Coordinates;
 use App\Domain\Model\Entity;
 use App\Domain\Model\Registration\Registration;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 class Segment extends Entity
 {
-    private readonly string $id;
+    private string $id;
 
     /** @var Collection<int, Registration> */
-    private readonly Collection $registrations;
+    private Collection $registrations;
 
     public function __construct(
         SegmentId $id,
-        private readonly Itinerary $itinerary,
-        private readonly int $position,
-        private readonly Coordinates $start,
-        private readonly Coordinates $end,
-        private readonly int $capacity,
-        private readonly Modality $modality,
+        private Itinerary $itinerary,
+        private int $position,
+        private Coordinates $start,
+        private Coordinates $end,
+        private ?int $capacity,
+        private Modality $modality,
+        private DateTimeInterface $startTime,
     ) {
         $this->id = (string) $id;
         $this->registrations = new ArrayCollection();
@@ -55,7 +57,7 @@ class Segment extends Entity
         return $this->end;
     }
 
-    public function capacity(): int
+    public function capacity(): ?int
     {
         return $this->capacity;
     }
@@ -65,9 +67,14 @@ class Segment extends Entity
         return $this->modality;
     }
 
+    public function startTime(): DateTimeInterface
+    {
+        return $this->startTime;
+    }
+
     public function isFull(): bool
     {
-        return $this->capacity === $this->registrations->count();
+        return null !== $this->capacity && $this->capacity === $this->registrations->count();
     }
 
     public function addRegistration(Registration $registration): void

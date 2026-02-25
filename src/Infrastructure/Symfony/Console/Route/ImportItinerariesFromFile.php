@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Symfony\Console\Route;
 
-use App\Application\Command\Route\ImportSegmentsFromFile as ImportSegmentsFromFileCommand;
+use App\Application\Command\Route\ImportItinerariesFromFile as ImportItinerariesFromFileCommand;
 use App\Application\Commons\Command\CommandBus;
 
 use function sprintf;
@@ -15,8 +15,8 @@ use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand('app:route:segment:import-from-file')]
-class ImportSegmentsFromFile
+#[AsCommand('app:route:itinerary:import-from-file')]
+class ImportItinerariesFromFile
 {
     public function __construct(private readonly CommandBus $commandBus)
     {
@@ -29,12 +29,12 @@ class ImportSegmentsFromFile
         #[Option(name: 'truncate')]
         bool $truncate = false
     ): int {
-        $output->writeln(sprintf('<info>Importing segments from file %s</info>', $path));
+        $output->writeln(sprintf('<info>Importing itineraries from file %s</info>', $path));
 
-        $importRoutesFromFile = new ImportSegmentsFromFileCommand($path, $truncate);
+        $importRoutesFromFile = new ImportItinerariesFromFileCommand($path, $truncate);
         $this->commandBus->dispatch($importRoutesFromFile);
 
-        $output->writeln(sprintf('<info>Successfully imported segments from file %s</info>', $path));
+        $output->writeln(sprintf('<info>Successfully imported itineraries from file %s</info>', $path));
 
         return Command::SUCCESS;
     }

@@ -9,7 +9,9 @@ use App\Application\Commons\Command\CommandBus;
 
 use function sprintf;
 
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -20,12 +22,16 @@ class ImportRoutesFromFile
     {
     }
 
-    public function __invoke(#[\Symfony\Component\Console\Attribute\Argument(name: 'path')]
-        string $path, OutputInterface $output): int
-    {
+    public function __invoke(
+        #[Argument(name: 'path')]
+        string $path,
+        OutputInterface $output,
+        #[Option(name: 'truncate')]
+        bool $truncate = false
+    ): int {
         $output->writeln(sprintf('<info>Importing routes from file %s</info>', $path));
 
-        $importRoutesFromFile = new ImportRoutesFromFileCommand($path);
+        $importRoutesFromFile = new ImportRoutesFromFileCommand($path, $truncate);
         $this->commandBus->dispatch($importRoutesFromFile);
 
         $output->writeln(sprintf('<info>Successfully imported routes from file %s</info>', $path));

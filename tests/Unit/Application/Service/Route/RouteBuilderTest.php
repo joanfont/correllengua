@@ -25,6 +25,7 @@ class RouteBuilderTest extends TestCase
         $input = [
             'name' => 'My Route',
             'description' => 'A lovely route',
+            'position' => '1',
             'start_date' => '23/11/2025',
         ];
 
@@ -43,6 +44,7 @@ class RouteBuilderTest extends TestCase
         self::assertInstanceOf(RouteDTO::class, $route);
         self::assertSame('My Route', $route->name);
         self::assertSame('A lovely route', $route->description);
+        self::assertSame(1, $route->position);
         self::assertEquals($expectedDate, $route->startDate);
     }
 }

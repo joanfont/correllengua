@@ -65,7 +65,7 @@ class ImportRoutesFromFileTest extends TestCase
             ->willReturn($this->csvReader);
 
         $csvData = [
-            ['name' => 'Ruta 1', 'description' => 'Descripció', 'start_date' => '2025-01-01'],
+            ['name' => 'Ruta 1', 'description' => 'Descripció', 'position' => '1', 'start_date' => '2025-01-01'],
         ];
 
         $this->csvReader
@@ -77,13 +77,14 @@ class ImportRoutesFromFileTest extends TestCase
         $parsedRoute = new RouteDTO(
             'Ruta 1',
             'Descripció',
+            1,
             new DateTimeImmutable('2025-01-01'),
         );
 
         $this->routeParser
             ->expects($this->once())
             ->method('fromArray')
-            ->with(['name' => 'Ruta 1', 'description' => 'Descripció', 'start_date' => '2025-01-01'])
+            ->with(['name' => 'Ruta 1', 'description' => 'Descripció', 'position' => '1', 'start_date' => '2025-01-01'])
             ->willReturn($parsedRoute);
 
         $this->routeRepository
@@ -92,7 +93,7 @@ class ImportRoutesFromFileTest extends TestCase
             ->with($this->callback(fn (Route $route): bool => 'Ruta 1' === $route->name()
                 && 'Descripció' === $route->description()));
 
-        $command = new ImportRoutesFromFile($filePath);
+        $command = new ImportRoutesFromFile($filePath, false);
 
         self::handleCommand($command);
     }
@@ -115,9 +116,9 @@ class ImportRoutesFromFileTest extends TestCase
             ->willReturn($this->csvReader);
 
         $csvData = [
-            ['code' => '1', 'name' => 'Ruta 1', 'description' => 'Desc 1', 'start_date' => '2025-01-01'],
-            ['code' => '2', 'name' => 'Ruta 2', 'description' => 'Desc 2', 'start_date' => '2025-02-01'],
-            ['code' => '3', 'name' => 'Ruta 3', 'description' => 'Desc 3', 'start_date' => '2025-03-01'],
+            ['code' => '1', 'name' => 'Ruta 1', 'description' => 'Desc 1', 'position' => '1', 'start_date' => '2025-01-01'],
+            ['code' => '2', 'name' => 'Ruta 2', 'description' => 'Desc 2', 'position' => '2', 'start_date' => '2025-02-01'],
+            ['code' => '3', 'name' => 'Ruta 3', 'description' => 'Desc 3', 'position' => '3', 'start_date' => '2025-03-01'],
         ];
 
         $this->csvReader
@@ -132,6 +133,7 @@ class ImportRoutesFromFileTest extends TestCase
             ->willReturnCallback(fn (array $data): RouteDTO => new RouteDTO(
                 $data['name'],
                 $data['description'],
+                (int) $data['position'],
                 new DateTimeImmutable($data['start_date']),
             ));
 
@@ -145,7 +147,7 @@ class ImportRoutesFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportRoutesFromFile($filePath);
+        $command = new ImportRoutesFromFile($filePath, false);
 
         self::handleCommand($command);
 
@@ -182,7 +184,7 @@ class ImportRoutesFromFileTest extends TestCase
             ->expects($this->never())
             ->method('add');
 
-        $command = new ImportRoutesFromFile($filePath);
+        $command = new ImportRoutesFromFile($filePath, false);
 
         self::handleCommand($command);
     }
@@ -203,8 +205,8 @@ class ImportRoutesFromFileTest extends TestCase
             ->willReturn($this->csvReader);
 
         $csvData = [
-            ['code' => '1', 'name' => 'Ruta A', 'description' => 'Desc A', 'start_date' => '2025-01-01'],
-            ['code' => '2', 'name' => 'Ruta B', 'description' => 'Desc B', 'start_date' => '2025-01-01'],
+            ['code' => '1', 'name' => 'Ruta A', 'description' => 'Desc A', 'position' => '1', 'start_date' => '2025-01-01'],
+            ['code' => '2', 'name' => 'Ruta B', 'description' => 'Desc B', 'position' => '2', 'start_date' => '2025-01-01'],
         ];
 
         $this->csvReader
@@ -219,6 +221,7 @@ class ImportRoutesFromFileTest extends TestCase
             ->willReturnCallback(fn (array $data): RouteDTO => new RouteDTO(
                 $data['name'],
                 $data['description'],
+                (int) $data['position'],
                 new DateTimeImmutable($data['start_date']),
             ));
 
@@ -233,7 +236,7 @@ class ImportRoutesFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportRoutesFromFile($filePath);
+        $command = new ImportRoutesFromFile($filePath, false);
 
         self::handleCommand($command);
 
@@ -256,7 +259,7 @@ class ImportRoutesFromFileTest extends TestCase
             ->willReturn($this->csvReader);
 
         $csvData = [
-            ['code' => '5', 'name' => 'Ruta de Prova', 'description' => 'Descripció de prova', 'start_date' => '2025-06-15'],
+            ['code' => '5', 'name' => 'Ruta de Prova', 'description' => 'Descripció de prova', 'position' => '5', 'start_date' => '2025-06-15'],
         ];
 
         $this->csvReader
@@ -268,13 +271,14 @@ class ImportRoutesFromFileTest extends TestCase
         $parsedRoute = new RouteDTO(
             'Ruta de Prova',
             'Descripció de prova',
+            5,
             new DateTimeImmutable('2025-06-15'),
         );
 
         $this->routeParser
             ->expects($this->once())
             ->method('fromArray')
-            ->with(['name' => 'Ruta de Prova', 'description' => 'Descripció de prova', 'start_date' => '2025-06-15'])
+            ->with(['name' => 'Ruta de Prova', 'description' => 'Descripció de prova', 'position' => '5', 'start_date' => '2025-06-15'])
             ->willReturn($parsedRoute);
 
         $this->routeRepository
@@ -289,7 +293,7 @@ class ImportRoutesFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportRoutesFromFile($filePath);
+        $command = new ImportRoutesFromFile($filePath, false);
 
         self::handleCommand($command);
     }

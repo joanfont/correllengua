@@ -10,15 +10,16 @@ use Doctrine\Common\Collections\Collection;
 
 class Itinerary extends Entity
 {
-    private readonly string $id;
+    private string $id;
 
     /** @var Collection<int, Segment> */
-    private readonly Collection $segments;
+    private Collection $segments;
 
     public function __construct(
         ItineraryId $id,
-        private readonly Route $route,
-        private readonly string $name,
+        private Route $route,
+        private string $name,
+        private int $position,
     ) {
         $this->id = (string) $id;
         $this->segments = new ArrayCollection();
@@ -32,6 +33,11 @@ class Itinerary extends Entity
     public function name(): string
     {
         return $this->name;
+    }
+
+    public function position(): int
+    {
+        return $this->position;
     }
 
     public function route(): Route

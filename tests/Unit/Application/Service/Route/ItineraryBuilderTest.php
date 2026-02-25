@@ -15,6 +15,7 @@ class ItineraryBuilderTest extends TestCase
         $input = [
             'route_name' => 'Route Test',
             'name' => 'Itinerary Test',
+            'position' => '1',
         ];
 
         $builder = new ItineraryBuilder();
@@ -24,5 +25,6 @@ class ItineraryBuilderTest extends TestCase
         self::assertInstanceOf(ItineraryDTO::class, $itinerary);
         self::assertSame($input['route_name'], $itinerary->routeName);
         self::assertSame($input['name'], $itinerary->name);
+        self::assertSame(1, $itinerary->position);
     }
 }

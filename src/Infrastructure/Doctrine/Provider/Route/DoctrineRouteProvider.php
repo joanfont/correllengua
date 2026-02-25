@@ -29,10 +29,15 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
     {
         /** @var array<RouteEntity> $routes */
         $routes = $this->entityManager->createQueryBuilder()
-            ->select('r', 'i', 's')
+            ->select('r')
             ->from(RouteEntity::class, 'r')
-            ->leftJoin('r.itineraries', 'i')
-            ->leftJoin('i.segments', 's')
+            ->innerJoin('r.itineraries', 'i')
+            ->addSelect('i')
+            ->innerJoin('i.segments', 's')
+            ->addSelect('s')
+            ->orderBy('r.position', 'ASC')
+            ->addOrderBy('i.position', 'ASC')
+            ->addOrderBy('s.position', 'ASC')
             ->getQuery()
             ->getResult();
 

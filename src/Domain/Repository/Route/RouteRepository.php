@@ -11,4 +11,6 @@ interface RouteRepository
     public function add(Route $route): void;
 
     public function findByName(string $name): Route;
+
+    public function deleteAll(): void;
 }

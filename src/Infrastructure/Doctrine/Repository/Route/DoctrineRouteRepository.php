@@ -33,4 +33,12 @@ class DoctrineRouteRepository extends DoctrineRepository implements RouteReposit
 
         return $route;
     }
+
+    public function deleteAll(): void
+    {
+        $this->entityManager->createQueryBuilder()
+            ->delete(Route::class, 'r')
+            ->getQuery()
+            ->execute();
+    }
 }

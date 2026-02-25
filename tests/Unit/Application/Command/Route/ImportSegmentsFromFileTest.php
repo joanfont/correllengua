@@ -21,6 +21,7 @@ use App\Tests\TestCase;
 use function array_unique;
 
 use ArrayIterator;
+use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -85,6 +86,7 @@ class ImportSegmentsFromFileTest extends TestCase
                 'end_longitude' => '-3.703990',
                 'modality' => 'BIKE',
                 'capacity' => '8',
+                'start_time' => '08:00:00',
             ],
         ];
 
@@ -102,6 +104,7 @@ class ImportSegmentsFromFileTest extends TestCase
             endLongitude: -3.703990,
             modality: 'BIKE',
             capacity: 8,
+            startTime: new DateTimeImmutable('08:00:00'),
         );
 
         $this->segmentParser
@@ -127,7 +130,7 @@ class ImportSegmentsFromFileTest extends TestCase
                 && Modality::BIKE === $segment->modality()
                 && 8 === $segment->capacity()));
 
-        $command = new ImportSegmentsFromFile($filePath);
+        $command = new ImportSegmentsFromFile($filePath, false);
 
         self::handleCommand($command);
     }
@@ -199,6 +202,7 @@ class ImportSegmentsFromFileTest extends TestCase
                 endLongitude: (float) $data['end_longitude'],
                 modality: $data['modality'],
                 capacity: (int) $data['capacity'],
+                startTime: new DateTimeImmutable('08:00:00'),
             ));
 
         $this->itineraryRepository
@@ -219,7 +223,7 @@ class ImportSegmentsFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportSegmentsFromFile($filePath);
+        $command = new ImportSegmentsFromFile($filePath, false);
 
         self::handleCommand($command);
 
@@ -266,7 +270,7 @@ class ImportSegmentsFromFileTest extends TestCase
             ->expects($this->never())
             ->method('add');
 
-        $command = new ImportSegmentsFromFile($filePath);
+        $command = new ImportSegmentsFromFile($filePath, false);
 
         self::handleCommand($command);
     }
@@ -326,6 +330,7 @@ class ImportSegmentsFromFileTest extends TestCase
                 endLongitude: (float) $data['end_longitude'],
                 modality: $data['modality'],
                 capacity: (int) $data['capacity'],
+                startTime: new DateTimeImmutable('08:00:00'),
             ));
 
         $this->itineraryRepository
@@ -344,7 +349,7 @@ class ImportSegmentsFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportSegmentsFromFile($filePath);
+        $command = new ImportSegmentsFromFile($filePath, false);
 
         self::handleCommand($command);
 
@@ -376,6 +381,7 @@ class ImportSegmentsFromFileTest extends TestCase
                 'end_longitude' => '1.345678',
                 'modality' => 'MIXED',
                 'capacity' => '6',
+                'start_time' => '08:00:00',
             ],
         ];
 
@@ -393,6 +399,7 @@ class ImportSegmentsFromFileTest extends TestCase
             endLongitude: 1.345678,
             modality: 'MIXED',
             capacity: 6,
+            startTime: new DateTimeImmutable('08:00:00'),
         );
 
         $this->segmentParser
@@ -423,7 +430,7 @@ class ImportSegmentsFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportSegmentsFromFile($filePath);
+        $command = new ImportSegmentsFromFile($filePath, false);
 
         self::handleCommand($command);
     }
