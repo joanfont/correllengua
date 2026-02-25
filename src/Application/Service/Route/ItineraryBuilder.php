@@ -12,6 +12,7 @@ readonly class ItineraryBuilder
      * @param array{
      *     route_name: string,
      *     name: string,
+     *     position: string,
      * } $itinerary
      */
     public function fromArray(array $itinerary): Itinerary
@@ -19,6 +20,7 @@ readonly class ItineraryBuilder
         return new Itinerary(
             routeName: $itinerary['route_name'],
             name: $itinerary['name'],
+            position: (int) $itinerary['position'],
         );
     }
 }

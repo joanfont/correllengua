@@ -8,10 +8,12 @@
         </id>
 
         <field name="name" length="128" />
+        <field name="position" type="integer" />
 
         <many-to-one field="route" target-entity="App\Domain\Model\Route\Route" inversed-by="itineraries">
             <join-column name="route_id" nullable="false"/>
         </many-to-one>
+
 
         <one-to-many field="segments" target-entity="App\Domain\Model\Route\Segment" mapped-by="itinerary">
             <cascade>

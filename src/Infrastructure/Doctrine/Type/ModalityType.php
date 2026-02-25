@@ -36,7 +36,7 @@ class ModalityType extends Type
     public function convertToPHPValue($value, AbstractPlatform $platform): Modality
     {
         if (!is_string($value)) {
-            throw new InvalidArgumentException('Modality value must be a string');
+            throw new InvalidArgumentException(sprintf('Modality value must be a string, %s given', get_debug_type($value)));
         }
 
         return Modality::from($value);

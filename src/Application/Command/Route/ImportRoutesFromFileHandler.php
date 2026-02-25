@@ -41,11 +41,20 @@ readonly class ImportRoutesFromFileHandler implements CommandHandler
      */
     private function createRoute(array $route): void
     {
-        /** @var array{name: string, description: string, start_date: string} $payload */
+        /**
+         * @var array{
+         *     name: string,
+         *     description: string,
+         *     position: string,
+         *     start_date: string
+         * } $payload
+         */
         $payload = [
             'name' => $route['name'] ?? '',
             'description' => $route['description'] ?? '',
+            'position' => $route['position'] ?? '',
             'start_date' => $route['start_date'] ?? '',
+
         ];
 
         $parsedRoute = $this->routeBuilder->fromArray($payload);
@@ -53,6 +62,7 @@ readonly class ImportRoutesFromFileHandler implements CommandHandler
             id: RouteId::generate(),
             name: $parsedRoute->name,
             description: $parsedRoute->description,
+            position: $parsedRoute->position,
             startsAt: $parsedRoute->startDate,
         );
 

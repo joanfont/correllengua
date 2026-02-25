@@ -19,6 +19,7 @@ class Itinerary extends Entity
         ItineraryId $id,
         private Route $route,
         private string $name,
+        private int $position,
     ) {
         $this->id = (string) $id;
         $this->segments = new ArrayCollection();
@@ -32,6 +33,11 @@ class Itinerary extends Entity
     public function name(): string
     {
         return $this->name;
+    }
+
+    public function position(): int
+    {
+        return $this->position;
     }
 
     public function route(): Route

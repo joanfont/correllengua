@@ -75,7 +75,7 @@ class ImportItinerariesFromFileTest extends TestCase
             ->willReturn($this->csvReader);
 
         $csvData = [
-            ['route_name' => 'Route 1', 'name' => 'Itinerary A'],
+            ['route_name' => 'Route 1', 'name' => 'Itinerary A', 'position' => '1'],
         ];
 
         $this->csvReader
@@ -86,6 +86,7 @@ class ImportItinerariesFromFileTest extends TestCase
         $itineraryDTO = new ItineraryDTO(
             'Route 1',
             'Itinerary A',
+            1,
         );
 
         $this->itineraryBuilder
@@ -128,9 +129,9 @@ class ImportItinerariesFromFileTest extends TestCase
             ->willReturn($this->csvReader);
 
         $csvData = [
-            ['route_name' => 'Route 1', 'name' => 'Itinerary A'],
-            ['route_name' => 'Route 1', 'name' => 'Itinerary B'],
-            ['route_name' => 'Route 2', 'name' => 'Itinerary C'],
+            ['route_name' => 'Route 1', 'name' => 'Itinerary A', 'position' => '1'],
+            ['route_name' => 'Route 1', 'name' => 'Itinerary B', 'position' => '2'],
+            ['route_name' => 'Route 2', 'name' => 'Itinerary C', 'position' => '1'],
         ];
 
         $this->csvReader
@@ -144,6 +145,7 @@ class ImportItinerariesFromFileTest extends TestCase
             ->willReturnCallback(fn (array $data): ItineraryDTO => new ItineraryDTO(
                 $data['route_name'],
                 $data['name'],
+                (int) $data['position'],
             ));
 
         $this->routeRepository
@@ -223,8 +225,8 @@ class ImportItinerariesFromFileTest extends TestCase
             ->willReturn($this->csvReader);
 
         $csvData = [
-            ['route_name' => 'Route 1', 'name' => 'Itinerary X'],
-            ['route_name' => 'Route 1', 'name' => 'Itinerary Y'],
+            ['route_name' => 'Route 1', 'name' => 'Itinerary X', 'position' => '1'],
+            ['route_name' => 'Route 1', 'name' => 'Itinerary Y', 'position' => '2'],
         ];
 
         $this->csvReader
@@ -238,6 +240,7 @@ class ImportItinerariesFromFileTest extends TestCase
             ->willReturnCallback(fn (array $data): ItineraryDTO => new ItineraryDTO(
                 $data['route_name'],
                 $data['name'],
+                (int) $data['position'],
             ));
 
         $this->routeRepository
@@ -279,7 +282,7 @@ class ImportItinerariesFromFileTest extends TestCase
             ->willReturn($this->csvReader);
 
         $csvData = [
-            ['route_name' => 'Route Test', 'name' => 'Itinerary Test'],
+            ['route_name' => 'Route Test', 'name' => 'Itinerary Test', 'position' => '3'],
         ];
 
         $this->csvReader
@@ -290,6 +293,7 @@ class ImportItinerariesFromFileTest extends TestCase
         $itineraryDTO = new ItineraryDTO(
             'Route Test',
             'Itinerary Test',
+            3,
         );
 
         $this->itineraryBuilder

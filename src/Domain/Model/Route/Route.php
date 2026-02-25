@@ -22,6 +22,7 @@ class Route extends Entity
         RouteId $id,
         private string $name,
         private string $description,
+        private int $position,
         private DateTimeInterface $startsAt,
     ) {
         $this->id = (string) $id;
@@ -41,6 +42,11 @@ class Route extends Entity
     public function description(): string
     {
         return $this->description;
+    }
+
+    public function position(): int
+    {
+        return $this->position;
     }
 
     public function startsAt(): DateTimeInterface

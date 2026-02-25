@@ -43,10 +43,17 @@ readonly class ImportItinerariesFromFileHandler implements CommandHandler
      */
     private function createItinerary(array $route): void
     {
-        /** @var array{route_name: string, name: string} $payload */
+        /**
+         * @var array{
+         *     route_name: string,
+         *     name: string,
+         *     position: string
+         * } $payload
+         */
         $payload = [
             'route_name' => $route['route_name'] ?? '',
             'name' => $route['name'] ?? '',
+            'position' => $route['position'] ?? '',
         ];
 
         $parsedItinerary = $this->itineraryBuilder->fromArray($payload);
@@ -56,6 +63,7 @@ readonly class ImportItinerariesFromFileHandler implements CommandHandler
             id: ItineraryId::generate(),
             route: $route,
             name: $parsedItinerary->name,
+            position: $parsedItinerary->position,
         );
 
         $this->itineraryRepository->add($itinerary);
