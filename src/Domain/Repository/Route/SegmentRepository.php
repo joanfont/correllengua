@@ -16,4 +16,6 @@ interface SegmentRepository
      * @throws SegmentNotFoundException
      */
     public function findById(SegmentId $id): Segment;
+
+    public function deleteAll(): void;
 }

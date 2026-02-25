@@ -26,4 +26,12 @@ class DoctrineSegmentRepository extends DoctrineRepository implements SegmentRep
 
         return $segment;
     }
+
+    public function deleteAll(): void
+    {
+        $this->entityManager->createQueryBuilder()
+            ->delete(Segment::class, 's')
+            ->getQuery()
+            ->execute();
+    }
 }

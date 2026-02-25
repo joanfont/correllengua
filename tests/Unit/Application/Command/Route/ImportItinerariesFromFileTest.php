@@ -105,7 +105,7 @@ class ImportItinerariesFromFileTest extends TestCase
             ->method('add')
             ->with($this->callback(fn (Itinerary $itinerary): bool => 'Itinerary A' === $itinerary->name()));
 
-        $command = new ImportItinerariesFromFile($filePath);
+        $command = new ImportItinerariesFromFile($filePath, false);
 
         self::handleCommand($command);
     }
@@ -161,7 +161,7 @@ class ImportItinerariesFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportItinerariesFromFile($filePath);
+        $command = new ImportItinerariesFromFile($filePath, false);
 
         self::handleCommand($command);
 
@@ -202,7 +202,7 @@ class ImportItinerariesFromFileTest extends TestCase
             ->expects($this->never())
             ->method('add');
 
-        $command = new ImportItinerariesFromFile($filePath);
+        $command = new ImportItinerariesFromFile($filePath, false);
 
         self::handleCommand($command);
     }
@@ -256,7 +256,7 @@ class ImportItinerariesFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportItinerariesFromFile($filePath);
+        $command = new ImportItinerariesFromFile($filePath, false);
 
         self::handleCommand($command);
 
@@ -314,7 +314,7 @@ class ImportItinerariesFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportItinerariesFromFile($filePath);
+        $command = new ImportItinerariesFromFile($filePath, false);
 
         self::handleCommand($command);
     }

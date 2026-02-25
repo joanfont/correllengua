@@ -4,33 +4,40 @@ declare(strict_types=1);
 
 namespace App\Application\Service\Route;
 
+use App\Application\Service\Calendar\Calendar;
 use App\Application\Service\Route\DTO\Segment;
 
-class SegmentBuilder
+readonly class SegmentBuilder
 {
+    public function __construct(private Calendar $calendar)
+    {
+    }
+
     /**
      * @param array{
      *     itinerary_name: string,
-     *     position: int,
-     *     start_latitude: float,
-     *     start_longitude: float,
-     *     end_latitude: float,
-     *     end_longitude: float,
+     *     position: string,
+     *     start_latitude: string,
+     *     start_longitude: string,
+     *     end_latitude: string,
+     *     end_longitude: string,
      *     modality: string,
-     *     capacity: int
+     *     capacity: string|null,
+     *     start_time: string,
      * } $segment
      */
     public function fromArray(array $segment): Segment
     {
         return new Segment(
             itineraryName: $segment['itinerary_name'],
-            position: $segment['position'],
-            startLatitude: $segment['start_latitude'],
-            startLongitude: $segment['start_longitude'],
-            endLatitude: $segment['end_latitude'],
-            endLongitude: $segment['end_longitude'],
+            position: (int) $segment['position'],
+            startLatitude: (float) $segment['start_latitude'],
+            startLongitude: (float) $segment['start_longitude'],
+            endLatitude: (float) $segment['end_latitude'],
+            endLongitude: (float) $segment['end_longitude'],
             modality: $segment['modality'],
-            capacity: $segment['capacity'],
+            capacity: null !== $segment['capacity'] ? (int) $segment['capacity'] : null,
+            startTime: $this->calendar->fromString($segment['start_time'], 'H:i:s'),
         );
     }
 }

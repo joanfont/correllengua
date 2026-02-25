@@ -28,6 +28,10 @@ readonly class ImportSegmentsFromFileHandler implements CommandHandler
 
     public function __invoke(ImportSegmentsFromFile $importSegmentsFromFile): void
     {
+        if ($importSegmentsFromFile->truncate) {
+            $this->segmentRepository->deleteAll();
+        }
+
         $csvData = $this->filesystem->read($importSegmentsFromFile->path);
         $csvReader = $this->csvReaderFactory->makeFromString($csvData);
         foreach ($csvReader->readLine() as $segment) {
@@ -41,26 +45,29 @@ readonly class ImportSegmentsFromFileHandler implements CommandHandler
      */
     private function createSegment(array $segment): void
     {
-        /** @var array{
+        /**
+         * @var array{
          *     itinerary_name: string,
-         *     position: int,
-         *     start_latitude: float,
-         *     start_longitude: float,
-         *     end_latitude: float,
-         *     end_longitude: float,
+         *     position: string,
+         *     start_latitude: string,
+         *     start_longitude: string,
+         *     end_latitude: string,
+         *     end_longitude: string,
+         *     capacity: string|null,
          *     modality: string,
-         *     capacity: int
-         * } $payload
-         */s
+         *     start_time: string,
+         *  } $payload
+         */
         $payload = [
             'itinerary_name' => $segment['itinerary_name'] ?? '',
-            'position' => (int) ($segment['position'] ?? 0),
-            'start_latitude' => (float) ($segment['start_latitude'] ?? 0.0),
-            'start_longitude' => (float) ($segment['start_longitude'] ?? 0.0),
-            'end_latitude' => (float) ($segment['end_latitude'] ?? 0.0),
-            'end_longitude' => (float) ($segment['end_longitude'] ?? 0.0),
+            'position' => $segment['position'] ?? '',
+            'start_latitude' => $segment['start_latitude'] ?? '',
+            'start_longitude' => $segment['start_longitude'] ?? '',
+            'end_latitude' => $segment['end_latitude'] ?? '',
+            'end_longitude' => $segment['end_longitude'] ?? '',
+            'capacity' => $segment['capacity'] ?? '',
             'modality' => $segment['modality'] ?? '',
-            'capacity' => (int) ($segment['capacity'] ?? 0),
+            'start_time' => $segment['start_time'] ?? '',
         ];
 
         $parsedSegment = $this->segmentBuilder->fromArray($payload);
@@ -74,6 +81,7 @@ readonly class ImportSegmentsFromFileHandler implements CommandHandler
             end: new Coordinates($parsedSegment->endLatitude, $parsedSegment->endLongitude),
             capacity: $parsedSegment->capacity,
             modality: Modality::from($parsedSegment->modality),
+            startTime: $parsedSegment->startTime,
         );
 
         $this->segmentRepository->add($segment);

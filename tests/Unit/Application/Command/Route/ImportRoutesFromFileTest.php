@@ -92,7 +92,7 @@ class ImportRoutesFromFileTest extends TestCase
             ->with($this->callback(fn (Route $route): bool => 'Ruta 1' === $route->name()
                 && 'Descripció' === $route->description()));
 
-        $command = new ImportRoutesFromFile($filePath);
+        $command = new ImportRoutesFromFile($filePath, false);
 
         self::handleCommand($command);
     }
@@ -145,7 +145,7 @@ class ImportRoutesFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportRoutesFromFile($filePath);
+        $command = new ImportRoutesFromFile($filePath, false);
 
         self::handleCommand($command);
 
@@ -182,7 +182,7 @@ class ImportRoutesFromFileTest extends TestCase
             ->expects($this->never())
             ->method('add');
 
-        $command = new ImportRoutesFromFile($filePath);
+        $command = new ImportRoutesFromFile($filePath, false);
 
         self::handleCommand($command);
     }
@@ -233,7 +233,7 @@ class ImportRoutesFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportRoutesFromFile($filePath);
+        $command = new ImportRoutesFromFile($filePath, false);
 
         self::handleCommand($command);
 
@@ -289,7 +289,7 @@ class ImportRoutesFromFileTest extends TestCase
                 return true;
             }));
 
-        $command = new ImportRoutesFromFile($filePath);
+        $command = new ImportRoutesFromFile($filePath, false);
 
         self::handleCommand($command);
     }

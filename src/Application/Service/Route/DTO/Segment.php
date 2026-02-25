@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Service\Route\DTO;
 
+use DateTimeInterface;
+
 readonly class Segment
 {
     public function __construct(
@@ -14,7 +16,8 @@ readonly class Segment
         public float $endLatitude,
         public float $endLongitude,
         public string $modality,
-        public int $capacity,
+        public ?int $capacity,
+        public DateTimeInterface $startTime,
     ) {
     }
 }

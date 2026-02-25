@@ -7,9 +7,9 @@ namespace App\Application\Service\Route;
 use App\Application\Service\Calendar\Calendar;
 use App\Application\Service\Route\DTO\Route;
 
-class RouteBuilder
+readonly class RouteBuilder
 {
-    public function __construct(private readonly Calendar $calendar)
+    public function __construct(private Calendar $calendar)
     {
     }
 
@@ -25,7 +25,7 @@ class RouteBuilder
         return new Route(
             name: $route['name'],
             description: $route['description'],
-            startDate: $this->calendar->fromString($route['start_date'], 'd/m/y'),
+            startDate: $this->calendar->fromString($route['start_date'], 'd/m/Y'),
         );
     }
 }

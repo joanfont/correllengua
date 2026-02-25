@@ -7,6 +7,7 @@ namespace App\Domain\Model\Route;
 use App\Domain\Model\Coordinates;
 use App\Domain\Model\Entity;
 use App\Domain\Model\Registration\Registration;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -25,6 +26,7 @@ class Segment extends Entity
         private Coordinates $end,
         private ?int $capacity,
         private Modality $modality,
+        private DateTimeInterface $startTime,
     ) {
         $this->id = (string) $id;
         $this->registrations = new ArrayCollection();
@@ -63,6 +65,11 @@ class Segment extends Entity
     public function modality(): Modality
     {
         return $this->modality;
+    }
+
+    public function startTime(): DateTimeInterface
+    {
+        return $this->startTime;
     }
 
     public function isFull(): bool

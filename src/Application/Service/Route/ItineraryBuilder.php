@@ -6,7 +6,7 @@ namespace App\Application\Service\Route;
 
 use App\Application\Service\Route\DTO\Itinerary;
 
-class ItineraryBuilder
+readonly class ItineraryBuilder
 {
     /**
      * @param array{

@@ -7,11 +7,11 @@ namespace App\Infrastructure\Symfony\Console\Route;
 use App\Application\Command\Route\ImportRoutesFromFile as ImportRoutesFromFileCommand;
 use App\Application\Commons\Command\CommandBus;
 
-use Symfony\Component\Console\Attribute\Argument;
-use Symfony\Component\Console\Attribute\Option;
 use function sprintf;
 
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 
