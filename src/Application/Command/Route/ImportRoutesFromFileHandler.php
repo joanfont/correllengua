@@ -54,7 +54,6 @@ readonly class ImportRoutesFromFileHandler implements CommandHandler
             'description' => $route['description'] ?? '',
             'position' => $route['position'] ?? '',
             'start_date' => $route['start_date'] ?? '',
-
         ];
 
         $parsedRoute = $this->routeBuilder->fromArray($payload);

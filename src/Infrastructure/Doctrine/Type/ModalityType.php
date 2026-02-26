@@ -9,12 +9,17 @@ use App\Domain\Model\Route\Modality;
 use function array_map;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+
+use function get_debug_type;
+
 use InvalidArgumentException;
 
 use function is_string;
 use function max;
 
 use Override;
+
+use function sprintf;
 
 class ModalityType extends Type
 {
