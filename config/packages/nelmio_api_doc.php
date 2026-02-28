@@ -28,6 +28,7 @@ return static function (ContainerConfigurator $container): void {
                     '^/route',
                     '^/press',
                     '^/registration',
+                    '^/admin',
                 ],
             ],
         ],
