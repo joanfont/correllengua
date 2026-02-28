@@ -17,16 +17,16 @@ use function in_array;
 
 class Participant extends Entity
 {
-    private readonly string $id;
+    private string $id;
 
     /** @var Collection<int, Registration> */
-    private readonly Collection $registrations;
+    private Collection $registrations;
 
     public function __construct(
         ParticipantId $id,
-        private readonly string $name,
-        private readonly string $surname,
-        private readonly string $email,
+        private string $name,
+        private string $surname,
+        private string $email,
     ) {
         $this->id = (string) $id;
 
