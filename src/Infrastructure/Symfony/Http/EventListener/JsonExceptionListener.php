@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Symfony\Http\EventListener;
 
+use App\Domain\Exception\Auth\InvalidCredentialsException;
+
 use function str_contains;
 
-use App\Domain\Exception\Auth\InvalidCredentialsException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;

@@ -18,4 +18,3 @@ readonly class ValidateCredentials implements Command
     ) {
     }
 }
-

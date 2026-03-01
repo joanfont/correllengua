@@ -22,4 +22,3 @@ readonly class IssueToken implements Query
     ) {
     }
 }
-

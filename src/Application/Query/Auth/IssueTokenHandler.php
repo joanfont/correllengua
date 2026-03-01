@@ -22,4 +22,3 @@ readonly class IssueTokenHandler implements QueryHandler
         );
     }
 }
-

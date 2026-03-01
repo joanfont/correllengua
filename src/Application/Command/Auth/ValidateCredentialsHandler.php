@@ -31,4 +31,3 @@ readonly class ValidateCredentialsHandler implements CommandHandler
         }
     }
 }
-
