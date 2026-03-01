@@ -11,7 +11,6 @@ readonly class Registration
 {
     public function __construct(
         public string $id,
-        public string $modality,
         public Participant $participant,
         public Segment $segment,
     ) {

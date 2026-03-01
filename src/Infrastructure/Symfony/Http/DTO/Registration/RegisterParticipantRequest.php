@@ -8,7 +8,7 @@ use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
-    required: ['segments', 'participant', 'modality'],
+    required: ['segments', 'participant'],
     properties: [
         new OA\Property(
             property: 'segments',
@@ -22,12 +22,6 @@ use OpenApi\Attributes as OA;
             property: 'participant',
             ref: new Model(type: Participant::class),
         ),
-        new OA\Property(
-            property: 'modality',
-            type: 'string',
-            enum: ['WALK', 'BIKE'],
-            example: 'WALK',
-        ),
     ],
 )]
 readonly class RegisterParticipantRequest
@@ -38,7 +32,6 @@ readonly class RegisterParticipantRequest
     public function __construct(
         public array $segments,
         public Participant $participant,
-        public string $modality,
     ) {
     }
 }

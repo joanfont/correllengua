@@ -67,7 +67,6 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
 
         $registration = new RegistrationDTO(
             id: $registrationId,
-            modality: 'WALK',
             participant: $participant,
             segment: $segment,
         );

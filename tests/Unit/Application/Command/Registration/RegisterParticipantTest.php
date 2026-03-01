@@ -8,12 +8,10 @@ use App\Application\Command\Registration\DTO\Participant as ParticipantDTO;
 use App\Application\Command\Registration\RegisterParticipant;
 use App\Domain\Exception\Participant\ParticipantAlreadyJoinedSegmentException;
 use App\Domain\Exception\Participant\ParticipantReachedMaxSegmentsException;
-use App\Domain\Exception\Route\ModalityMismatchException;
 use App\Domain\Exception\Route\SegmentIsFullException;
 use App\Domain\Model\Participant\Participant;
 use App\Domain\Model\Registration\Registration;
 use App\Domain\Model\Registration\RegistrationFactory;
-use App\Domain\Model\Route\Modality;
 use App\Domain\Model\Route\Segment;
 use App\Domain\Model\Route\SegmentId;
 use App\Domain\Repository\Participant\ParticipantRepository;
@@ -48,7 +46,7 @@ class RegisterParticipantTest extends TestCase
         self::set(RegistrationFactory::class, $this->registrationFactory);
     }
 
-    public function testRegistersParticipantToSameModalitySegment(): void
+    public function testRegistersParticipantToSegment(): void
     {
         $segmentId = SegmentId::generate();
 
@@ -62,10 +60,6 @@ class RegisterParticipantTest extends TestCase
             ->expects($this->once())
             ->method('isFull')
             ->willReturn(false);
-
-        $this->segment
-            ->method('modality')
-            ->willReturn(Modality::WALK);
 
         $participantEmail = 'john@example.com';
         $participantDto = new ParticipantDTO(
@@ -97,7 +91,7 @@ class RegisterParticipantTest extends TestCase
         $this->registrationFactory
             ->expects($this->once())
             ->method('make')
-            ->with($this->participant, $this->segment, Modality::WALK)
+            ->with($this->participant, $this->segment)
             ->willReturn($registration);
 
         $this->segment
@@ -108,7 +102,6 @@ class RegisterParticipantTest extends TestCase
         $registerParticipant = new RegisterParticipant(
             $participantDto,
             [(string) $segmentId],
-            Modality::WALK->value,
         );
 
         self::handleCommand($registerParticipant);
@@ -128,10 +121,6 @@ class RegisterParticipantTest extends TestCase
             ->method('isFull')
             ->willReturn(true);
 
-        $this->segment
-            ->expects($this->never())
-            ->method('modality');
-
         $this->participantRepository
             ->expects($this->never())
             ->method('findByEmail');
@@ -147,46 +136,6 @@ class RegisterParticipantTest extends TestCase
         $registerParticipant = new RegisterParticipant(
             $participantDto,
             [(string) $segmentId],
-            Modality::WALK->value,
-        );
-
-        self::handleCommand($registerParticipant);
-    }
-
-    public function testThrowsExceptionWhenModalityDoesNotMatch(): void
-    {
-        $segmentId = SegmentId::generate();
-
-        $this->segmentRepository
-            ->expects($this->once())
-            ->method('findById')
-            ->willReturn($this->segment);
-
-        $this->segment
-            ->expects($this->once())
-            ->method('isFull')
-            ->willReturn(false);
-
-        $this->segment
-            ->method('modality')
-            ->willReturn(Modality::WALK);
-
-        $this->participantRepository
-            ->expects($this->never())
-            ->method('findByEmail');
-
-        static::expectException(ModalityMismatchException::class);
-
-        $participantDto = new ParticipantDTO(
-            name: 'John',
-            surname: 'Doe',
-            email: 'john@example.com',
-        );
-
-        $registerParticipant = new RegisterParticipant(
-            $participantDto,
-            [(string) $segmentId],
-            Modality::BIKE->value,
         );
 
         self::handleCommand($registerParticipant);
@@ -205,10 +154,6 @@ class RegisterParticipantTest extends TestCase
             ->expects($this->once())
             ->method('isFull')
             ->willReturn(false);
-
-        $this->segment
-            ->method('modality')
-            ->willReturn(Modality::WALK);
 
         $participantEmail = 'john@example.com';
         $participantDto = new ParticipantDTO(
@@ -233,14 +178,11 @@ class RegisterParticipantTest extends TestCase
             ->expects($this->never())
             ->method('hasReachedMaxSegments');
 
-        // joinSegment is no longer called by the handler; no expectation needed
-
         static::expectException(ParticipantAlreadyJoinedSegmentException::class);
 
         $registerParticipant = new RegisterParticipant(
             $participantDto,
             [(string) $segmentId],
-            Modality::WALK->value,
         );
 
         self::handleCommand($registerParticipant);
@@ -259,10 +201,6 @@ class RegisterParticipantTest extends TestCase
             ->expects($this->once())
             ->method('isFull')
             ->willReturn(false);
-
-        $this->segment
-            ->method('modality')
-            ->willReturn(Modality::WALK);
 
         $participantEmail = 'john@example.com';
         $participantDto = new ParticipantDTO(
@@ -289,79 +227,11 @@ class RegisterParticipantTest extends TestCase
             ->with(5)
             ->willReturn(true);
 
-        // joinSegment is no longer called by the handler; no expectation needed
-
         static::expectException(ParticipantReachedMaxSegmentsException::class);
 
         $registerParticipant = new RegisterParticipant(
             $participantDto,
             [(string) $segmentId],
-            Modality::WALK->value,
-        );
-
-        self::handleCommand($registerParticipant);
-    }
-
-    public function testAllowsRegistrationWhenSegmentModalityIsMixed(): void
-    {
-        $segmentId = SegmentId::generate();
-
-        $this->segmentRepository
-            ->expects($this->once())
-            ->method('findById')
-            ->willReturn($this->segment);
-
-        $this->segment
-            ->expects($this->once())
-            ->method('isFull')
-            ->willReturn(false);
-
-        $this->segment
-            ->method('modality')
-            ->willReturn(Modality::MIXED);
-
-        $participantEmail = 'john@example.com';
-        $participantDto = new ParticipantDTO(
-            name: 'John',
-            surname: 'Doe',
-            email: $participantEmail,
-        );
-
-        $this->participantRepository
-            ->expects($this->once())
-            ->method('findByEmail')
-            ->with($participantEmail)
-            ->willReturn($this->participant);
-
-        $this->participant
-            ->expects($this->once())
-            ->method('hasJoinedSegment')
-            ->with($this->segment)
-            ->willReturn(false);
-
-        $this->participant
-            ->expects($this->once())
-            ->method('hasReachedMaxSegments')
-            ->with(5)
-            ->willReturn(false);
-
-        $registration = $this->createStub(Registration::class);
-
-        $this->registrationFactory
-            ->expects($this->once())
-            ->method('make')
-            ->with($this->participant, $this->segment, Modality::WALK)
-            ->willReturn($registration);
-
-        $this->segment
-            ->expects($this->once())
-            ->method('addRegistration')
-            ->with($registration);
-
-        $registerParticipant = new RegisterParticipant(
-            $participantDto,
-            [(string) $segmentId],
-            Modality::WALK->value,
         );
 
         self::handleCommand($registerParticipant);

@@ -6,7 +6,6 @@ namespace App\Application\Command\Registration;
 
 use App\Application\Command\Registration\DTO\Participant;
 use App\Application\Commons\Command\Command;
-use App\Domain\Model\Route\Modality;
 use App\Infrastructure\Symfony\Validator\Constraints\MaxSegmentsCount;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,8 +23,6 @@ readonly class RegisterParticipant implements Command
         ])]
         /** @var array<string> */
         public array $segments,
-        #[Assert\Choice(callback: [Modality::class, 'values'])]
-        public string $modality,
     ) {
     }
 }

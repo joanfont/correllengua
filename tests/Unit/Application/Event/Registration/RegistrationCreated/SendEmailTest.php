@@ -56,7 +56,6 @@ class SendEmailTest extends TestCase
 
         $registrationDto = new RegistrationDTO(
             id: $registrationId,
-            modality: 'WALK',
             participant: $participant,
             segment: $segment,
         );

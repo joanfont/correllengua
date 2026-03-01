@@ -38,7 +38,6 @@ final class RegistrationController extends AbstractController
         $registerParticipant = new RegisterParticipant(
             participant: $participant,
             segments: $registerParticipantRequest->segments,
-            modality: $registerParticipantRequest->modality,
         );
 
         $commandBus->dispatch($registerParticipant);

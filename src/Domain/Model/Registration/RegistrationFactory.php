@@ -6,7 +6,6 @@ namespace App\Domain\Model\Registration;
 
 use App\Application\Service\Registration\RegistrationHasher;
 use App\Domain\Model\Participant\Participant;
-use App\Domain\Model\Route\Modality;
 use App\Domain\Model\Route\Segment;
 
 class RegistrationFactory
@@ -15,7 +14,7 @@ class RegistrationFactory
     {
     }
 
-    public function make(Participant $participant, Segment $segment, Modality $modality): Registration
+    public function make(Participant $participant, Segment $segment): Registration
     {
         $id = RegistrationId::generate();
         $hash = $this->registrationHasher->hash($id);
@@ -24,7 +23,6 @@ class RegistrationFactory
             id: $id,
             participant: $participant,
             segment: $segment,
-            modality: $modality,
             hash: $hash,
         );
     }
