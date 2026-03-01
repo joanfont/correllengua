@@ -8,8 +8,8 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     properties: [
-        new OA\Property(property: 'next', type: 'string', nullable: true, example: 'YTFiMmMzZDQtZTVmNi03ODkwLWFiY2QtZWYxMjM0NTY3ODkw'),
-        new OA\Property(property: 'previous', type: 'string', nullable: true, example: null),
+        new OA\Property(property: 'next', type: 'string', example: 'YTFiMmMzZDQtZTVmNi03ODkwLWFiY2QtZWYxMjM0NTY3ODkw', nullable: true),
+        new OA\Property(property: 'previous', type: 'string', example: null, nullable: true),
     ],
     type: 'object',
 )]

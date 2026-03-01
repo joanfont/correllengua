@@ -22,6 +22,10 @@ return static function (ContainerConfigurator $container): void {
                 'pattern' => '^/(_profiler|_wdt|assets|build)/',
                 'security' => false,
             ],
+            'auth' => [
+                'pattern' => '^/auth/',
+                'security' => false,
+            ],
             'docs' => [
                 'lazy' => true,
                 'pattern' => '^/(doc\.json)?$',

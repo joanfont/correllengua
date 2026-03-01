@@ -13,7 +13,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(
             property: 'items',
             type: 'array',
-            items: new OA\Items(ref: new Model(type: ParticipantResponse::class)),
+            items: new OA\Items(ref: new Model(type: AdminParticipantResponse::class)),
         ),
         new OA\Property(property: 'cursor', ref: new Model(type: CursorResponse::class)),
         new OA\Property(property: 'total', type: 'integer', example: 150),
@@ -23,7 +23,7 @@ use OpenApi\Attributes as OA;
 final readonly class PaginatedParticipantsResponse
 {
     /**
-     * @param array<ParticipantResponse> $items
+     * @param array<AdminParticipantResponse> $items
      */
     public function __construct(
         public array $items,

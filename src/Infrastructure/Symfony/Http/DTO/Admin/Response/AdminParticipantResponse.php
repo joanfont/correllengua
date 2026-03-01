@@ -22,7 +22,7 @@ use OpenApi\Attributes as OA;
     ],
     type: 'object',
 )]
-final readonly class ParticipantResponse
+final readonly class AdminParticipantResponse
 {
     /**
      * @param array<RegistrationResponse> $registrations
