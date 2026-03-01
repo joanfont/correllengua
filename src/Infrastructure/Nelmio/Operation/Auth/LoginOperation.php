@@ -45,4 +45,3 @@ final class LoginOperation extends OA\Post
         );
     }
 }
-

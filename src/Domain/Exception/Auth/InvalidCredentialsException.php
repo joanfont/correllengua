@@ -13,4 +13,3 @@ final class InvalidCredentialsException extends Exception
         return new self('Invalid credentials');
     }
 }
-
