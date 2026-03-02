@@ -9,17 +9,13 @@ use App\Application\Command\Route\Admin\UpdateItinerary;
 use App\Application\Commons\Command\CommandBus;
 use App\Application\Commons\Query\QueryBus;
 use App\Application\Query\Route\Admin\ListItineraries;
-use App\Domain\DTO\Admin\Route\AdminItinerary;
 use App\Domain\DTO\Common\Cursor;
-use App\Domain\DTO\Common\PaginatedResult;
 use App\Infrastructure\Nelmio\Operation\Admin\CreateItineraryOperation;
 use App\Infrastructure\Nelmio\Operation\Admin\ListAdminItinerariesOperation;
 use App\Infrastructure\Nelmio\Operation\Admin\UpdateItineraryOperation;
 use App\Infrastructure\Nelmio\Tag\AdminTag;
 use App\Infrastructure\Symfony\Http\DTO\Admin\Request\CreateItineraryRequest;
 use App\Infrastructure\Symfony\Http\DTO\Admin\Request\UpdateItineraryRequest;
-use App\Infrastructure\Symfony\Http\DTO\Admin\Response\PaginatedItinerariesResponse;
-use App\Infrastructure\Symfony\Http\DTO\Common\CursorResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +42,6 @@ final class ItineraryController extends AbstractController
         #[MapQueryParameter]
         ?string $cursor = null,
     ): JsonResponse {
-        /** @var PaginatedResult<AdminItinerary> $result */
         $result = $queryBus->query(new ListItineraries(
             name: $name,
             routeId: $routeId,
@@ -54,14 +49,7 @@ final class ItineraryController extends AbstractController
             cursor: null !== $cursor ? Cursor::fromEncoded($cursor) : null,
         ));
 
-        return $this->json(new PaginatedItinerariesResponse(
-            items: $result->items,
-            cursor: new CursorResponse(
-                next: $result->nextCursor?->encode(),
-                previous: null,
-            ),
-            total: $result->total,
-        ));
+        return $this->json($result);
     }
 
     #[Route('', name: 'admin_create_itinerary', methods: ['POST'])]
@@ -72,7 +60,7 @@ final class ItineraryController extends AbstractController
         CreateItineraryRequest $request,
     ): Response {
         $commandBus->dispatch(new CreateItinerary(
-            routeId: $request->route_id,
+            routeId: $request->routeId,
             name: $request->name,
             position: $request->position,
         ));

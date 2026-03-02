@@ -12,7 +12,6 @@ use App\Domain\DTO\Auth\Token;
 use App\Infrastructure\Nelmio\Operation\Auth\LoginOperation;
 use App\Infrastructure\Nelmio\Tag\AuthTag;
 use App\Infrastructure\Symfony\Http\DTO\Auth\Request\LoginRequest;
-use App\Infrastructure\Symfony\Http\DTO\Auth\Response\TokenResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -41,9 +40,6 @@ final class AuthController extends AbstractController
             password: $loginRequest->password,
         ));
 
-        return $this->json(new TokenResponse(
-            token_type: $token->tokenType,
-            token: $token->token,
-        ));
+        return $this->json($token);
     }
 }

@@ -149,4 +149,8 @@ return function (ContainerConfigurator $container): void {
     $services
         ->set(App\Infrastructure\System\Service\Auth\Sha256PasswordHasher::class)
         ->arg('$salt', param('kernel.secret'));
+
+    $services
+        ->set(App\Infrastructure\Symfony\Serializer\Normalizer\CursorNormalizer::class)
+        ->tag('serializer.normalizer', ['priority' => 100]);
 };
