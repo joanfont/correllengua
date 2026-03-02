@@ -6,6 +6,7 @@ namespace App\Infrastructure\Doctrine\Repository\Route;
 
 use App\Domain\Exception\Route\RouteNotFoundException;
 use App\Domain\Model\Route\Route;
+use App\Domain\Model\Route\RouteId;
 use App\Domain\Repository\Route\RouteRepository;
 use App\Infrastructure\Doctrine\Repository\DoctrineRepository;
 
@@ -14,6 +15,17 @@ class DoctrineRouteRepository extends DoctrineRepository implements RouteReposit
     public function add(Route $route): void
     {
         $this->entityManager->persist($route);
+    }
+
+    public function findById(RouteId $id): Route
+    {
+        /** @var ?Route $route */
+        $route = $this->entityManager->find(Route::class, (string) $id);
+        if (null === $route) {
+            throw RouteNotFoundException::fromId($id);
+        }
+
+        return $route;
     }
 
     public function findByName(string $name): Route
@@ -26,7 +38,6 @@ class DoctrineRouteRepository extends DoctrineRepository implements RouteReposit
             ->setParameter('name', $name)
             ->getQuery()
             ->getOneOrNullResult();
-
         if (null === $route) {
             throw RouteNotFoundException::fromName($name);
         }

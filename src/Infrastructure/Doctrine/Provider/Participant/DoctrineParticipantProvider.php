@@ -14,11 +14,6 @@ use App\Domain\Model\Route\RouteId;
 use App\Domain\Model\Route\SegmentId;
 use App\Domain\Provider\Participant\ParticipantProvider;
 use App\Infrastructure\Doctrine\Provider\DoctrineProvider;
-
-use function array_map;
-use function array_pop;
-use function count;
-
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 
@@ -76,35 +71,12 @@ class DoctrineParticipantProvider extends DoctrineProvider implements Participan
                 ->setParameter('cursor', $cursor->value());
         }
 
-        $countQb = clone $qb;
-        $countQb->select('COUNT(DISTINCT p.id)');
-        $total = (int) $countQb->getQuery()->getSingleScalarResult();
-
-        $qb->setMaxResults($limit + 1);
-
-        /** @var array<ParticipantModel> $participants */
-        $participants = $qb->getQuery()->getResult();
-
-        $hasNextPage = count($participants) > $limit;
-        if ($hasNextPage) {
-            array_pop($participants);
-        }
-
-        $items = array_map(
-            fn (ParticipantModel $participant) => $this->participantFactory->fromEntity($participant),
-            $participants,
-        );
-
-        $nextCursor = null;
-        if ($hasNextPage && count($participants) > 0) {
-            $lastParticipant = $participants[count($participants) - 1];
-            $nextCursor = Cursor::fromValue((string) $lastParticipant->id());
-        }
-
-        return new PaginatedResult(
-            items: $items,
-            total: $total,
-            nextCursor: $nextCursor,
+        return $this->paginate(
+            qb: $qb,
+            countExpr: 'COUNT(DISTINCT p.id)',
+            limit: $limit,
+            toDto: fn (ParticipantModel $p) => $this->participantFactory->fromEntity($p),
+            toCursorValue: fn (ParticipantModel $p) => (string) $p->id(),
         );
     }
 

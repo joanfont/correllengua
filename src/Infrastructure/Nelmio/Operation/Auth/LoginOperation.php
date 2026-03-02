@@ -20,6 +20,7 @@ final class LoginOperation extends OA\Post
             path: '/auth/login',
             description: 'Validates user credentials and returns a Basic Auth token to use in subsequent requests.',
             summary: 'Login and obtain a Basic Auth token',
+            security: [],
             requestBody: new OA\RequestBody(
                 required: true,
                 content: new OA\JsonContent(ref: new Model(type: LoginRequest::class)),

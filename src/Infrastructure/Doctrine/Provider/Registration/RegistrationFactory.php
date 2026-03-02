@@ -21,7 +21,6 @@ readonly class RegistrationFactory
     {
         return new Registration(
             id: (string) $registration->id(),
-            modality: $registration->modality()->value,
             participant: $this->participantFactory->fromEntity($registration->participant()),
             segment: $this->segmentFactory->fromEntity($registration->segment()),
         );

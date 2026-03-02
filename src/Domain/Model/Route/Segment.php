@@ -72,6 +72,22 @@ class Segment extends Entity
         return $this->startTime;
     }
 
+    public function update(
+        int $position,
+        Coordinates $start,
+        Coordinates $end,
+        ?int $capacity,
+        Modality $modality,
+        DateTimeInterface $startTime,
+    ): void {
+        $this->position = $position;
+        $this->start = $start;
+        $this->end = $end;
+        $this->capacity = $capacity;
+        $this->modality = $modality;
+        $this->startTime = $startTime;
+    }
+
     public function isFull(): bool
     {
         return null !== $this->capacity && $this->capacity === $this->registrations->count();

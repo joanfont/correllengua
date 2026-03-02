@@ -15,14 +15,14 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/admin')]
+#[Route('/admin/participants')]
 #[AdminTag]
 #[IsGranted('IS_AUTHENTICATED')]
-final class AdminController extends AbstractController
+final class ParticipantController extends AbstractController
 {
-    #[Route('/participants', name: 'admin_list_participants', methods: ['GET'])]
+    #[Route('', name: 'admin_list_participants', methods: ['GET'])]
     #[ListParticipantsOperation]
-    public function listParticipants(
+    public function list(
         QueryBus $queryBus,
         #[MapQueryParameter]
         ?string $routeId = null,
@@ -35,16 +35,15 @@ final class AdminController extends AbstractController
         #[MapQueryParameter]
         ?string $cursor = null,
     ): JsonResponse {
-        $listParticipants = new ListParticipants(
+        $result = $queryBus->query(new ListParticipants(
             routeId: $routeId,
             itineraryId: $itineraryId,
             segmentId: $segmentId,
             limit: $limit,
             cursor: null !== $cursor ? Cursor::fromEncoded($cursor) : null,
-        );
+        ));
 
-        $participants = $queryBus->query($listParticipants);
-
-        return $this->json($participants);
+        return $this->json($result);
     }
 }
+

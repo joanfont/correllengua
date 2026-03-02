@@ -25,3 +25,8 @@ phpstan:
 .PHONY: test
 test:
 	$(PHP) ./vendor/bin/phpunit --configuration phpunit.dist.xml
+
+.PHONY: dump-api-doc
+dump-api-doc:
+	$(SYMFONY) nelmio:apidoc:dump --format=json > data/doc.json
+

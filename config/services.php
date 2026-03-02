@@ -149,4 +149,20 @@ return function (ContainerConfigurator $container): void {
     $services
         ->set(App\Infrastructure\System\Service\Auth\Sha256PasswordHasher::class)
         ->arg('$salt', param('kernel.secret'));
+
+    $services
+        ->alias(
+            App\Domain\Provider\Route\ItineraryProvider::class,
+            App\Infrastructure\Doctrine\Provider\Route\Admin\DoctrineItineraryProvider::class,
+        );
+
+    $services
+        ->alias(
+            App\Domain\Provider\Route\SegmentProvider::class,
+            App\Infrastructure\Doctrine\Provider\Route\Admin\DoctrineSegmentProvider::class,
+        );
+
+    $services
+        ->set(App\Infrastructure\Symfony\Serializer\Normalizer\DateTimeAtomNormalizer::class)
+        ->tag('serializer.normalizer', ['priority' => 100]);
 };
