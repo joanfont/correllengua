@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     properties: [
-        new OA\Property(property: 'token_type', type: 'string', example: 'basic'),
+        new OA\Property(property: 'tokenType', type: 'string', example: 'basic'),
         new OA\Property(property: 'token', type: 'string', example: 'YWRtaW5AY29ycmVsbGVuZ3VhLmNhdDpzZWNyZXQ='),
     ],
     type: 'object',
@@ -16,7 +16,7 @@ use OpenApi\Attributes as OA;
 final readonly class TokenResponse
 {
     public function __construct(
-        public string $token_type,
+        public string $tokenType,
         public string $token,
     ) {
     }

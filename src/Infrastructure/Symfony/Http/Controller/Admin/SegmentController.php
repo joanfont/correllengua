@@ -9,17 +9,13 @@ use App\Application\Command\Route\Admin\UpdateSegment;
 use App\Application\Commons\Command\CommandBus;
 use App\Application\Commons\Query\QueryBus;
 use App\Application\Query\Route\Admin\ListSegments;
-use App\Domain\DTO\Admin\Route\AdminSegment;
 use App\Domain\DTO\Common\Cursor;
-use App\Domain\DTO\Common\PaginatedResult;
 use App\Infrastructure\Nelmio\Operation\Admin\CreateSegmentOperation;
 use App\Infrastructure\Nelmio\Operation\Admin\ListAdminSegmentsOperation;
 use App\Infrastructure\Nelmio\Operation\Admin\UpdateSegmentOperation;
 use App\Infrastructure\Nelmio\Tag\AdminTag;
 use App\Infrastructure\Symfony\Http\DTO\Admin\Request\CreateSegmentRequest;
 use App\Infrastructure\Symfony\Http\DTO\Admin\Request\UpdateSegmentRequest;
-use App\Infrastructure\Symfony\Http\DTO\Admin\Response\PaginatedSegmentsResponse;
-use App\Infrastructure\Symfony\Http\DTO\Common\CursorResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +44,6 @@ final class SegmentController extends AbstractController
         #[MapQueryParameter]
         ?string $cursor = null,
     ): JsonResponse {
-        /** @var PaginatedResult<AdminSegment> $result */
         $result = $queryBus->query(new ListSegments(
             itineraryId: $itineraryId,
             routeId: $routeId,
@@ -57,14 +52,7 @@ final class SegmentController extends AbstractController
             cursor: null !== $cursor ? Cursor::fromEncoded($cursor) : null,
         ));
 
-        return $this->json(new PaginatedSegmentsResponse(
-            items: $result->items,
-            cursor: new CursorResponse(
-                next: $result->nextCursor?->encode(),
-                previous: null,
-            ),
-            total: $result->total,
-        ));
+        return $this->json($result);
     }
 
     #[Route('', name: 'admin_create_segment', methods: ['POST'])]
@@ -75,15 +63,15 @@ final class SegmentController extends AbstractController
         CreateSegmentRequest $request,
     ): Response {
         $commandBus->dispatch(new CreateSegment(
-            itineraryId: $request->itinerary_id,
+            itineraryId: $request->itineraryId,
             position: $request->position,
-            startLatitude: $request->start_latitude,
-            startLongitude: $request->start_longitude,
-            endLatitude: $request->end_latitude,
-            endLongitude: $request->end_longitude,
+            startLatitude: $request->startLatitude,
+            startLongitude: $request->startLongitude,
+            endLatitude: $request->endLatitude,
+            endLongitude: $request->endLongitude,
             capacity: $request->capacity,
             modality: $request->modality,
-            startTime: $request->start_time,
+            startTime: $request->startTime,
         ));
 
         return new Response(null, Response::HTTP_CREATED);
@@ -100,13 +88,13 @@ final class SegmentController extends AbstractController
         $commandBus->dispatch(new UpdateSegment(
             id: $id,
             position: $request->position,
-            startLatitude: $request->start_latitude,
-            startLongitude: $request->start_longitude,
-            endLatitude: $request->end_latitude,
-            endLongitude: $request->end_longitude,
+            startLatitude: $request->startLatitude,
+            startLongitude: $request->startLongitude,
+            endLatitude: $request->endLatitude,
+            endLongitude: $request->endLongitude,
             capacity: $request->capacity,
             modality: $request->modality,
-            startTime: $request->start_time,
+            startTime: $request->startTime,
         ));
 
         return new Response(null, Response::HTTP_NO_CONTENT);

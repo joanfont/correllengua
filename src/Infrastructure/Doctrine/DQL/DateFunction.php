@@ -12,7 +12,7 @@ use Doctrine\ORM\Query\TokenType;
 
 final class DateFunction extends FunctionNode
 {
-    private Node $dateExpression;
+    private Node|string $dateExpression;
 
     public function parse(Parser $parser): void
     {
@@ -24,7 +24,10 @@ final class DateFunction extends FunctionNode
 
     public function getSql(SqlWalker $sqlWalker): string
     {
-        return 'DATE(' . $this->dateExpression->dispatch($sqlWalker) . ')';
+        $expr = $this->dateExpression instanceof Node
+            ? $this->dateExpression->dispatch($sqlWalker)
+            : $this->dateExpression;
+
+        return 'DATE('.$expr.')';
     }
 }
-
