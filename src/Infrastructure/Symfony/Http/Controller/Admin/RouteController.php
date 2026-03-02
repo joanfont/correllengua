@@ -38,11 +38,14 @@ final class RouteController extends AbstractController
         #[MapQueryParameter]
         int $limit = 20,
         #[MapQueryParameter]
+        ?int $maxOccupancy = null,
+        #[MapQueryParameter]
         ?string $cursor = null,
     ): JsonResponse {
         $result = $queryBus->query(new ListRoutes(
             name: $name,
             limit: $limit,
+            maxOccupancy: $maxOccupancy,
             cursor: null !== $cursor ? Cursor::fromEncoded($cursor) : null,
         ));
 

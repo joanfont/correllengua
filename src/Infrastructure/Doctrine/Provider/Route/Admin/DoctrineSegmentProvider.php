@@ -7,8 +7,9 @@ namespace App\Infrastructure\Doctrine\Provider\Route\Admin;
 use App\Domain\DTO\Admin\Route\AdminSegment;
 use App\Domain\DTO\Common\Cursor;
 use App\Domain\DTO\Common\PaginatedResult;
+use App\Domain\Model\Registration\Registration as RegistrationEntity;
 use App\Domain\Model\Route\Segment as SegmentEntity;
-use App\Domain\Provider\Route\SegmentProvider;
+use App\Domain\Provider\Route\Admin\SegmentProvider;
 use App\Infrastructure\Doctrine\Provider\DoctrineProvider;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -29,6 +30,7 @@ class DoctrineSegmentProvider extends DoctrineProvider implements SegmentProvide
         ?string $routeId,
         ?string $modality,
         int $limit,
+        ?int $maxOccupancy,
         ?Cursor $cursor,
     ): PaginatedResult {
         $qb = $this->entityManager->createQueryBuilder()
@@ -53,6 +55,20 @@ class DoctrineSegmentProvider extends DoctrineProvider implements SegmentProvide
         if (null !== $modality) {
             $qb->andWhere('s.modality = :modality')
                 ->setParameter('modality', $modality);
+        }
+
+        if (null !== $maxOccupancy) {
+            $sub = $this->entityManager->createQueryBuilder()
+                ->select('IDENTITY(regSub.segment)')
+                ->from(RegistrationEntity::class, 'regSub')
+                ->innerJoin('regSub.segment', 'sSub')
+                ->where('sSub.capacity IS NOT NULL')
+                ->andWhere('sSub.id = s.id')
+                ->groupBy('regSub.segment')
+                ->having('(COUNT(regSub.id) * 100.0 / sSub.capacity) >= :maxOccupancy');
+
+            $qb->andWhere($qb->expr()->exists($sub->getDQL()))
+                ->setParameter('maxOccupancy', $maxOccupancy);
         }
 
         if (null !== $cursor) {

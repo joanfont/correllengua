@@ -37,6 +37,13 @@ final class ListAdminRoutesOperation extends OA\Get
                     schema: new OA\Schema(type: 'integer', default: 20, minimum: 1, maximum: 100),
                 ),
                 new OA\Parameter(
+                    name: 'maxOccupancy',
+                    description: 'Filter routes that have at least one segment with this occupancy percentage or higher (0–100)',
+                    in: 'query',
+                    required: false,
+                    schema: new OA\Schema(type: 'integer', minimum: 0, maximum: 100, example: 75),
+                ),
+                new OA\Parameter(
                     name: 'cursor',
                     description: 'Cursor for pagination',
                     in: 'query',

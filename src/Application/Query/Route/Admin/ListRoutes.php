@@ -21,6 +21,8 @@ readonly class ListRoutes implements Query
         #[Assert\Positive]
         #[Assert\LessThanOrEqual(100)]
         public int $limit,
+        #[Assert\Range(min: 0, max: 100)]
+        public ?int $maxOccupancy,
         public ?Cursor $cursor,
     ) {
     }

@@ -50,6 +50,13 @@ final class ListAdminItinerariesOperation extends OA\Get
                     required: false,
                     schema: new OA\Schema(type: 'string'),
                 ),
+                new OA\Parameter(
+                    name: 'maxOccupancy',
+                    description: 'Filter itineraries that have at least one segment with this occupancy percentage or higher (0–100)',
+                    in: 'query',
+                    required: false,
+                    schema: new OA\Schema(type: 'integer', minimum: 0, maximum: 100, example: 75),
+                ),
             ],
             responses: [
                 new OA\Response(

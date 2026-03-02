@@ -40,12 +40,15 @@ final class ItineraryController extends AbstractController
         #[MapQueryParameter]
         int $limit = 20,
         #[MapQueryParameter]
+        ?int $maxOccupancy = null,
+        #[MapQueryParameter]
         ?string $cursor = null,
     ): JsonResponse {
         $result = $queryBus->query(new ListItineraries(
             name: $name,
             routeId: $routeId,
             limit: $limit,
+            maxOccupancy: $maxOccupancy,
             cursor: null !== $cursor ? Cursor::fromEncoded($cursor) : null,
         ));
 

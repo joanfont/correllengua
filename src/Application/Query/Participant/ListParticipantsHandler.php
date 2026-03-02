@@ -28,6 +28,7 @@ readonly class ListParticipantsHandler implements QueryHandler
             routeId: null !== $query->routeId ? RouteId::from($query->routeId) : null,
             itineraryId: null !== $query->itineraryId ? ItineraryId::from($query->itineraryId) : null,
             segmentId: null !== $query->segmentId ? SegmentId::from($query->segmentId) : null,
+            maxOccupancy: $query->maxOccupancy,
             limit: $query->limit,
             cursor: $query->cursor,
         );
