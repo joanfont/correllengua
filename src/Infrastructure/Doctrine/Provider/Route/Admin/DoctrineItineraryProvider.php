@@ -35,7 +35,7 @@ class DoctrineItineraryProvider extends DoctrineProvider implements ItineraryPro
             ->from(ItineraryEntity::class, 'i')
             ->innerJoin('i.route', 'r')
             ->addSelect('r')
-            ->orderBy('i.id', 'ASC');
+            ->orderBy('i.position', 'ASC');
 
         if (null !== $name) {
             $qb->andWhere('i.name LIKE :name')

@@ -11,10 +11,6 @@ return static function (ContainerConfigurator $container): void {
         'secret' => env('APP_SECRET'),
         'http_method_override' => false,
         'handle_all_throwables' => true,
-        'serializer' => [
-            'enabled' => true,
-            'name_converter' => 'serializer.name_converter.camel_case_to_snake_case',
-        ],
         'session' => [
             'handler_id' => null,
             'cookie_secure' => 'auto',

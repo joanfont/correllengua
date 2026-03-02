@@ -27,6 +27,11 @@ return static function (ContainerConfigurator $container): void {
             'entity_managers' => [
                 'default' => [
                     'naming_strategy' => 'doctrine.orm.naming_strategy.underscore_number_aware',
+                    'dql' => [
+                        'string_functions' => [
+                            'DATE' => App\Infrastructure\Doctrine\DQL\DateFunction::class,
+                        ],
+                    ],
                     'mappings' => [
                         'App' => [
                             'type' => 'xml',
