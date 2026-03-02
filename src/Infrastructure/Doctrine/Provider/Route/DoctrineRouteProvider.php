@@ -62,7 +62,7 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
         $qb = $this->entityManager->createQueryBuilder()
             ->select('r')
             ->from(RouteEntity::class, 'r')
-            ->orderBy('r.id', 'ASC');
+            ->orderBy('r.position', 'ASC');
 
         if (null !== $name) {
             $qb->andWhere('r.name LIKE :name')

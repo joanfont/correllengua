@@ -38,7 +38,7 @@ class DoctrineSegmentProvider extends DoctrineProvider implements SegmentProvide
             ->addSelect('i')
             ->innerJoin('i.route', 'r')
             ->addSelect('r')
-            ->orderBy('s.id', 'ASC');
+            ->orderBy('s.position', 'ASC');
 
         if (null !== $itineraryId) {
             $qb->andWhere('i.id = :itineraryId')
