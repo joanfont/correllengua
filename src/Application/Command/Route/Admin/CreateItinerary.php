@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Application\Command\Route\Admin;
+
+use App\Application\Commons\Command\Command;
+use Symfony\Component\Validator\Constraints as Assert;
+
+readonly class CreateItinerary implements Command
+{
+    public function __construct(
+        #[Assert\NotBlank]
+        #[Assert\Uuid]
+        public string $routeId,
+        #[Assert\NotBlank]
+        #[Assert\Length(max: 255)]
+        public string $name,
+        #[Assert\Positive]
+        public int $position,
+    ) {
+    }
+}

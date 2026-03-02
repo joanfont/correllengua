@@ -1,0 +1,29 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Application\Query\Route\Admin;
+
+use App\Application\Commons\Query\Query;
+use App\Domain\DTO\Admin\Route\AdminItinerary;
+use App\Domain\DTO\Common\Cursor;
+use App\Domain\DTO\Common\PaginatedResult;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @implements Query<PaginatedResult<AdminItinerary>>
+ */
+readonly class ListItineraries implements Query
+{
+    public function __construct(
+        #[Assert\Length(max: 255)]
+        public ?string $name,
+        #[Assert\Uuid]
+        public ?string $routeId,
+        #[Assert\Positive]
+        #[Assert\LessThanOrEqual(100)]
+        public int $limit,
+        public ?Cursor $cursor,
+    ) {
+    }
+}
