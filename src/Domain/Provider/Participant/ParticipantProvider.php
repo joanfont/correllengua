@@ -22,6 +22,7 @@ interface ParticipantProvider
         ?RouteId $routeId,
         ?ItineraryId $itineraryId,
         ?SegmentId $segmentId,
+        ?int $maxOccupancy,
         int $limit,
         ?Cursor $cursor,
     ): PaginatedResult;

@@ -42,6 +42,8 @@ final class SegmentController extends AbstractController
         #[MapQueryParameter]
         int $limit = 20,
         #[MapQueryParameter]
+        ?int $maxOccupancy = null,
+        #[MapQueryParameter]
         ?string $cursor = null,
     ): JsonResponse {
         $result = $queryBus->query(new ListSegments(
@@ -49,6 +51,7 @@ final class SegmentController extends AbstractController
             routeId: $routeId,
             modality: $modality,
             limit: $limit,
+            maxOccupancy: $maxOccupancy,
             cursor: null !== $cursor ? Cursor::fromEncoded($cursor) : null,
         ));
 

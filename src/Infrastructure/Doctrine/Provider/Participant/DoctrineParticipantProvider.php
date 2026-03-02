@@ -9,6 +9,7 @@ use App\Domain\DTO\Common\PaginatedResult;
 use App\Domain\DTO\Participant\Participant;
 use App\Domain\Exception\Participant\ParticipantNotFoundException;
 use App\Domain\Model\Participant\Participant as ParticipantModel;
+use App\Domain\Model\Registration\Registration;
 use App\Domain\Model\Route\ItineraryId;
 use App\Domain\Model\Route\RouteId;
 use App\Domain\Model\Route\SegmentId;
@@ -48,6 +49,7 @@ class DoctrineParticipantProvider extends DoctrineProvider implements Participan
         ?RouteId $routeId,
         ?ItineraryId $itineraryId,
         ?SegmentId $segmentId,
+        ?int $maxOccupancy,
         int $limit,
         ?Cursor $cursor,
     ): PaginatedResult {
@@ -65,6 +67,7 @@ class DoctrineParticipantProvider extends DoctrineProvider implements Participan
             ->orderBy('p.id', 'ASC');
 
         $this->applyFilters($qb, $routeId, $itineraryId, $segmentId);
+        $this->applyOccupancyFilter($qb, $maxOccupancy);
 
         if (null !== $cursor) {
             $qb->andWhere('p.id > :cursor')
@@ -98,5 +101,24 @@ class DoctrineParticipantProvider extends DoctrineProvider implements Participan
         }
 
         $qb->distinct();
+    }
+
+    private function applyOccupancyFilter(QueryBuilder $qb, ?int $maxOccupancy): void
+    {
+        if (null === $maxOccupancy) {
+            return;
+        }
+
+        // Subquery: segment IDs whose (enrolments / capacity * 100) >= threshold
+        $sub = $this->entityManager->createQueryBuilder()
+            ->select('IDENTITY(regSub.segment)')
+            ->from(Registration::class, 'regSub')
+            ->innerJoin('regSub.segment', 'sSub')
+            ->where('sSub.capacity IS NOT NULL')
+            ->groupBy('regSub.segment')
+            ->having('(COUNT(regSub.id) * 100.0 / sSub.capacity) >= :maxOccupancy');
+
+        $qb->andWhere($qb->expr()->in('s.id', $sub->getDQL()))
+            ->setParameter('maxOccupancy', $maxOccupancy);
     }
 }

@@ -18,6 +18,7 @@ readonly class ListParticipants implements Query
         public ?string $routeId,
         public ?string $itineraryId,
         public ?string $segmentId,
+        public ?int $maxOccupancy,
         public int $limit,
         public ?Cursor $cursor,
     ) {

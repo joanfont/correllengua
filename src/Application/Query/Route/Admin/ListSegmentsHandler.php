@@ -7,7 +7,7 @@ namespace App\Application\Query\Route\Admin;
 use App\Application\Commons\Query\QueryHandler;
 use App\Domain\DTO\Admin\Route\AdminSegment;
 use App\Domain\DTO\Common\PaginatedResult;
-use App\Domain\Provider\Route\SegmentProvider;
+use App\Domain\Provider\Route\Admin\SegmentProvider;
 
 readonly class ListSegmentsHandler implements QueryHandler
 {
@@ -25,6 +25,7 @@ readonly class ListSegmentsHandler implements QueryHandler
             routeId: $query->routeId,
             modality: $query->modality,
             limit: $query->limit,
+            maxOccupancy: $query->maxOccupancy,
             cursor: $query->cursor,
         );
     }

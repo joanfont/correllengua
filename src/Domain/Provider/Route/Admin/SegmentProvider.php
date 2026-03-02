@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Provider\Route;
+namespace App\Domain\Provider\Route\Admin;
 
 use App\Domain\DTO\Admin\Route\AdminSegment;
 use App\Domain\DTO\Common\Cursor;
@@ -18,6 +18,7 @@ interface SegmentProvider
         ?string $routeId,
         ?string $modality,
         int $limit,
+        ?int $maxOccupancy,
         ?Cursor $cursor,
     ): PaginatedResult;
 }

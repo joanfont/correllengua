@@ -4,49 +4,41 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Provider\Route\Admin;
 
-use App\Domain\DTO\Admin\Route\AdminItinerary;
+use App\Domain\DTO\Admin\Route\AdminRoute;
 use App\Domain\DTO\Common\Cursor;
 use App\Domain\DTO\Common\PaginatedResult;
 use App\Domain\Model\Registration\Registration as RegistrationEntity;
-use App\Domain\Model\Route\Itinerary as ItineraryEntity;
-use App\Domain\Provider\Route\Admin\ItineraryProvider;
+use App\Domain\Model\Route\Route as RouteEntity;
+use App\Domain\Provider\Route\Admin\RouteProvider;
 use App\Infrastructure\Doctrine\Provider\DoctrineProvider;
 use Doctrine\ORM\EntityManagerInterface;
 
-class DoctrineItineraryProvider extends DoctrineProvider implements ItineraryProvider
+class DoctrineAdminRouteProvider extends DoctrineProvider implements RouteProvider
 {
     public function __construct(
-        private readonly ItineraryFactory $adminItineraryFactory,
+        private readonly RouteFactory $adminRouteFactory,
         EntityManagerInterface $entityManager,
     ) {
         parent::__construct($entityManager);
     }
 
     /**
-     * @return PaginatedResult<AdminItinerary>
+     * @return PaginatedResult<AdminRoute>
      */
     public function findAllPaginated(
         ?string $name,
-        ?string $routeId,
         int $limit,
         ?int $maxOccupancy,
         ?Cursor $cursor,
     ): PaginatedResult {
         $qb = $this->entityManager->createQueryBuilder()
-            ->select('i')
-            ->from(ItineraryEntity::class, 'i')
-            ->innerJoin('i.route', 'r')
-            ->addSelect('r')
-            ->orderBy('i.position', 'ASC');
+            ->select('r')
+            ->from(RouteEntity::class, 'r')
+            ->orderBy('r.position', 'ASC');
 
         if (null !== $name) {
-            $qb->andWhere('i.name LIKE :name')
+            $qb->andWhere('r.name LIKE :name')
                 ->setParameter('name', '%'.$name.'%');
-        }
-
-        if (null !== $routeId) {
-            $qb->andWhere('r.id = :routeId')
-                ->setParameter('routeId', $routeId);
         }
 
         if (null !== $maxOccupancy) {
@@ -55,8 +47,9 @@ class DoctrineItineraryProvider extends DoctrineProvider implements ItineraryPro
                 ->from(RegistrationEntity::class, 'regSub')
                 ->innerJoin('regSub.segment', 'sSub')
                 ->innerJoin('sSub.itinerary', 'iSub')
+                ->innerJoin('iSub.route', 'rSub')
                 ->where('sSub.capacity IS NOT NULL')
-                ->andWhere('iSub.id = i.id')
+                ->andWhere('rSub.id = r.id')
                 ->groupBy('regSub.segment')
                 ->having('(COUNT(regSub.id) * 100.0 / sSub.capacity) >= :maxOccupancy');
 
@@ -65,16 +58,16 @@ class DoctrineItineraryProvider extends DoctrineProvider implements ItineraryPro
         }
 
         if (null !== $cursor) {
-            $qb->andWhere('i.id > :cursor')
+            $qb->andWhere('r.id > :cursor')
                 ->setParameter('cursor', $cursor->value());
         }
 
         return $this->paginate(
             qb: $qb,
-            countExpr: 'COUNT(i.id)',
+            countExpr: 'COUNT(r.id)',
             limit: $limit,
-            toDto: $this->adminItineraryFactory->fromEntity(...),
-            toCursorValue: fn (ItineraryEntity $i) => (string) $i->id(),
+            toDto: $this->adminRouteFactory->fromEntity(...),
+            toCursorValue: fn (RouteEntity $r) => (string) $r->id(),
         );
     }
 }

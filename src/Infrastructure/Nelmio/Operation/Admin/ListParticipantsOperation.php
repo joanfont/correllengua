@@ -44,6 +44,13 @@ final class ListParticipantsOperation extends OA\Get
                     schema: new OA\Schema(type: 'string', format: 'uuid'),
                 ),
                 new OA\Parameter(
+                    name: 'maxOccupancy',
+                    description: 'Filter participants enrolled in segments/itineraries/routes with at least this occupancy percentage (0–100)',
+                    in: 'query',
+                    required: false,
+                    schema: new OA\Schema(type: 'integer', minimum: 0, maximum: 100, example: 75),
+                ),
+                new OA\Parameter(
                     name: 'limit',
                     description: 'Number of items per page (max 100)',
                     in: 'query',

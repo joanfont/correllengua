@@ -31,6 +31,8 @@ final class ParticipantController extends AbstractController
         #[MapQueryParameter]
         ?string $segmentId = null,
         #[MapQueryParameter]
+        ?int $maxOccupancy = null,
+        #[MapQueryParameter]
         int $limit = 20,
         #[MapQueryParameter]
         ?string $cursor = null,
@@ -39,6 +41,7 @@ final class ParticipantController extends AbstractController
             routeId: $routeId,
             itineraryId: $itineraryId,
             segmentId: $segmentId,
+            maxOccupancy: $maxOccupancy,
             limit: $limit,
             cursor: null !== $cursor ? Cursor::fromEncoded($cursor) : null,
         ));

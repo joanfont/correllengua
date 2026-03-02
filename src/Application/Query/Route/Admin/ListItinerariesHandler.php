@@ -7,7 +7,7 @@ namespace App\Application\Query\Route\Admin;
 use App\Application\Commons\Query\QueryHandler;
 use App\Domain\DTO\Admin\Route\AdminItinerary;
 use App\Domain\DTO\Common\PaginatedResult;
-use App\Domain\Provider\Route\ItineraryProvider;
+use App\Domain\Provider\Route\Admin\ItineraryProvider;
 
 readonly class ListItinerariesHandler implements QueryHandler
 {
@@ -24,6 +24,7 @@ readonly class ListItinerariesHandler implements QueryHandler
             name: $query->name,
             routeId: $query->routeId,
             limit: $query->limit,
+            maxOccupancy: $query->maxOccupancy,
             cursor: $query->cursor,
         );
     }

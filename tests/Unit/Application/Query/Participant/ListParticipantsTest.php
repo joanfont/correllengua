@@ -38,13 +38,14 @@ class ListParticipantsTest extends TestCase
         $this->participantProvider
             ->expects($this->once())
             ->method('findAllPaginated')
-            ->with(null, null, null, 20, null)
+            ->with(null, null, null, null, 20, null)
             ->willReturn($paginatedResult);
 
         $result = self::handleQuery(new ListParticipants(
             routeId: null,
             itineraryId: null,
             segmentId: null,
+            maxOccupancy: null,
             limit: 20,
             cursor: null,
         ));
@@ -74,6 +75,7 @@ class ListParticipantsTest extends TestCase
                 null,
                 null,
                 $this->callback(fn (?SegmentId $id) => null !== $id && (string) $id === $segmentId),
+                null,
                 20,
                 null,
             )
@@ -83,6 +85,7 @@ class ListParticipantsTest extends TestCase
             routeId: null,
             itineraryId: null,
             segmentId: $segmentId,
+            maxOccupancy: null,
             limit: 20,
             cursor: null,
         ));
@@ -110,6 +113,7 @@ class ListParticipantsTest extends TestCase
                 null,
                 null,
                 null,
+                null,
                 10,
                 $this->callback(fn (?Cursor $c) => null !== $c && 'current-id' === $c->value()),
             )
@@ -119,6 +123,7 @@ class ListParticipantsTest extends TestCase
             routeId: null,
             itineraryId: null,
             segmentId: null,
+            maxOccupancy: null,
             limit: 10,
             cursor: Cursor::fromValue('current-id'),
         ));
@@ -141,6 +146,7 @@ class ListParticipantsTest extends TestCase
             routeId: null,
             itineraryId: null,
             segmentId: null,
+            maxOccupancy: null,
             limit: 20,
             cursor: null,
         ));
