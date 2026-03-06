@@ -10,7 +10,7 @@ use DateTimeInterface;
 
 readonly class RouteFactory
 {
-    public function fromEntity(RouteEntity $route): AdminRoute
+    public function fromEntity(RouteEntity $route, int $enrolments): AdminRoute
     {
         return new AdminRoute(
             id: (string) $route->id(),
@@ -18,6 +18,7 @@ readonly class RouteFactory
             description: $route->description(),
             position: $route->position(),
             startsAt: $route->startsAt()->format(DateTimeInterface::ATOM),
+            enrolments: $enrolments,
         );
     }
 }

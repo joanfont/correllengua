@@ -66,8 +66,24 @@ class DoctrineAdminRouteProvider extends DoctrineProvider implements RouteProvid
             qb: $qb,
             countExpr: 'COUNT(r.id)',
             limit: $limit,
-            toDto: $this->adminRouteFactory->fromEntity(...),
+            toDto: function (RouteEntity $r): AdminRoute {
+                return $this->adminRouteFactory->fromEntity($r, $this->countEnrolmentsForRoute((string) $r->id()));
+            },
             toCursorValue: fn (RouteEntity $r) => (string) $r->id(),
         );
+    }
+
+    private function countEnrolmentsForRoute(string $routeId): int
+    {
+        return (int) $this->entityManager->createQueryBuilder()
+            ->select('COUNT(reg.id)')
+            ->from(RegistrationEntity::class, 'reg')
+            ->innerJoin('reg.segment', 's')
+            ->innerJoin('s.itinerary', 'i')
+            ->innerJoin('i.route', 'r')
+            ->where('r.id = :routeId')
+            ->setParameter('routeId', $routeId)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

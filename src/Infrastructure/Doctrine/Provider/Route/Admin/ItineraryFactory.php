@@ -9,7 +9,7 @@ use App\Domain\Model\Route\Itinerary as ItineraryEntity;
 
 readonly class ItineraryFactory
 {
-    public function fromEntity(ItineraryEntity $itinerary): AdminItinerary
+    public function fromEntity(ItineraryEntity $itinerary, int $enrolments): AdminItinerary
     {
         return new AdminItinerary(
             id: (string) $itinerary->id(),
@@ -17,6 +17,7 @@ readonly class ItineraryFactory
             position: $itinerary->position(),
             routeId: (string) $itinerary->route()->id(),
             routeName: $itinerary->route()->name(),
+            enrolments: $enrolments,
         );
     }
 }

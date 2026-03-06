@@ -11,7 +11,7 @@ use DateTimeInterface;
 
 readonly class SegmentFactory
 {
-    public function fromEntity(SegmentEntity $segment): AdminSegment
+    public function fromEntity(SegmentEntity $segment, int $enrolments): AdminSegment
     {
         return new AdminSegment(
             id: (string) $segment->id(),
@@ -25,6 +25,7 @@ readonly class SegmentFactory
             itineraryName: $segment->itinerary()->name(),
             routeId: (string) $segment->itinerary()->route()->id(),
             routeName: $segment->itinerary()->route()->name(),
+            enrolments: $enrolments,
         );
     }
 }
