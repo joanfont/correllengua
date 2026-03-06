@@ -13,6 +13,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'description', type: 'string', example: 'Annual language run across Catalonia'),
         new OA\Property(property: 'position', type: 'integer', example: 1),
         new OA\Property(property: 'startsAt', type: 'string', format: 'date-time', example: '2025-04-26T09:00:00+02:00'),
+        new OA\Property(property: 'enrolments', type: 'integer', example: 120),
     ],
     type: 'object',
 )]
@@ -24,6 +25,7 @@ readonly class AdminRoute
         public string $description,
         public int $position,
         public string $startsAt,
+        public int $enrolments,
     ) {
     }
 }

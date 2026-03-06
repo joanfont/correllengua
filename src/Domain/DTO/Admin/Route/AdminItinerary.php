@@ -13,6 +13,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'position', type: 'integer', example: 1),
         new OA\Property(property: 'routeId', type: 'string', format: 'uuid', example: '7c9e6679-7425-40de-944b-e07fc1f90ae7'),
         new OA\Property(property: 'routeName', type: 'string', example: 'Correllengua 2025'),
+        new OA\Property(property: 'enrolments', type: 'integer', example: 45),
     ],
     type: 'object',
 )]
@@ -24,6 +25,7 @@ readonly class AdminItinerary
         public int $position,
         public string $routeId,
         public string $routeName,
+        public int $enrolments,
     ) {
     }
 }

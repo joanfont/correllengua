@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\Symfony\Http\DTO\Admin\Response;
 
 use App\Domain\DTO\Admin\Route\AdminRoute;
-use App\Infrastructure\Symfony\Http\DTO\Common\CursorResponse;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 
@@ -16,8 +15,8 @@ use OpenApi\Attributes as OA;
             type: 'array',
             items: new OA\Items(ref: new Model(type: AdminRoute::class)),
         ),
-        new OA\Property(property: 'cursor', ref: new Model(type: CursorResponse::class)),
         new OA\Property(property: 'total', type: 'integer', example: 5),
+        new OA\Property(property: 'nextCursor', type: 'string', nullable: true, example: 'dXVpZC12YWx1ZQ=='),
     ],
     type: 'object',
 )]
@@ -28,8 +27,8 @@ final readonly class PaginatedRoutesResponse
      */
     public function __construct(
         public array $items,
-        public CursorResponse $cursor,
         public int $total,
+        public ?string $nextCursor,
     ) {
     }
 }

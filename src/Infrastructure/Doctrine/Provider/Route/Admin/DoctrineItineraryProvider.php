@@ -73,8 +73,23 @@ class DoctrineItineraryProvider extends DoctrineProvider implements ItineraryPro
             qb: $qb,
             countExpr: 'COUNT(i.id)',
             limit: $limit,
-            toDto: $this->adminItineraryFactory->fromEntity(...),
+            toDto: function (ItineraryEntity $i): AdminItinerary {
+                return $this->adminItineraryFactory->fromEntity($i, $this->countEnrolmentsForItinerary((string) $i->id()));
+            },
             toCursorValue: fn (ItineraryEntity $i) => (string) $i->id(),
         );
+    }
+
+    private function countEnrolmentsForItinerary(string $itineraryId): int
+    {
+        return (int) $this->entityManager->createQueryBuilder()
+            ->select('COUNT(reg.id)')
+            ->from(RegistrationEntity::class, 'reg')
+            ->innerJoin('reg.segment', 's')
+            ->innerJoin('s.itinerary', 'i')
+            ->where('i.id = :itineraryId')
+            ->setParameter('itineraryId', $itineraryId)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

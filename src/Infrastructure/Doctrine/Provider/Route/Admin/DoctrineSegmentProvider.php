@@ -80,8 +80,22 @@ class DoctrineSegmentProvider extends DoctrineProvider implements SegmentProvide
             qb: $qb,
             countExpr: 'COUNT(s.id)',
             limit: $limit,
-            toDto: $this->adminSegmentFactory->fromEntity(...),
+            toDto: function (SegmentEntity $s): AdminSegment {
+                return $this->adminSegmentFactory->fromEntity($s, $this->countEnrolmentsForSegment((string) $s->id()));
+            },
             toCursorValue: fn (SegmentEntity $s) => (string) $s->id(),
         );
+    }
+
+    private function countEnrolmentsForSegment(string $segmentId): int
+    {
+        return (int) $this->entityManager->createQueryBuilder()
+            ->select('COUNT(reg.id)')
+            ->from(RegistrationEntity::class, 'reg')
+            ->innerJoin('reg.segment', 's')
+            ->where('s.id = :segmentId')
+            ->setParameter('segmentId', $segmentId)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }
