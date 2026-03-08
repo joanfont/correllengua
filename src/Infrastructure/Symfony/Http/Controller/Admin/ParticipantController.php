@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Symfony\Http\Controller\Admin;
 
 use App\Application\Commons\Query\QueryBus;
-use App\Application\Query\Participant\ListParticipants;
+use App\Application\Query\Participant\Admin\ListParticipants;
 use App\Domain\DTO\Common\Cursor;
 use App\Infrastructure\Nelmio\Operation\Admin\ListParticipantsOperation;
 use App\Infrastructure\Nelmio\Tag\AdminTag;

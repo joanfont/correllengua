@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Provider\Route\Admin;
 
-use App\Domain\DTO\Admin\Route\AdminItinerary;
+use App\Domain\DTO\Admin\Route\Itinerary;
 use App\Domain\DTO\Common\Cursor;
 use App\Domain\DTO\Common\PaginatedResult;
 use App\Domain\Model\Registration\Registration as RegistrationEntity;
@@ -23,7 +23,7 @@ class DoctrineItineraryProvider extends DoctrineProvider implements ItineraryPro
     }
 
     /**
-     * @return PaginatedResult<AdminItinerary>
+     * @return PaginatedResult<Itinerary>
      */
     public function findAllPaginated(
         ?string $name,
@@ -73,7 +73,7 @@ class DoctrineItineraryProvider extends DoctrineProvider implements ItineraryPro
             qb: $qb,
             countExpr: 'COUNT(i.id)',
             limit: $limit,
-            toDto: function (ItineraryEntity $i): AdminItinerary {
+            toDto: function (ItineraryEntity $i): Itinerary {
                 return $this->adminItineraryFactory->fromEntity($i, $this->countEnrolmentsForItinerary((string) $i->id()));
             },
             toCursorValue: fn (ItineraryEntity $i) => (string) $i->id(),

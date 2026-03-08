@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Query\Route\Admin;
 
 use App\Application\Commons\Query\QueryHandler;
-use App\Domain\DTO\Admin\Route\AdminSegment;
+use App\Domain\DTO\Admin\Route\Segment;
 use App\Domain\DTO\Common\PaginatedResult;
 use App\Domain\Provider\Route\Admin\SegmentProvider;
 
@@ -16,7 +16,7 @@ readonly class ListSegmentsHandler implements QueryHandler
     }
 
     /**
-     * @return PaginatedResult<AdminSegment>
+     * @return PaginatedResult<Segment>
      */
     public function __invoke(ListSegments $query): PaginatedResult
     {

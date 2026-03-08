@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Nelmio\Operation\Route;
 
-use App\Infrastructure\Symfony\Http\DTO\Common\ErrorResponse;
-use App\Infrastructure\Symfony\Http\DTO\Route\Response\RouteResponse;
+use App\Infrastructure\Nelmio\Schema\Common\ErrorResponseSchema;
+use App\Infrastructure\Nelmio\Schema\Route\RouteResponseSchema;
 use Attribute;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
@@ -26,13 +26,13 @@ final class ListRoutesOperation extends OA\Get
                     description: 'List of routes retrieved successfully',
                     content: new OA\JsonContent(
                         type: 'array',
-                        items: new OA\Items(ref: new Model(type: RouteResponse::class)),
+                        items: new OA\Items(ref: new Model(type: RouteResponseSchema::class)),
                     ),
                 ),
                 new OA\Response(
                     response: 500,
                     description: 'Internal server error',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
             ],
         );

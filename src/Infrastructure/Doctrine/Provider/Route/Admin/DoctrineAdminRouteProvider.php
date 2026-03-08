@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Provider\Route\Admin;
 
-use App\Domain\DTO\Admin\Route\AdminRoute;
+use App\Domain\DTO\Admin\Route\Route;
 use App\Domain\DTO\Common\Cursor;
 use App\Domain\DTO\Common\PaginatedResult;
 use App\Domain\Model\Registration\Registration as RegistrationEntity;
@@ -23,7 +23,7 @@ class DoctrineAdminRouteProvider extends DoctrineProvider implements RouteProvid
     }
 
     /**
-     * @return PaginatedResult<AdminRoute>
+     * @return PaginatedResult<Route>
      */
     public function findAllPaginated(
         ?string $name,
@@ -66,7 +66,7 @@ class DoctrineAdminRouteProvider extends DoctrineProvider implements RouteProvid
             qb: $qb,
             countExpr: 'COUNT(r.id)',
             limit: $limit,
-            toDto: function (RouteEntity $r): AdminRoute {
+            toDto: function (RouteEntity $r): Route {
                 return $this->adminRouteFactory->fromEntity($r, $this->countEnrolmentsForRoute((string) $r->id()));
             },
             toCursorValue: fn (RouteEntity $r) => (string) $r->id(),

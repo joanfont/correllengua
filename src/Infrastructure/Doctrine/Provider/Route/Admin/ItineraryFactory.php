@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Provider\Route\Admin;
 
-use App\Domain\DTO\Admin\Route\AdminItinerary;
+use App\Domain\DTO\Admin\Route\Itinerary;
 use App\Domain\Model\Route\Itinerary as ItineraryEntity;
 
 readonly class ItineraryFactory
 {
-    public function fromEntity(ItineraryEntity $itinerary, int $enrolments): AdminItinerary
+    public function fromEntity(ItineraryEntity $itinerary, int $enrolments): Itinerary
     {
-        return new AdminItinerary(
+        return new Itinerary(
             id: (string) $itinerary->id(),
             name: $itinerary->name(),
             position: $itinerary->position(),

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Application\Query\Route\Admin;
 
 use App\Application\Commons\Query\Query;
-use App\Domain\DTO\Admin\Route\AdminSegment;
+use App\Domain\DTO\Admin\Route\Segment;
 use App\Domain\DTO\Common\Cursor;
 use App\Domain\DTO\Common\PaginatedResult;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @implements Query<PaginatedResult<AdminSegment>>
+ * @implements Query<PaginatedResult<Segment>>
  */
 readonly class ListSegments implements Query
 {
