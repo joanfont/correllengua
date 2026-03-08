@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Provider\Route\Admin;
 
-use App\Domain\DTO\Admin\Route\AdminSegment;
+use App\Domain\DTO\Admin\Route\Segment;
 use App\Domain\DTO\Common\Cursor;
 use App\Domain\DTO\Common\PaginatedResult;
 use App\Domain\Model\Registration\Registration as RegistrationEntity;
@@ -23,7 +23,7 @@ class DoctrineSegmentProvider extends DoctrineProvider implements SegmentProvide
     }
 
     /**
-     * @return PaginatedResult<AdminSegment>
+     * @return PaginatedResult<Segment>
      */
     public function findAllPaginated(
         ?string $itineraryId,
@@ -80,7 +80,7 @@ class DoctrineSegmentProvider extends DoctrineProvider implements SegmentProvide
             qb: $qb,
             countExpr: 'COUNT(s.id)',
             limit: $limit,
-            toDto: function (SegmentEntity $s): AdminSegment {
+            toDto: function (SegmentEntity $s): Segment {
                 return $this->adminSegmentFactory->fromEntity($s, $this->countEnrolmentsForSegment((string) $s->id()));
             },
             toCursorValue: fn (SegmentEntity $s) => (string) $s->id(),

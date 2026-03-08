@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Application\Query\Participant;
 
-use App\Application\Query\Participant\ListParticipants;
+use App\Application\Query\Participant\Admin\ListParticipants;
+use App\Domain\DTO\Admin\Participant\Participant;
 use App\Domain\DTO\Common\Cursor;
 use App\Domain\DTO\Common\PaginatedResult;
-use App\Domain\DTO\Participant\Participant;
-use App\Domain\Model\Route\SegmentId;
-use App\Domain\Provider\Participant\ParticipantProvider;
+use App\Domain\Provider\Participant\Admin\ParticipantProvider;
 use App\Tests\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -28,8 +27,8 @@ class ListParticipantsTest extends TestCase
     {
         $paginatedResult = new PaginatedResult(
             items: [
-                new Participant(id: 'p1', name: 'John', surname: 'Doe', email: 'john@example.com'),
-                new Participant(id: 'p2', name: 'Jane', surname: 'Smith', email: 'jane@example.com'),
+                new Participant(id: 'p1', name: 'John', surname: 'Doe', email: 'john@example.com', registrations: []),
+                new Participant(id: 'p2', name: 'Jane', surname: 'Smith', email: 'jane@example.com', registrations: []),
             ],
             total: 2,
             nextCursor: null,
@@ -62,7 +61,7 @@ class ListParticipantsTest extends TestCase
 
         $paginatedResult = new PaginatedResult(
             items: [
-                new Participant(id: 'p1', name: 'John', surname: 'Doe', email: 'john@example.com'),
+                new Participant(id: 'p1', name: 'John', surname: 'Doe', email: 'john@example.com', registrations: []),
             ],
             total: 1,
             nextCursor: null,
@@ -71,14 +70,7 @@ class ListParticipantsTest extends TestCase
         $this->participantProvider
             ->expects($this->once())
             ->method('findAllPaginated')
-            ->with(
-                null,
-                null,
-                $this->callback(fn (?SegmentId $id) => null !== $id && (string) $id === $segmentId),
-                null,
-                20,
-                null,
-            )
+            ->with(null, null, $segmentId, null, 20, null)
             ->willReturn($paginatedResult);
 
         $result = self::handleQuery(new ListParticipants(
@@ -100,7 +92,7 @@ class ListParticipantsTest extends TestCase
 
         $paginatedResult = new PaginatedResult(
             items: [
-                new Participant(id: 'p1', name: 'John', surname: 'Doe', email: 'john@example.com'),
+                new Participant(id: 'p1', name: 'John', surname: 'Doe', email: 'john@example.com', registrations: []),
             ],
             total: 100,
             nextCursor: $nextCursor,

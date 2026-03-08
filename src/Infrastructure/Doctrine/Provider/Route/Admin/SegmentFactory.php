@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Provider\Route\Admin;
 
-use App\Domain\DTO\Admin\Route\AdminSegment;
+use App\Domain\DTO\Admin\Route\Segment;
 use App\Domain\DTO\Coordinates;
 use App\Domain\Model\Route\Segment as SegmentEntity;
 use DateTimeInterface;
 
 readonly class SegmentFactory
 {
-    public function fromEntity(SegmentEntity $segment, int $enrolments): AdminSegment
+    public function fromEntity(SegmentEntity $segment, int $enrolments): Segment
     {
-        return new AdminSegment(
+        return new Segment(
             id: (string) $segment->id(),
             position: $segment->position(),
             start: new Coordinates($segment->start()->latitude(), $segment->start()->longitude()),

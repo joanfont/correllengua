@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Nelmio\Operation\Registration;
 
-use App\Infrastructure\Symfony\Http\DTO\Common\ErrorResponse;
+use App\Infrastructure\Nelmio\Schema\Common\ErrorResponseSchema;
 use Attribute;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
@@ -36,7 +36,7 @@ final class DeregisterParticipantOperation extends OA\Get
                 new OA\Response(
                     response: 404,
                     description: 'Registration not found',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
             ],
         );

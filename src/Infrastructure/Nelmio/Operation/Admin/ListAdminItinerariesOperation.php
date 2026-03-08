@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Nelmio\Operation\Admin;
 
-use App\Infrastructure\Symfony\Http\DTO\Admin\Response\PaginatedItinerariesResponse;
-use App\Infrastructure\Symfony\Http\DTO\Common\ErrorResponse;
+use App\Infrastructure\Nelmio\Schema\Admin\PaginatedItinerariesSchema;
+use App\Infrastructure\Nelmio\Schema\Common\ErrorResponseSchema;
 use Attribute;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
@@ -62,12 +62,12 @@ final class ListAdminItinerariesOperation extends OA\Get
                 new OA\Response(
                     response: 200,
                     description: 'Paginated list of itineraries',
-                    content: new OA\JsonContent(ref: new Model(type: PaginatedItinerariesResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: PaginatedItinerariesSchema::class)),
                 ),
                 new OA\Response(
                     response: 401,
                     description: 'Unauthorized',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
             ],
         );

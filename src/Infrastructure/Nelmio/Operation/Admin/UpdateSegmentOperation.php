@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Nelmio\Operation\Admin;
 
-use App\Infrastructure\Symfony\Http\DTO\Admin\Request\UpdateSegmentRequest;
-use App\Infrastructure\Symfony\Http\DTO\Common\ErrorResponse;
+use App\Infrastructure\Nelmio\Schema\Admin\Request\UpdateSegmentRequestSchema;
+use App\Infrastructure\Nelmio\Schema\Common\ErrorResponseSchema;
 use Attribute;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
@@ -22,7 +22,7 @@ final class UpdateSegmentOperation extends OA\Put
             security: [['basicAuth' => []]],
             requestBody: new OA\RequestBody(
                 required: true,
-                content: new OA\JsonContent(ref: new Model(type: UpdateSegmentRequest::class)),
+                content: new OA\JsonContent(ref: new Model(type: UpdateSegmentRequestSchema::class)),
             ),
             tags: ['Admin'],
             parameters: [
@@ -33,17 +33,17 @@ final class UpdateSegmentOperation extends OA\Put
                 new OA\Response(
                     response: 401,
                     description: 'Unauthorized',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
                 new OA\Response(
                     response: 404,
                     description: 'Segment not found',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
                 new OA\Response(
                     response: 422,
                     description: 'Validation error',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
             ],
         );

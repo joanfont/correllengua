@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Provider\Route\Admin;
 
-use App\Domain\DTO\Admin\Route\AdminRoute;
+use App\Domain\DTO\Admin\Route\Route;
 use App\Domain\Model\Route\Route as RouteEntity;
 use DateTimeInterface;
 
 readonly class RouteFactory
 {
-    public function fromEntity(RouteEntity $route, int $enrolments): AdminRoute
+    public function fromEntity(RouteEntity $route, int $enrolments): Route
     {
-        return new AdminRoute(
+        return new Route(
             id: (string) $route->id(),
             name: $route->name(),
             description: $route->description(),

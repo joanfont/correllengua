@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Application\Query\Route\Admin;
 
 use App\Application\Commons\Query\Query;
-use App\Domain\DTO\Admin\Route\AdminItinerary;
+use App\Domain\DTO\Admin\Route\Itinerary;
 use App\Domain\DTO\Common\Cursor;
 use App\Domain\DTO\Common\PaginatedResult;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @implements Query<PaginatedResult<AdminItinerary>>
+ * @implements Query<PaginatedResult<Itinerary>>
  */
 readonly class ListItineraries implements Query
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Nelmio\Operation\Admin;
 
-use App\Infrastructure\Symfony\Http\DTO\Admin\Response\PaginatedParticipantsResponse;
-use App\Infrastructure\Symfony\Http\DTO\Common\ErrorResponse;
+use App\Infrastructure\Nelmio\Schema\Admin\PaginatedParticipantsSchema;
+use App\Infrastructure\Nelmio\Schema\Common\ErrorResponseSchema;
 use Attribute;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
@@ -69,22 +69,22 @@ final class ListParticipantsOperation extends OA\Get
                 new OA\Response(
                     response: 200,
                     description: 'Paginated list of participants retrieved successfully',
-                    content: new OA\JsonContent(ref: new Model(type: PaginatedParticipantsResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: PaginatedParticipantsSchema::class)),
                 ),
                 new OA\Response(
                     response: 401,
                     description: 'Unauthorized - Authentication required',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
                 new OA\Response(
                     response: 400,
                     description: 'Bad Request - Invalid parameters',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
                 new OA\Response(
                     response: 500,
                     description: 'Internal server error',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
             ],
         );

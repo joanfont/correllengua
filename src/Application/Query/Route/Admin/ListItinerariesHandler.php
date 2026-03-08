@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Query\Route\Admin;
 
 use App\Application\Commons\Query\QueryHandler;
-use App\Domain\DTO\Admin\Route\AdminItinerary;
+use App\Domain\DTO\Admin\Route\Itinerary;
 use App\Domain\DTO\Common\PaginatedResult;
 use App\Domain\Provider\Route\Admin\ItineraryProvider;
 
@@ -16,7 +16,7 @@ readonly class ListItinerariesHandler implements QueryHandler
     }
 
     /**
-     * @return PaginatedResult<AdminItinerary>
+     * @return PaginatedResult<Itinerary>
      */
     public function __invoke(ListItineraries $query): PaginatedResult
     {

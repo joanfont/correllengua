@@ -56,13 +56,13 @@ class DoctrineParticipantProvider extends DoctrineProvider implements Participan
         $qb = $this->entityManager->createQueryBuilder()
             ->select('p')
             ->from(ParticipantModel::class, 'p')
-            ->leftJoin('p.registrations', 'reg')
+            ->innerJoin('p.registrations', 'reg')
             ->addSelect('reg')
-            ->leftJoin('reg.segment', 's')
+            ->innerJoin('reg.segment', 's')
             ->addSelect('s')
-            ->leftJoin('s.itinerary', 'i')
+            ->innerJoin('s.itinerary', 'i')
             ->addSelect('i')
-            ->leftJoin('i.route', 'r')
+            ->innerJoin('i.route', 'r')
             ->addSelect('r')
             ->orderBy('p.id', 'ASC');
 
