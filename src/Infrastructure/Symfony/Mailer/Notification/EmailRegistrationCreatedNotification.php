@@ -6,7 +6,6 @@ namespace App\Infrastructure\Symfony\Mailer\Notification;
 
 use App\Application\Service\File\Filesystem;
 use App\Application\Service\Notification\RegistrationCreatedNotification;
-use App\Application\Service\Url\UrlGenerator;
 use App\Domain\DTO\Registration\Registration;
 
 use function sprintf;
@@ -18,6 +17,8 @@ use Twig\Loader\ArrayLoader;
 
 class EmailRegistrationCreatedNotification implements RegistrationCreatedNotification
 {
+    private const DEREGISTER_URL = 'https://correllenguaagermanat.cat/reserva/cancelacio?codi=%s';
+
     private readonly Environment $twig;
 
     public function __construct(
@@ -25,7 +26,6 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
         private readonly string $from,
         private readonly Filesystem $filesystem,
         private readonly string $templatePath,
-        private readonly UrlGenerator $urlGenerator,
     ) {
         $this->twig = new Environment(new ArrayLoader());
     }
@@ -82,9 +82,7 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
                 'position' => $segment->position,
                 'modality' => $segment->modality,
                 'hash' => $registration->hash,
-                'deregisterLink' => $this->urlGenerator->generate('deregister_participant', [
-                    'hash' => $registration->hash,
-                ]),
+                'deregisterLink' => sprintf(self::DEREGISTER_URL, $registration->hash),
             ];
         }
 

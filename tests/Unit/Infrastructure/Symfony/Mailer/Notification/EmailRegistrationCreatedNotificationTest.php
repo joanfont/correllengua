@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Infrastructure\Symfony\Mailer\Notification;
 
 use App\Application\Service\File\Filesystem;
-use App\Application\Service\Url\UrlGenerator;
 use App\Domain\DTO\Coordinates;
 use App\Domain\DTO\Participant\Participant as ParticipantDTO;
 use App\Domain\DTO\Registration\Registration as RegistrationDTO;
@@ -32,13 +31,10 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
 
     private Filesystem&MockObject $filesystem;
 
-    private UrlGenerator&MockObject $urlGenerator;
-
     protected function setUp(): void
     {
         $this->mailer = $this->createMock(MailerInterface::class);
         $this->filesystem = $this->createMock(Filesystem::class);
-        $this->urlGenerator = $this->createMock(UrlGenerator::class);
     }
 
     public function testSendRendersTemplateAndSendsEmail(): void
@@ -82,12 +78,6 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
             ->with($templatePath)
             ->willReturn($templateContents);
 
-        $this->urlGenerator
-            ->expects(static::once())
-            ->method('generate')
-            ->with('deregister_participant', ['hash' => 'the-hash'])
-            ->willReturn('http://example/deregister');
-
         $this->mailer
             ->expects(static::once())
             ->method('send')
@@ -109,7 +99,7 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
                 self::assertStringContainsString($participant->surname, $decodedBody);
                 self::assertStringContainsString('Test Itinerary', $decodedBody);
                 self::assertStringContainsString('the-hash', $decodedBody);
-                self::assertStringContainsString('http://example/deregister', $decodedBody);
+                self::assertStringContainsString('https://correllenguaagermanat.cat/reserva/cancelacio?codi=the-hash', $decodedBody);
 
                 return true;
             }));
@@ -119,7 +109,6 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
             'from@example.com',
             $this->filesystem,
             $templatePath,
-            $this->urlGenerator,
         );
 
         $notification->send([$registration]);
