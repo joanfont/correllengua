@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Infrastructure\Symfony\Mailer\Notification;
 
 use App\Application\Service\File\Filesystem;
-use App\Application\Service\Registration\RegistrationHasher;
-use App\Application\Service\Url\UrlGenerator;
 use App\Domain\DTO\Coordinates;
 use App\Domain\DTO\Participant\Participant as ParticipantDTO;
 use App\Domain\DTO\Registration\Registration as RegistrationDTO;
@@ -16,6 +14,7 @@ use App\Domain\Model\Registration\RegistrationId;
 use App\Domain\Model\Route\SegmentId;
 use App\Infrastructure\Symfony\Mailer\Notification\EmailRegistrationCreatedNotification;
 use App\Tests\TestCase;
+use DateTimeImmutable;
 
 use function method_exists;
 
@@ -32,16 +31,10 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
 
     private Filesystem&MockObject $filesystem;
 
-    private UrlGenerator&MockObject $urlGenerator;
-
-    private RegistrationHasher&MockObject $registrationHasher;
-
     protected function setUp(): void
     {
         $this->mailer = $this->createMock(MailerInterface::class);
         $this->filesystem = $this->createMock(Filesystem::class);
-        $this->urlGenerator = $this->createMock(UrlGenerator::class);
-        $this->registrationHasher = $this->createMock(RegistrationHasher::class);
     }
 
     public function testSendRendersTemplateAndSendsEmail(): void
@@ -63,33 +56,27 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
             end: new Coordinates(1.0, 1.0),
             capacity: 100,
             modality: 'road',
+            position: 1,
+            itineraryName: 'Test Itinerary',
+            routeDate: new DateTimeImmutable('2026-03-15'),
+            startTime: new DateTimeImmutable('10:30:00'),
         );
 
         $registration = new RegistrationDTO(
             id: $registrationId,
             participant: $participant,
             segment: $segment,
+            hash: 'the-hash',
         );
 
         $templatePath = '/templates/registrationCreated.html.twig';
-        $templateContents = 'Hello {{ participant.name }} - segment {{ segment.id }} - {{ deregisterLink }}';
+        $templateContents = 'Hello {{ participant.name }} {{ participant.surname }} - {% for s in segments %}{{ s.itinerary }} {{ s.hash }} {{ s.deregisterLink }}{% endfor %}';
 
         $this->filesystem
             ->expects(static::once())
             ->method('read')
             ->with($templatePath)
             ->willReturn($templateContents);
-
-        $this->registrationHasher
-            ->expects(static::once())
-            ->method('hash')
-            ->willReturn('the-hash');
-
-        $this->urlGenerator
-            ->expects(static::once())
-            ->method('generate')
-            ->with('deregister_participant', ['hash' => 'the-hash'])
-            ->willReturn('http://example/deregister');
 
         $this->mailer
             ->expects(static::once())
@@ -98,7 +85,7 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
                 self::assertInstanceOf(Email::class, $email);
 
                 $subject = $email->getSubject();
-                self::assertSame('Correllengua', $subject);
+                self::assertSame('Confirmació de reserva - Correllengua Agermanat', $subject);
 
                 $tos = $email->getTo();
                 self::assertNotEmpty($tos);
@@ -108,8 +95,11 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
 
                 $decodedBody = quoted_printable_decode((string) $body);
 
-                self::assertStringContainsString($participant->name.' '.$participant->surname, $decodedBody);
-                self::assertStringContainsString('http://example/deregister', $decodedBody);
+                self::assertStringContainsString($participant->name, $decodedBody);
+                self::assertStringContainsString($participant->surname, $decodedBody);
+                self::assertStringContainsString('Test Itinerary', $decodedBody);
+                self::assertStringContainsString('the-hash', $decodedBody);
+                self::assertStringContainsString('https://correllenguaagermanat.cat/reserva/cancelacio?codi=the-hash', $decodedBody);
 
                 return true;
             }));
@@ -119,10 +109,8 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
             'from@example.com',
             $this->filesystem,
             $templatePath,
-            $this->urlGenerator,
-            $this->registrationHasher,
         );
 
-        $notification->send($registration);
+        $notification->send([$registration]);
     }
 }

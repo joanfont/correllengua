@@ -62,7 +62,7 @@ readonly class CreatePressNoteRequest
         public bool $featured,
         #[Assert\AtLeastOneOf([
             new Assert\NotBlank(allowNull: true),
-            new Assert\Url(),
+            new Assert\Url(requireTld: false),
         ])]
         public ?string $link = null,
     ) {

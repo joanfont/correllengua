@@ -13,6 +13,7 @@ readonly class Registration
         public string $id,
         public Participant $participant,
         public Segment $segment,
+        public ?string $hash = null,
     ) {
     }
 }

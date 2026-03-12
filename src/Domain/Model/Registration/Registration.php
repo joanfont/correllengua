@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Model\Registration;
 
-use App\Domain\Event\Registration\RegistrationCreated;
 use App\Domain\Model\Entity;
 use App\Domain\Model\Participant\Participant;
 use App\Domain\Model\Route\Segment;
@@ -20,8 +19,6 @@ class Registration extends Entity
         private string $hash,
     ) {
         $this->id = (string) $id;
-
-        $this->addEvent(RegistrationCreated::fromRegistration($this));
     }
 
     public function id(): RegistrationId

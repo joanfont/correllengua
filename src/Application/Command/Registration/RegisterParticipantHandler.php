@@ -6,6 +6,8 @@ namespace App\Application\Command\Registration;
 
 use App\Application\Command\Registration\DTO\Participant as ParticipantDTO;
 use App\Application\Commons\Command\CommandHandler;
+use App\Application\Commons\Event\EventPublisher;
+use App\Domain\Event\Registration\ParticipantJoinedSegments;
 use App\Domain\Exception\Participant\ParticipantAlreadyJoinedSegmentException;
 use App\Domain\Exception\Participant\ParticipantNotFoundException;
 use App\Domain\Exception\Participant\ParticipantReachedMaxSegmentsException;
@@ -19,6 +21,8 @@ use App\Domain\Model\Route\SegmentId;
 use App\Domain\Repository\Participant\ParticipantRepository;
 use App\Domain\Repository\Route\SegmentRepository;
 
+use function array_map;
+
 readonly class RegisterParticipantHandler implements CommandHandler
 {
     public function __construct(
@@ -26,17 +30,27 @@ readonly class RegisterParticipantHandler implements CommandHandler
         private ParticipantRepository $participantRepository,
         private int $maxSegmentsPerParticipant,
         private RegistrationFactory $registrationFactory,
+        private EventPublisher $eventPublisher,
     ) {
     }
 
     public function __invoke(RegisterParticipant $registerParticipant): void
     {
-        /** @var array<string> $segmentIds */
+        /** @var array<int, string> $segmentIds */
         $segmentIds = $registerParticipant->segments;
         $segments = $this->loadAndValidateSegments($segmentIds);
+
         $participant = $this->findOrCreateParticipant($registerParticipant->participant);
 
         $this->registerParticipantToSegments($participant, $segments);
+
+        $segmentIds = array_map(
+            static fn (Segment $segment): SegmentId => $segment->id(),
+            $segments,
+        );
+
+        $participantJoinedSegments = new ParticipantJoinedSegments($participant->id(), $segmentIds);
+        $this->eventPublisher->publish($participantJoinedSegments);
     }
 
     /**
