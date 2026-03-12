@@ -18,6 +18,7 @@ use Twig\Loader\ArrayLoader;
 class EmailRegistrationCreatedNotification implements RegistrationCreatedNotification
 {
     private const DEREGISTER_URL = 'https://correllenguaagermanat.cat/reserva/cancelacio?codi=%s';
+    private const DEREGISTER_ALL_URL = 'https://correllenguaagermanat.cat/reserva/cancelacio?codis=%s';
 
     private readonly Environment $twig;
 
@@ -73,8 +74,10 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
         $firstRegistration = $registrations[0];
 
         $segments = [];
+        $hashes = [];
         foreach ($registrations as $registration) {
             $segment = $registration->segment;
+            $hashes[] = $registration->hash;
             $segments[] = [
                 'date' => $segment->routeDate?->format('d/m/Y'),
                 'time' => $segment->startTime?->format('H:i'),
@@ -92,6 +95,7 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
                 'surname' => $firstRegistration->participant->surname,
             ],
             'segments' => $segments,
+            'deregisterAllLink' => sprintf(self::DEREGISTER_ALL_URL, implode(',', $hashes)),
         ];
     }
 }
