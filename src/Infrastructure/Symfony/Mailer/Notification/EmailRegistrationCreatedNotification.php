@@ -6,8 +6,10 @@ namespace App\Infrastructure\Symfony\Mailer\Notification;
 
 use App\Application\Service\File\Filesystem;
 use App\Application\Service\Notification\RegistrationCreatedNotification;
+use App\Domain\DTO\Participant\Participant;
 use App\Domain\DTO\Registration\Registration;
 
+use function implode;
 use function sprintf;
 
 use Symfony\Component\Mailer\MailerInterface;
@@ -40,24 +42,24 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
             return;
         }
 
-        $firstRegistration = $registrations[0];
+        $participant = $registrations[0]->participant;
         $to = sprintf(
             '%s %s <%s>',
-            $firstRegistration->participant->name,
-            $firstRegistration->participant->surname,
-            $firstRegistration->participant->email,
+            $participant->name,
+            $participant->surname,
+            $participant->email,
         );
 
         $templateContents = $this->filesystem->read($this->templatePath);
         $template = $this->twig->createTemplate($templateContents);
 
-        $templateContext = $this->buildContext($registrations);
+        $templateContext = $this->buildContext($participant, $registrations);
         $renderedTemplate = $template->render($templateContext);
 
         $email = new Email();
         $email
             ->from($this->from)
-            ->subject('Correllengua')
+            ->subject('Confirmació de reserva - Correllengua Agermanat')
             ->to($to)
             ->html($renderedTemplate);
 
@@ -69,10 +71,8 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
      *
      * @return array<string, mixed>
      */
-    private function buildContext(array $registrations): array
+    private function buildContext(Participant $participant, array $registrations): array
     {
-        $firstRegistration = $registrations[0];
-
         $segments = [];
         $hashes = [];
         foreach ($registrations as $registration) {
@@ -91,8 +91,8 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
 
         return [
             'participant' => [
-                'name' => $firstRegistration->participant->name,
-                'surname' => $firstRegistration->participant->surname,
+                'name' => $participant->name,
+                'surname' => $participant->surname,
             ],
             'segments' => $segments,
             'deregisterAllLink' => sprintf(self::DEREGISTER_ALL_URL, implode(',', $hashes)),

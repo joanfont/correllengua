@@ -2,12 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Event\Registration\ParticipantRegistered;
+namespace App\Application\Event\Registration\ParticipantJoinedSegments;
 
 use App\Application\Commons\Event\EventHandler;
 use App\Application\Service\Notification\RegistrationCreatedNotification;
-use App\Domain\Event\Registration\ParticipantRegistered;
+use App\Domain\Event\Registration\ParticipantJoinedSegments;
+use App\Domain\Model\Route\SegmentId;
 use App\Domain\Provider\Registration\RegistrationProvider;
+
+use function array_map;
 
 final readonly class SendEmail implements EventHandler
 {
@@ -17,10 +20,16 @@ final readonly class SendEmail implements EventHandler
     ) {
     }
 
-    public function __invoke(ParticipantRegistered $participantRegistered): void
+    public function __invoke(ParticipantJoinedSegments $participantRegistered): void
     {
-        $registrations = $this->registrationProvider->findByParticipantId(
-            (string) $participantRegistered->participantId
+        $segmentIds = array_map(
+            fn (SegmentId $segmentId): string => (string) $segmentId,
+            $participantRegistered->segmentIds
+        );
+
+        $registrations = $this->registrationProvider->findByParticipantIdAndSegmentIds(
+            (string) $participantRegistered->participantId,
+            $segmentIds
         );
 
         if ([] === $registrations) {

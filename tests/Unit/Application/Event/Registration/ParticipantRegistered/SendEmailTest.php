@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Application\Event\Registration\ParticipantRegistered;
 
-use App\Application\Event\Registration\ParticipantRegistered\SendEmail;
+use App\Application\Event\Registration\ParticipantJoinedSegments\SendEmail;
 use App\Application\Service\Notification\RegistrationCreatedNotification;
 use App\Domain\DTO\Coordinates;
 use App\Domain\DTO\Participant\Participant as ParticipantDTO;
 use App\Domain\DTO\Registration\Registration as RegistrationDTO;
 use App\Domain\DTO\Route\Segment as SegmentDTO;
-use App\Domain\Event\Registration\ParticipantRegistered;
+use App\Domain\Event\Registration\ParticipantJoinedSegments;
 use App\Domain\Model\Participant\ParticipantId;
 use App\Domain\Model\Registration\RegistrationId;
 use App\Domain\Model\Route\SegmentId;
@@ -45,8 +45,11 @@ class SendEmailTest extends TestCase
             email: 'john@example.com',
         );
 
+        $segmentId1 = SegmentId::generate();
+        $segmentId2 = SegmentId::generate();
+
         $segment1 = new SegmentDTO(
-            id: (string) SegmentId::generate(),
+            id: (string) $segmentId1,
             start: new Coordinates(0.0, 0.0),
             end: new Coordinates(1.0, 1.0),
             capacity: 100,
@@ -58,7 +61,7 @@ class SendEmailTest extends TestCase
         );
 
         $segment2 = new SegmentDTO(
-            id: (string) SegmentId::generate(),
+            id: (string) $segmentId2,
             start: new Coordinates(1.0, 1.0),
             end: new Coordinates(2.0, 2.0),
             capacity: 50,
@@ -86,8 +89,8 @@ class SendEmailTest extends TestCase
 
         $this->provider
             ->expects($this->once())
-            ->method('findByParticipantId')
-            ->with((string) $participantId)
+            ->method('findByParticipantIdAndSegmentIds')
+            ->with((string) $participantId, [(string) $segmentId1, (string) $segmentId2])
             ->willReturn($registrations);
 
         $this->notification
@@ -97,7 +100,7 @@ class SendEmailTest extends TestCase
 
         $handler = new SendEmail($this->provider, $this->notification);
 
-        $event = new ParticipantRegistered($participantId);
+        $event = new ParticipantJoinedSegments($participantId, [$segmentId1, $segmentId2]);
 
         $handler($event);
     }
@@ -105,11 +108,12 @@ class SendEmailTest extends TestCase
     public function testDoesNotSendNotificationWhenNoRegistrations(): void
     {
         $participantId = ParticipantId::generate();
+        $segmentId = SegmentId::generate();
 
         $this->provider
             ->expects($this->once())
-            ->method('findByParticipantId')
-            ->with((string) $participantId)
+            ->method('findByParticipantIdAndSegmentIds')
+            ->with((string) $participantId, [(string) $segmentId])
             ->willReturn([]);
 
         $this->notification
@@ -118,7 +122,7 @@ class SendEmailTest extends TestCase
 
         $handler = new SendEmail($this->provider, $this->notification);
 
-        $event = new ParticipantRegistered($participantId);
+        $event = new ParticipantJoinedSegments($participantId, [$segmentId]);
 
         $handler($event);
     }

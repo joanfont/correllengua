@@ -11,7 +11,9 @@ interface RegistrationProvider
     public function findById(string $id): Registration;
 
     /**
+     * @param array<string> $segmentIds
+     *
      * @return array<Registration>
      */
-    public function findByParticipantId(string $participantId): array;
+    public function findByParticipantIdAndSegmentIds(string $participantId, array $segmentIds): array;
 }
