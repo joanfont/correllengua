@@ -83,6 +83,10 @@ return function (ContainerConfigurator $container): void {
         )->public();
 
     $services
+        ->set(App\Application\Commons\Event\EventPublisher::class)
+        ->public();
+
+    $services
         ->set(App\Application\Command\Registration\RegisterParticipantHandler::class)
         ->arg('$maxSegmentsPerParticipant', param('app.registration.max_registrations_per_participant'));
 

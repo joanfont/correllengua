@@ -6,10 +6,8 @@ namespace App\Infrastructure\Symfony\Mailer\Notification;
 
 use App\Application\Service\File\Filesystem;
 use App\Application\Service\Notification\RegistrationCreatedNotification;
-use App\Application\Service\Registration\RegistrationHasher;
 use App\Application\Service\Url\UrlGenerator;
 use App\Domain\DTO\Registration\Registration;
-use App\Domain\Model\Registration\RegistrationId;
 
 use function sprintf;
 
@@ -28,24 +26,31 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
         private readonly Filesystem $filesystem,
         private readonly string $templatePath,
         private readonly UrlGenerator $urlGenerator,
-        private readonly RegistrationHasher $registrationHasher,
     ) {
         $this->twig = new Environment(new ArrayLoader());
     }
 
-    public function send(Registration $registration): void
+    /**
+     * @param array<Registration> $registrations
+     */
+    public function send(array $registrations): void
     {
+        if ([] === $registrations) {
+            return;
+        }
+
+        $firstRegistration = $registrations[0];
         $to = sprintf(
             '%s %s <%s>',
-            $registration->participant->name,
-            $registration->participant->surname,
-            $registration->participant->email,
+            $firstRegistration->participant->name,
+            $firstRegistration->participant->surname,
+            $firstRegistration->participant->email,
         );
 
         $templateContents = $this->filesystem->read($this->templatePath);
         $template = $this->twig->createTemplate($templateContents);
 
-        $templateContext = $this->buildContext($registration);
+        $templateContext = $this->buildContext($registrations);
         $renderedTemplate = $template->render($templateContext);
 
         $email = new Email();
@@ -59,22 +64,36 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
     }
 
     /**
+     * @param array<Registration> $registrations
+     *
      * @return array<string, mixed>
      */
-    private function buildContext(Registration $registration): array
+    private function buildContext(array $registrations): array
     {
-        $registrationHash = $this->registrationHasher->hash(RegistrationId::from($registration->id));
+        $firstRegistration = $registrations[0];
+
+        $segments = [];
+        foreach ($registrations as $registration) {
+            $segment = $registration->segment;
+            $segments[] = [
+                'date' => $segment->routeDate?->format('d/m/Y'),
+                'time' => $segment->startTime?->format('H:i'),
+                'itinerary' => $segment->itineraryName,
+                'position' => $segment->position,
+                'modality' => $segment->modality,
+                'hash' => $registration->hash,
+                'deregisterLink' => $this->urlGenerator->generate('deregister_participant', [
+                    'hash' => $registration->hash,
+                ]),
+            ];
+        }
 
         return [
             'participant' => [
-                'name' => sprintf('%s %s', $registration->participant->name, $registration->participant->surname),
+                'name' => $firstRegistration->participant->name,
+                'surname' => $firstRegistration->participant->surname,
             ],
-            'segment' => [
-                'id' => $registration->segment->id,
-            ],
-            'deregisterLink' => $this->urlGenerator->generate('deregister_participant', [
-                'hash' => $registrationHash,
-            ]),
+            'segments' => $segments,
         ];
     }
 }

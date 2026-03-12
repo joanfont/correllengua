@@ -30,8 +30,8 @@ class DoctrineRegistrationRepository extends DoctrineRepository implements Regis
         $registration = $this->entityManager->createQueryBuilder()
             ->select('r')
             ->from(Registration::class, 'r')
-            ->where('r.id = :id')
-            ->setParameter('id', $hash)
+            ->where('r.hash = :hash')
+            ->setParameter('hash', $hash)
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -44,6 +44,6 @@ class DoctrineRegistrationRepository extends DoctrineRepository implements Regis
 
     public function delete(Registration $registration): void
     {
-        // TODO: Implement delete() method.
+        $this->entityManager->remove($registration);
     }
 }

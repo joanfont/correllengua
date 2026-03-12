@@ -8,5 +8,8 @@ use App\Domain\DTO\Registration\Registration;
 
 interface RegistrationCreatedNotification
 {
-    public function send(Registration $registration): void;
+    /**
+     * @param array<Registration> $registrations
+     */
+    public function send(array $registrations): void;
 }

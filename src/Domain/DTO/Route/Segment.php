@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\DTO\Route;
 
 use App\Domain\DTO\Coordinates;
+use DateTimeInterface;
 
 readonly class Segment
 {
@@ -14,6 +15,10 @@ readonly class Segment
         public Coordinates $end,
         public ?int $capacity,
         public string $modality,
+        public ?int $position = null,
+        public ?string $itineraryName = null,
+        public ?DateTimeInterface $routeDate = null,
+        public ?DateTimeInterface $startTime = null,
     ) {
     }
 }

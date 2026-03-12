@@ -9,4 +9,9 @@ use App\Domain\DTO\Registration\Registration;
 interface RegistrationProvider
 {
     public function findById(string $id): Registration;
+
+    /**
+     * @return array<Registration>
+     */
+    public function findByParticipantId(string $participantId): array;
 }

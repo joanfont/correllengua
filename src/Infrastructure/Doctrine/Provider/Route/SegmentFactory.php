@@ -13,11 +13,15 @@ readonly class SegmentFactory
     public function fromEntity(SegmentEntity $segment): Segment
     {
         return new Segment(
-            (string) $segment->id(),
-            new Coordinates($segment->start()->latitude(), $segment->start()->longitude()),
-            new Coordinates($segment->end()->latitude(), $segment->end()->longitude()),
-            $segment->capacity(),
-            $segment->modality()->value,
+            id: (string) $segment->id(),
+            start: new Coordinates($segment->start()->latitude(), $segment->start()->longitude()),
+            end: new Coordinates($segment->end()->latitude(), $segment->end()->longitude()),
+            capacity: $segment->capacity(),
+            modality: $segment->modality()->value,
+            position: $segment->position(),
+            itineraryName: $segment->itinerary()->name(),
+            routeDate: $segment->itinerary()->route()->startsAt(),
+            startTime: $segment->startTime(),
         );
     }
 }

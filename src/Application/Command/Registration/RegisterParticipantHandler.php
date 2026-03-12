@@ -6,6 +6,8 @@ namespace App\Application\Command\Registration;
 
 use App\Application\Command\Registration\DTO\Participant as ParticipantDTO;
 use App\Application\Commons\Command\CommandHandler;
+use App\Application\Commons\Event\EventPublisher;
+use App\Domain\Event\Registration\ParticipantRegistered;
 use App\Domain\Exception\Participant\ParticipantAlreadyJoinedSegmentException;
 use App\Domain\Exception\Participant\ParticipantNotFoundException;
 use App\Domain\Exception\Participant\ParticipantReachedMaxSegmentsException;
@@ -26,6 +28,7 @@ readonly class RegisterParticipantHandler implements CommandHandler
         private ParticipantRepository $participantRepository,
         private int $maxSegmentsPerParticipant,
         private RegistrationFactory $registrationFactory,
+        private EventPublisher $eventPublisher,
     ) {
     }
 
@@ -37,6 +40,8 @@ readonly class RegisterParticipantHandler implements CommandHandler
         $participant = $this->findOrCreateParticipant($registerParticipant->participant);
 
         $this->registerParticipantToSegments($participant, $segments);
+
+        $this->eventPublisher->publish(new ParticipantRegistered($participant->id()));
     }
 
     /**
