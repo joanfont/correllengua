@@ -6,10 +6,14 @@ namespace App\Tests\Unit\Application\Command\Registration;
 
 use App\Application\Command\Registration\DTO\Participant as ParticipantDTO;
 use App\Application\Command\Registration\RegisterParticipant;
+use App\Application\Commons\Event\EventPublisher;
+use App\Domain\Event\Registration\ParticipantJoinedSegments;
 use App\Domain\Exception\Participant\ParticipantAlreadyJoinedSegmentException;
+use App\Domain\Exception\Participant\ParticipantNotFoundException;
 use App\Domain\Exception\Participant\ParticipantReachedMaxSegmentsException;
 use App\Domain\Exception\Route\SegmentIsFullException;
 use App\Domain\Model\Participant\Participant;
+use App\Domain\Model\Participant\ParticipantId;
 use App\Domain\Model\Registration\Registration;
 use App\Domain\Model\Registration\RegistrationFactory;
 use App\Domain\Model\Route\Segment;
@@ -29,6 +33,8 @@ class RegisterParticipantTest extends TestCase
 
     private readonly RegistrationFactory&MockObject $registrationFactory;
 
+    private readonly EventPublisher&MockObject $eventPublisher;
+
     private readonly Segment&MockObject $segment;
 
     private readonly Participant&MockObject $participant;
@@ -38,12 +44,14 @@ class RegisterParticipantTest extends TestCase
         $this->segmentRepository = $this->createMock(SegmentRepository::class);
         $this->participantRepository = $this->createMock(ParticipantRepository::class);
         $this->registrationFactory = $this->createMock(RegistrationFactory::class);
+        $this->eventPublisher = $this->createMock(EventPublisher::class);
         $this->segment = $this->createMock(Segment::class);
         $this->participant = $this->createMock(Participant::class);
 
         self::set(SegmentRepository::class, $this->segmentRepository);
         self::set(ParticipantRepository::class, $this->participantRepository);
         self::set(RegistrationFactory::class, $this->registrationFactory);
+        self::set(EventPublisher::class, $this->eventPublisher);
     }
 
     public function testRegistersParticipantToSegment(): void
@@ -98,6 +106,85 @@ class RegisterParticipantTest extends TestCase
             ->expects($this->once())
             ->method('addRegistration')
             ->with($registration);
+
+        $this->participant
+            ->expects($this->once())
+            ->method('id')
+            ->willReturn(ParticipantId::generate());
+
+        $this->segment
+            ->expects($this->once())
+            ->method('id')
+            ->willReturn($segmentId);
+
+        $this->eventPublisher
+            ->expects($this->once())
+            ->method('publish')
+            ->with($this->isInstanceOf(ParticipantJoinedSegments::class));
+
+        $registerParticipant = new RegisterParticipant(
+            $participantDto,
+            [(string) $segmentId],
+        );
+
+        self::handleCommand($registerParticipant);
+    }
+
+    public function testRegistersNewParticipantToSegment(): void
+    {
+        $segmentId = SegmentId::generate();
+
+        $this->segmentRepository
+            ->expects($this->once())
+            ->method('findById')
+            ->with($segmentId)
+            ->willReturn($this->segment);
+
+        $this->segment
+            ->expects($this->once())
+            ->method('isFull')
+            ->willReturn(false);
+
+        $participantEmail = 'jane@example.com';
+        $participantDto = new ParticipantDTO(
+            name: 'Jane',
+            surname: 'Doe',
+            email: $participantEmail,
+        );
+
+        $this->participantRepository
+            ->expects($this->once())
+            ->method('findByEmail')
+            ->with($participantEmail)
+            ->willThrowException(ParticipantNotFoundException::fromEmail($participantEmail));
+
+        $this->participantRepository
+            ->expects($this->once())
+            ->method('add')
+            ->with($this->isInstanceOf(Participant::class));
+
+        $registration = $this->createStub(Registration::class);
+
+        $this->registrationFactory
+            ->expects($this->once())
+            ->method('make')
+            ->with($this->isInstanceOf(Participant::class), $this->segment)
+            ->willReturn($registration);
+
+        $this->segment
+            ->expects($this->once())
+            ->method('addRegistration')
+            ->with($registration);
+
+        $this->segment
+            ->expects($this->exactly(2))
+            ->method('id')
+            ->willReturn($segmentId);
+
+        $this->eventPublisher
+            ->expects($this->once())
+            ->method('publish')
+            ->with($this->isInstanceOf(ParticipantJoinedSegments::class));
 
         $registerParticipant = new RegisterParticipant(
             $participantDto,

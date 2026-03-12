@@ -85,7 +85,7 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
                 self::assertInstanceOf(Email::class, $email);
 
                 $subject = $email->getSubject();
-                self::assertSame('Correllengua', $subject);
+                self::assertSame('Confirmació de reserva - Correllengua Agermanat', $subject);
 
                 $tos = $email->getTo();
                 self::assertNotEmpty($tos);
