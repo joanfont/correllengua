@@ -36,7 +36,7 @@ readonly class SegmentBuilder
             endLatitude: (float) $segment['end_latitude'],
             endLongitude: (float) $segment['end_longitude'],
             modality: $segment['modality'],
-            capacity: null !== $segment['capacity'] ? (int) $segment['capacity'] : null,
+            capacity: null === $segment['capacity'] || '' === $segment['capacity'] ? null : (int) $segment['capacity'],
             startTime: $this->calendar->fromString($segment['start_time'], 'H:i:s'),
         );
     }
