@@ -16,10 +16,11 @@ readonly class SegmentFactory
             id: (string) $segment->id(),
             start: new Coordinates($segment->start()->latitude(), $segment->start()->longitude()),
             end: new Coordinates($segment->end()->latitude(), $segment->end()->longitude()),
-            capacity: $segment->capacity(),
+            capacity: $segment->remainingCapacity(),
             modality: $segment->modality()->value,
             position: $segment->position(),
             itineraryName: $segment->itinerary()->name(),
+            routeName: $segment->itinerary()->route()->name(),
             routeDate: $segment->itinerary()->route()->startsAt(),
             startTime: $segment->startTime(),
         );

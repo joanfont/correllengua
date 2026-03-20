@@ -17,6 +17,7 @@ readonly class Segment
         public string $modality,
         public ?int $position = null,
         public ?string $itineraryName = null,
+        public ?string $routeName = null,
         public ?DateTimeInterface $routeDate = null,
         public ?DateTimeInterface $startTime = null,
     ) {

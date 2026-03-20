@@ -56,6 +56,7 @@ class SendEmailTest extends TestCase
             modality: 'road',
             position: 1,
             itineraryName: 'Itinerary 1',
+            routeName: 'Route 1',
             routeDate: new DateTimeImmutable('2026-03-15'),
             startTime: new DateTimeImmutable('10:00:00'),
         );
@@ -68,6 +69,7 @@ class SendEmailTest extends TestCase
             modality: 'running',
             position: 2,
             itineraryName: 'Itinerary 1',
+            routeName: 'Route 1',
             routeDate: new DateTimeImmutable('2026-03-15'),
             startTime: new DateTimeImmutable('11:00:00'),
         );
