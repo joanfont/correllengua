@@ -62,6 +62,15 @@ class Segment extends Entity
         return $this->capacity;
     }
 
+    public function freeSlots(): ?int
+    {
+        if (null === $this->capacity) {
+            return null;
+        }
+
+        return $this->capacity - $this->registrations->count();
+    }
+
     public function modality(): Modality
     {
         return $this->modality;

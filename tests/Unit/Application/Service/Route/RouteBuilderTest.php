@@ -34,7 +34,7 @@ class RouteBuilderTest extends TestCase
         $this->calendar
             ->expects(static::once())
             ->method('fromString')
-            ->with($input['start_date'], 'd/m/Y')
+            ->with($input['start_date'], 'd/m/y')
             ->willReturn($expectedDate);
 
         $builder = new RouteBuilder($this->calendar);

@@ -27,7 +27,7 @@ readonly class RouteBuilder
             name: $route['name'],
             description: $route['description'],
             position: (int) $route['position'],
-            startDate: $this->calendar->fromString($route['start_date'], 'd/m/Y'),
+            startDate: $this->calendar->fromString($route['start_date'], 'd/m/y'),
         );
     }
 }

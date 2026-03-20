@@ -24,7 +24,7 @@ readonly class CreatePressNote implements Command
         public SplFileInfo $image,
         #[Assert\AtLeastOneOf([
             new Assert\NotBlank(allowNull: true),
-            new Assert\Url(requireTld: false),
+            new Assert\Url(),
         ])]
         public ?string $link = null,
     ) {

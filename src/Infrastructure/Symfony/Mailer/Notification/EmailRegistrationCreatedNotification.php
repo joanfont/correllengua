@@ -21,6 +21,14 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
 {
     private const DEREGISTER_URL = 'https://correllenguaagermanat.cat/reserva/cancelacio?codi=%s';
     private const DEREGISTER_ALL_URL = 'https://correllenguaagermanat.cat/reserva/cancelacio?codis=%s';
+    private const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=%s,%s';
+
+    private const MODALITY_LABELS = [
+        'WALK' => 'Corrent',
+        'BIKE' => 'Bicicleta',
+        'MIXED' => 'Mixt',
+        'END' => 'Final',
+    ];
 
     private readonly Environment $twig;
 
@@ -83,9 +91,10 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
                 'time' => $segment->startTime?->format('H:i'),
                 'itinerary' => $segment->itineraryName,
                 'position' => $segment->position,
-                'modality' => $segment->modality,
+                'modality' => self::MODALITY_LABELS[$segment->modality] ?? $segment->modality,
                 'hash' => $registration->hash,
                 'deregisterLink' => sprintf(self::DEREGISTER_URL, $registration->hash),
+                'mapLink' => sprintf(self::MAPS_URL, $segment->start->latitude, $segment->start->longitude),
             ];
         }
 
