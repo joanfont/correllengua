@@ -35,6 +35,8 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
             ->addSelect('i')
             ->innerJoin('i.segments', 's')
             ->addSelect('s')
+            ->leftJoin('s.registrations', 'reg')
+            ->addSelect('reg')
             ->orderBy('r.position', 'ASC')
             ->addOrderBy('i.position', 'ASC')
             ->addOrderBy('s.position', 'ASC')

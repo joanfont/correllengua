@@ -58,6 +58,7 @@ class EmailRegistrationCreatedNotificationTest extends TestCase
             modality: 'road',
             position: 1,
             itineraryName: 'Test Itinerary',
+            routeName: 'Test Route',
             routeDate: new DateTimeImmutable('2026-03-15'),
             startTime: new DateTimeImmutable('10:30:00'),
         );

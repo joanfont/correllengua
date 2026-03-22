@@ -87,7 +87,7 @@ class EmailRegistrationCreatedNotification implements RegistrationCreatedNotific
             $segment = $registration->segment;
             $hashes[] = $registration->hash;
             $segments[] = [
-                'date' => $segment->routeDate?->format('d/m/Y'),
+                'routeName' => $segment->routeName,
                 'time' => $segment->startTime?->format('H:i'),
                 'itinerary' => $segment->itineraryName,
                 'position' => $segment->position,
