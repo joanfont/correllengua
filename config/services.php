@@ -15,7 +15,8 @@ return function (ContainerConfigurator $container): void {
         ->set(
             'app.registration.max_registrations_per_participant',
             env('MAX_REGISTRATIONS_PER_PARTICIPANT')
-                ->default('app.registration.default_max_registrations_per_participant'),
+                ->default('app.registration.default_max_registrations_per_participant')
+                ->int(),
         )
         ->set('app.email.default_from', 'Correllengua <no-reply@correllengua.cat>')
         ->set('app.email.from', env('EMAIL_FROM')->default('app.email.default_from'))
