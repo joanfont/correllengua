@@ -17,7 +17,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'endLongitude', type: 'number', format: 'float', example: 2.8214),
         new OA\Property(property: 'capacity', type: 'integer', example: 100, nullable: true),
         new OA\Property(property: 'modality', type: 'string', enum: ['WALK', 'BIKE', 'MIXED', 'END'], example: 'WALK'),
-        new OA\Property(property: 'startTime', type: 'string', format: 'date-time', example: '2026-04-25T09:00:00+02:00'),
+        new OA\Property(property: 'startTime', type: 'string', format: 'time', example: '09:00'),
     ],
     type: 'object',
 )]

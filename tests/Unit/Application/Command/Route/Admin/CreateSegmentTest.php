@@ -65,7 +65,7 @@ class CreateSegmentTest extends TestCase
             endLongitude: 2.8214,
             capacity: 100,
             modality: 'WALK',
-            startTime: '2026-04-25T09:00:00+02:00',
+            startTime: '09:00',
         ));
     }
 
@@ -93,7 +93,7 @@ class CreateSegmentTest extends TestCase
             endLongitude: 2.8214,
             capacity: null,
             modality: 'BIKE',
-            startTime: '2026-04-25T09:00:00+02:00',
+            startTime: '09:00',
         ));
     }
 }

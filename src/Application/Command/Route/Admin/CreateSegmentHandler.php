@@ -34,7 +34,7 @@ readonly class CreateSegmentHandler implements CommandHandler
             end: new Coordinates($command->endLatitude, $command->endLongitude),
             capacity: $command->capacity,
             modality: Modality::from($command->modality),
-            startTime: new DateTimeImmutable($command->startTime),
+            startTime: DateTimeImmutable::createFromFormat('H:i', $command->startTime) ?: new DateTimeImmutable(),
         );
 
         $this->segmentRepository->add($segment);

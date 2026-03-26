@@ -33,6 +33,7 @@ readonly class UpdateSegment implements Command
         #[Assert\Choice(choices: ['WALK', 'BIKE', 'MIXED', 'END'])]
         public string $modality,
         #[Assert\NotBlank]
+        #[Assert\Regex(pattern: '/^\d{2}:\d{2}$/')]
         public string $startTime,
     ) {
     }

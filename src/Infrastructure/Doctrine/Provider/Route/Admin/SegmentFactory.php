@@ -7,7 +7,6 @@ namespace App\Infrastructure\Doctrine\Provider\Route\Admin;
 use App\Domain\DTO\Admin\Route\Segment;
 use App\Domain\DTO\Coordinates;
 use App\Domain\Model\Route\Segment as SegmentEntity;
-use DateTimeInterface;
 
 readonly class SegmentFactory
 {
@@ -20,7 +19,7 @@ readonly class SegmentFactory
             end: new Coordinates($segment->end()->latitude(), $segment->end()->longitude()),
             capacity: $segment->capacity(),
             modality: $segment->modality()->value,
-            startTime: $segment->startTime()->format(DateTimeInterface::ATOM),
+            startTime: $segment->startTime()->format('H:i'),
             itineraryId: (string) $segment->itinerary()->id(),
             itineraryName: $segment->itinerary()->name(),
             routeId: (string) $segment->itinerary()->route()->id(),

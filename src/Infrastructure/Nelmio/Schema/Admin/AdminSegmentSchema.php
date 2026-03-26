@@ -28,7 +28,7 @@ use OpenApi\Attributes as OA;
         ),
         new OA\Property(property: 'capacity', type: 'integer', example: 100, nullable: true),
         new OA\Property(property: 'modality', type: 'string', enum: ['WALK', 'BIKE', 'MIXED', 'END'], example: 'WALK'),
-        new OA\Property(property: 'startTime', type: 'string', format: 'date-time', example: '2025-04-26T09:00:00+02:00'),
+        new OA\Property(property: 'startTime', type: 'string', format: 'time', example: '09:00'),
         new OA\Property(property: 'itineraryId', type: 'string', format: 'uuid', example: '123e4567-e89b-12d3-a456-426614174000'),
         new OA\Property(property: 'itineraryName', type: 'string', example: 'Costa Brava'),
         new OA\Property(property: 'routeId', type: 'string', format: 'uuid', example: '7c9e6679-7425-40de-944b-e07fc1f90ae7'),
