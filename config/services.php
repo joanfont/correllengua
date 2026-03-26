@@ -56,10 +56,6 @@ return function (ContainerConfigurator $container): void {
         ->tag('controller.service_arguments');
 
     $services
-        ->load('App\\Infrastructure\\Symfony\\Http\\ValueResolver\\', '../src/Infrastructure/Symfony/Http/ValueResolver')
-        ->tag('controller.argument_value_resolver');
-
-    $services
         ->set(App\Infrastructure\Doctrine\Listener\EntityEventsListener::class)
         ->tag('doctrine.event_listener', ['event' => 'postPersist'])
         ->tag('doctrine.event_listener', ['event' => 'postUpdate'])
