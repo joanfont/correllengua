@@ -32,7 +32,7 @@ class CreateItineraryTest extends TestCase
 
     public function testCreatesItineraryUnderExistingRoute(): void
     {
-        $route = $this->createMock(Route::class);
+        $route = $this->createStub(Route::class);
         $routeId = (string) RouteId::generate();
         $name = 'Costa Brava';
         $position = 1;

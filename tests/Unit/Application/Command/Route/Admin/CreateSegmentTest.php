@@ -33,7 +33,7 @@ class CreateSegmentTest extends TestCase
 
     public function testCreatesSegmentUnderExistingItinerary(): void
     {
-        $itinerary = $this->createMock(Itinerary::class);
+        $itinerary = $this->createStub(Itinerary::class);
         $itineraryId = (string) ItineraryId::generate();
 
         $this->itineraryRepository
