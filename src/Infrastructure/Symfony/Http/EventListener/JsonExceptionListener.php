@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Symfony\Http\EventListener;
 
+use App\Domain\Exception\Auth\InvalidCredentialsException;
+use App\Domain\Exception\NotFoundException;
+
 use function str_contains;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,6 +29,34 @@ final readonly class JsonExceptionListener
         }
 
         $exception = $event->getThrowable();
+
+        if ($exception instanceof InvalidCredentialsException) {
+            $statusCode = Response::HTTP_UNAUTHORIZED;
+            $data = [
+                'error' => 'unauthorized',
+                'message' => $exception->getMessage(),
+                'status' => $statusCode,
+            ];
+
+            $response = new JsonResponse($data, $statusCode);
+            $event->setResponse($response);
+
+            return;
+        }
+
+        if ($exception instanceof NotFoundException) {
+            $statusCode = Response::HTTP_NOT_FOUND;
+            $data = [
+                'error' => 'not_found',
+                'message' => $exception->getMessage(),
+                'status' => $statusCode,
+            ];
+
+            $response = new JsonResponse($data, $statusCode);
+            $event->setResponse($response);
+
+            return;
+        }
 
         if ($exception instanceof ValidationFailedException) {
             $statusCode = Response::HTTP_UNPROCESSABLE_ENTITY;

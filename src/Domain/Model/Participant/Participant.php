@@ -54,6 +54,14 @@ class Participant extends Entity
     }
 
     /**
+     * @return Collection<int, Registration>
+     */
+    public function registrations(): Collection
+    {
+        return $this->registrations;
+    }
+
+    /**
      * @return array<Segment>
      */
     public function segments(): array

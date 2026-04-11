@@ -45,6 +45,12 @@ class Itinerary extends Entity
         return $this->route;
     }
 
+    public function update(string $name, int $position): void
+    {
+        $this->name = $name;
+        $this->position = $position;
+    }
+
     /**
      * @return array<Segment>
      */

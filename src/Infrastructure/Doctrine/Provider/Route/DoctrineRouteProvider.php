@@ -43,10 +43,7 @@ class DoctrineRouteProvider extends DoctrineProvider implements RouteProvider
             ->getQuery()
             ->getResult();
 
-        return array_map(
-            $this->buildRoute(...),
-            $routes,
-        );
+        return array_map($this->buildRoute(...), $routes);
     }
 
     private function buildRoute(RouteEntity $route): Route

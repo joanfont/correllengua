@@ -35,8 +35,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_align' => ['align' => 'left'],
         'phpdoc_order' => true,
         'phpdoc_to_comment' => true,
-
-        '@PHPUnit84Migration:risky' => true,
     ])
     ->setFinder($finder)
 ;

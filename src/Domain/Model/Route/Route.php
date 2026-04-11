@@ -54,6 +54,18 @@ class Route extends Entity
         return $this->startsAt;
     }
 
+    public function update(
+        string $name,
+        string $description,
+        int $position,
+        DateTimeInterface $startsAt,
+    ): void {
+        $this->name = $name;
+        $this->description = $description;
+        $this->position = $position;
+        $this->startsAt = $startsAt;
+    }
+
     /**
      * @return array<Itinerary>
      */

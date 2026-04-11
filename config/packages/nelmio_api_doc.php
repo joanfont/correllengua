@@ -25,9 +25,11 @@ return static function (ContainerConfigurator $container): void {
             'default' => [
                 'path_patterns' => [
                     '^/!doc$',
+                    '^/auth',
                     '^/route',
                     '^/press',
                     '^/registration',
+                    '^/admin',
                 ],
             ],
         ],

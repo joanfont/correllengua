@@ -40,8 +40,8 @@ return static function (ContainerConfigurator $container): void {
             ],
         ],
         'access_control' => [
-            ['path' => '^/$', 'roles' => 'ROLE_USER'],
             ['path' => '^/doc\.json$', 'roles' => 'ROLE_USER'],
+            ['path' => '^/admin', 'roles' => 'ROLE_USER'],
         ],
     ]);
 };

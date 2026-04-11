@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Nelmio\Operation\Press;
 
-use App\Infrastructure\Symfony\Http\DTO\Common\ErrorResponse;
-use App\Infrastructure\Symfony\Http\DTO\Press\CreatePressNoteRequest;
+use App\Infrastructure\Nelmio\Schema\Common\ErrorResponseSchema;
+use App\Infrastructure\Nelmio\Schema\Press\CreatePressNoteRequestSchema;
 use Attribute;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
@@ -25,7 +25,7 @@ final class CreatePressNoteOperation extends OA\Post
                 required: true,
                 content: new OA\MediaType(
                     mediaType: 'multipart/form-data',
-                    schema: new OA\Schema(ref: new Model(type: CreatePressNoteRequest::class)),
+                    schema: new OA\Schema(ref: new Model(type: CreatePressNoteRequestSchema::class)),
                 ),
             ),
             tags: ['Press'],
@@ -37,27 +37,27 @@ final class CreatePressNoteOperation extends OA\Post
                 new OA\Response(
                     response: 400,
                     description: 'Invalid request data - validation errors (e.g., missing required fields, invalid URL format, invalid image)',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
                 new OA\Response(
                     response: 401,
                     description: 'Unauthorized - Invalid or missing authentication credentials',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
                 new OA\Response(
                     response: 403,
                     description: 'Forbidden - Authenticated but insufficient permissions to create press notes',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
                 new OA\Response(
                     response: 413,
                     description: 'File too large - Image exceeds the 2MB size limit',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
                 new OA\Response(
                     response: 415,
                     description: 'Unsupported media type - Invalid image format (only JPEG, PNG, GIF accepted)',
-                    content: new OA\JsonContent(ref: new Model(type: ErrorResponse::class)),
+                    content: new OA\JsonContent(ref: new Model(type: ErrorResponseSchema::class)),
                 ),
             ],
         );
