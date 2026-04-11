@@ -22,19 +22,20 @@ readonly class CreateSegmentHandler implements CommandHandler
     ) {
     }
 
-    public function __invoke(CreateSegment $command): void
+    public function __invoke(CreateSegment $createSegment): void
     {
-        $itinerary = $this->itineraryRepository->findById(ItineraryId::from($command->itineraryId));
+        $itinerary = $this->itineraryRepository->findById(ItineraryId::from($createSegment->itineraryId));
 
         $segment = new Segment(
             id: SegmentId::generate(),
             itinerary: $itinerary,
-            position: $command->position,
-            start: new Coordinates($command->startLatitude, $command->startLongitude),
-            end: new Coordinates($command->endLatitude, $command->endLongitude),
-            capacity: $command->capacity,
-            modality: Modality::from($command->modality),
-            startTime: DateTimeImmutable::createFromFormat('H:i', $command->startTime) ?: new DateTimeImmutable(),
+            position: $createSegment->position,
+            start: new Coordinates($createSegment->startLatitude, $createSegment->startLongitude),
+            end: new Coordinates($createSegment->endLatitude, $createSegment->endLongitude),
+            capacity: $createSegment->capacity,
+            reservedCapacity: $createSegment->reservedCapacity,
+            modality: Modality::from($createSegment->modality),
+            startTime: DateTimeImmutable::createFromFormat('H:i', $createSegment->startTime) ?: new DateTimeImmutable(),
         );
 
         $this->segmentRepository->add($segment);

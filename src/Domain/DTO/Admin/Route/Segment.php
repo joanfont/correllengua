@@ -14,6 +14,7 @@ readonly class Segment
         public Coordinates $start,
         public Coordinates $end,
         public ?int $capacity,
+        public ?int $reservedCapacity,
         public string $modality,
         public string $startTime,
         public string $itineraryId,

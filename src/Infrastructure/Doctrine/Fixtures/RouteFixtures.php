@@ -75,6 +75,7 @@ class RouteFixtures extends Fixture
             start: new Coordinates(41.6749, 2.7921),   // Blanes
             end: new Coordinates(41.7117, 2.8364),      // Lloret de Mar
             capacity: 3,                                // Deliberately small so fixtures can fill it
+            reservedCapacity: 0,
             modality: Modality::WALK,
             startTime: new DateTimeImmutable('2026-04-25 09:00:00'),
         );
@@ -86,6 +87,7 @@ class RouteFixtures extends Fixture
             start: new Coordinates(41.7117, 2.8364),   // Lloret de Mar
             end: new Coordinates(41.7804, 2.9352),      // Tossa de Mar
             capacity: 100,
+            reservedCapacity: 0,
             modality: Modality::BIKE,
             startTime: new DateTimeImmutable('2026-04-25 10:30:00'),
         );
@@ -97,6 +99,7 @@ class RouteFixtures extends Fixture
             start: new Coordinates(41.7804, 2.9352),   // Tossa de Mar
             end: new Coordinates(41.8031, 2.9985),      // Sant Feliu de Guíxols
             capacity: null,                             // Unlimited capacity
+            reservedCapacity: 0,
             modality: Modality::MIXED,
             startTime: new DateTimeImmutable('2026-04-25 12:00:00'),
         );
@@ -108,6 +111,7 @@ class RouteFixtures extends Fixture
             start: new Coordinates(41.2284, 1.7256),   // Vilanova i la Geltrú
             end: new Coordinates(41.2180, 1.6328),      // Cubelles
             capacity: 80,
+            reservedCapacity: 0,
             modality: Modality::WALK,
             startTime: new DateTimeImmutable('2026-04-25 09:00:00'),
         );
@@ -119,6 +123,7 @@ class RouteFixtures extends Fixture
             start: new Coordinates(41.2180, 1.6328),   // Cubelles
             end: new Coordinates(41.1881, 1.5308),      // Calafell
             capacity: 60,
+            reservedCapacity: 0,
             modality: Modality::BIKE,
             startTime: new DateTimeImmutable('2026-04-25 10:30:00'),
         );
@@ -162,6 +167,7 @@ class RouteFixtures extends Fixture
             start: new Coordinates(41.9301, 2.2547),   // Vic
             end: new Coordinates(41.7279, 1.8283),      // Manresa
             capacity: 150,
+            reservedCapacity: 0,
             modality: Modality::BIKE,
             startTime: new DateTimeImmutable('2026-04-25 09:00:00'),
         );
@@ -173,6 +179,7 @@ class RouteFixtures extends Fixture
             start: new Coordinates(41.7279, 1.8283),   // Manresa
             end: new Coordinates(41.6183, 1.6119),      // Igualada
             capacity: 120,
+            reservedCapacity: 0,
             modality: Modality::WALK,
             startTime: new DateTimeImmutable('2026-04-25 11:00:00'),
         );
@@ -184,6 +191,7 @@ class RouteFixtures extends Fixture
             start: new Coordinates(41.7134, 1.3984),   // Cervera
             end: new Coordinates(41.6176, 0.9862),      // Tàrrega
             capacity: null,
+            reservedCapacity: 0,
             modality: Modality::MIXED,
             startTime: new DateTimeImmutable('2026-04-25 09:00:00'),
         );
@@ -218,6 +226,7 @@ class RouteFixtures extends Fixture
             start: new Coordinates(42.4306, 1.9290),   // Puigcerdà
             end: new Coordinates(42.3534, 1.5282),      // Bellver de Cerdanya
             capacity: 50,
+            reservedCapacity: 0,
             modality: Modality::WALK,
             startTime: new DateTimeImmutable('2026-05-09 09:00:00'),
         );
@@ -229,6 +238,7 @@ class RouteFixtures extends Fixture
             start: new Coordinates(42.3534, 1.5282),   // Bellver de Cerdanya
             end: new Coordinates(42.3756, 1.1384),      // Sort
             capacity: 40,
+            reservedCapacity: 0,
             modality: Modality::BIKE,
             startTime: new DateTimeImmutable('2026-05-09 11:00:00'),
         );

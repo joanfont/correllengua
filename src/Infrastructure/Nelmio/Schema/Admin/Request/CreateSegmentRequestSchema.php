@@ -16,6 +16,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'endLatitude', type: 'number', format: 'float', example: 41.9794),
         new OA\Property(property: 'endLongitude', type: 'number', format: 'float', example: 2.8214),
         new OA\Property(property: 'capacity', type: 'integer', example: 100, nullable: true),
+        new OA\Property(property: 'reservedCapacity', type: 'integer', example: 10, nullable: true),
         new OA\Property(property: 'modality', type: 'string', enum: ['WALK', 'BIKE', 'MIXED', 'END'], example: 'WALK'),
         new OA\Property(property: 'startTime', type: 'string', format: 'time', example: '09:00'),
     ],

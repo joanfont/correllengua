@@ -24,6 +24,7 @@ final readonly class UpdateSegmentRequest
         #[Assert\Range(min: -180, max: 180)]
         public float $endLongitude,
         public ?int $capacity,
+        public ?int $reservedCapacity,
         #[Assert\NotBlank]
         #[Assert\Choice(choices: ['WALK', 'BIKE', 'MIXED', 'END'])]
         public string $modality,

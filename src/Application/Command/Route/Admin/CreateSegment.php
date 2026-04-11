@@ -29,6 +29,8 @@ readonly class CreateSegment implements Command
         public float $endLongitude,
         #[Assert\Positive]
         public ?int $capacity,
+        #[Assert\Positive]
+        public ?int $reservedCapacity,
         #[Assert\NotBlank]
         #[Assert\Choice(choices: ['WALK', 'BIKE', 'MIXED', 'END'])]
         public string $modality,
