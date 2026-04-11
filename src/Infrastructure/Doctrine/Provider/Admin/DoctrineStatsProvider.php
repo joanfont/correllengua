@@ -49,7 +49,7 @@ final class DoctrineStatsProvider implements StatsProvider
     private function sumCapacity(?string $routeId, ?string $itineraryId, ?string $segmentId): ?int
     {
         $qb = $this->entityManager->createQueryBuilder()
-            ->select('SUM(s.capacity)')
+            ->select('SUM(s.capacity - COALESCE(s.reservedCapacity, 0))')
             ->from(SegmentEntity::class, 's')
             ->innerJoin('s.itinerary', 'i')
             ->innerJoin('i.route', 'r');
