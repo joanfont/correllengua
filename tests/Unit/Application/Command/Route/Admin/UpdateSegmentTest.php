@@ -44,6 +44,7 @@ class UpdateSegmentTest extends TestCase
                 $this->callback(fn (Coordinates $c): bool => 41.3851 === $c->latitude() && 2.1734 === $c->longitude()),
                 $this->callback(fn (Coordinates $c): bool => 41.9794 === $c->latitude() && 2.8214 === $c->longitude()),
                 50,
+                10,
                 Modality::BIKE,
                 $this->anything(),
             );
@@ -56,6 +57,7 @@ class UpdateSegmentTest extends TestCase
             endLatitude: 41.9794,
             endLongitude: 2.8214,
             capacity: 50,
+            reservedCapacity: 10,
             modality: 'BIKE',
             startTime: '10:00',
         ));
@@ -80,6 +82,7 @@ class UpdateSegmentTest extends TestCase
             endLatitude: 41.9794,
             endLongitude: 2.8214,
             capacity: null,
+            reservedCapacity: null,
             modality: 'WALK',
             startTime: '09:00',
         ));

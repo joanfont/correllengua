@@ -25,6 +25,7 @@ class Segment extends Entity
         private Coordinates $start,
         private Coordinates $end,
         private ?int $capacity,
+        private ?int $reservedCapacity,
         private Modality $modality,
         private DateTimeInterface $startTime,
     ) {
@@ -62,13 +63,29 @@ class Segment extends Entity
         return $this->capacity;
     }
 
+    public function reservedCapacity(): ?int
+    {
+        return $this->reservedCapacity;
+    }
+
+    public function currentCapacity(): ?int
+    {
+        if (null === $this->capacity) {
+            return null;
+        }
+
+        $reservedCapacity = $this->reservedCapacity ?? 0;
+
+        return $this->capacity - $reservedCapacity;
+    }
+
     public function freeSlots(): ?int
     {
         if (null === $this->capacity) {
             return null;
         }
 
-        return $this->capacity - $this->registrations->count();
+        return $this->currentCapacity() - $this->registrations->count();
     }
 
     public function modality(): Modality
@@ -86,6 +103,7 @@ class Segment extends Entity
         Coordinates $start,
         Coordinates $end,
         ?int $capacity,
+        ?int $reservedCapacity,
         Modality $modality,
         DateTimeInterface $startTime,
     ): void {
@@ -93,13 +111,16 @@ class Segment extends Entity
         $this->start = $start;
         $this->end = $end;
         $this->capacity = $capacity;
+        $this->reservedCapacity = $reservedCapacity;
         $this->modality = $modality;
         $this->startTime = $startTime;
     }
 
     public function isFull(): bool
     {
-        return null !== $this->capacity && $this->capacity === $this->registrations->count();
+        $capacity = $this->currentCapacity();
+
+        return null !== $capacity && $capacity === $this->registrations->count();
     }
 
     public function registrationsCount(): int
@@ -109,7 +130,9 @@ class Segment extends Entity
 
     public function remainingCapacity(): ?int
     {
-        return null === $this->capacity ? null : $this->capacity - $this->registrations->count();
+        $capacity = $this->currentCapacity();
+
+        return null === $capacity ? null : $capacity - $this->registrations->count();
     }
 
     public function addRegistration(Registration $registration): void

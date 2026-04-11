@@ -73,6 +73,7 @@ final class SegmentController extends AbstractController
             endLatitude: $request->endLatitude,
             endLongitude: $request->endLongitude,
             capacity: $request->capacity,
+            reservedCapacity: $request->reservedCapacity,
             modality: $request->modality,
             startTime: $request->startTime,
         ));
@@ -96,6 +97,7 @@ final class SegmentController extends AbstractController
             endLatitude: $request->endLatitude,
             endLongitude: $request->endLongitude,
             capacity: $request->capacity,
+            reservedCapacity: $request->reservedCapacity,
             modality: $request->modality,
             startTime: $request->startTime,
         ));

@@ -53,6 +53,7 @@ class CreateSegmentTest extends TestCase
                     && 41.9794 === $segment->end()->latitude()
                     && 2.8214 === $segment->end()->longitude()
                     && 100 === $segment->capacity()
+                    && 5 === $segment->reservedCapacity()
                     && Modality::WALK === $segment->modality(),
             ));
 
@@ -64,6 +65,7 @@ class CreateSegmentTest extends TestCase
             endLatitude: 41.9794,
             endLongitude: 2.8214,
             capacity: 100,
+            reservedCapacity: 5,
             modality: 'WALK',
             startTime: '09:00',
         ));
@@ -92,6 +94,7 @@ class CreateSegmentTest extends TestCase
             endLatitude: 41.9794,
             endLongitude: 2.8214,
             capacity: null,
+            reservedCapacity: null,
             modality: 'BIKE',
             startTime: '09:00',
         ));

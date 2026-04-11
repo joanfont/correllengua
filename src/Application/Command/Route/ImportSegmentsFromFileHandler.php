@@ -80,6 +80,7 @@ readonly class ImportSegmentsFromFileHandler implements CommandHandler
             start: new Coordinates($parsedSegment->startLatitude, $parsedSegment->startLongitude),
             end: new Coordinates($parsedSegment->endLatitude, $parsedSegment->endLongitude),
             capacity: $parsedSegment->capacity,
+            reservedCapacity: 0,
             modality: Modality::from($parsedSegment->modality),
             startTime: $parsedSegment->startTime,
         );

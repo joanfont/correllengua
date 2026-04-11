@@ -10,6 +10,7 @@
         <embedded name="start" class="App\Domain\Model\Coordinates" column-prefix="start_" />
         <embedded name="end" class="App\Domain\Model\Coordinates" column-prefix="end_" />
         <field name="capacity" type="integer" nullable="true" />
+        <field name="reservedCapacity" type="integer" nullable="true" />
         <field name="modality" type="modality" />
 
         <field name="startTime" type="time" />

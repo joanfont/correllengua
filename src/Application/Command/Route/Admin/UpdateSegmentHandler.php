@@ -17,17 +17,18 @@ readonly class UpdateSegmentHandler implements CommandHandler
     {
     }
 
-    public function __invoke(UpdateSegment $command): void
+    public function __invoke(UpdateSegment $updateSegment): void
     {
-        $segment = $this->segmentRepository->findById(SegmentId::from($command->id));
+        $segment = $this->segmentRepository->findById(SegmentId::from($updateSegment->id));
 
         $segment->update(
-            position: $command->position,
-            start: new Coordinates($command->startLatitude, $command->startLongitude),
-            end: new Coordinates($command->endLatitude, $command->endLongitude),
-            capacity: $command->capacity,
-            modality: Modality::from($command->modality),
-            startTime: DateTimeImmutable::createFromFormat('H:i', $command->startTime) ?: new DateTimeImmutable(),
+            position: $updateSegment->position,
+            start: new Coordinates($updateSegment->startLatitude, $updateSegment->startLongitude),
+            end: new Coordinates($updateSegment->endLatitude, $updateSegment->endLongitude),
+            capacity: $updateSegment->capacity,
+            reservedCapacity: $updateSegment->reservedCapacity,
+            modality: Modality::from($updateSegment->modality),
+            startTime: DateTimeImmutable::createFromFormat('H:i', $updateSegment->startTime) ?: new DateTimeImmutable(),
         );
     }
 }

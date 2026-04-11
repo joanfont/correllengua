@@ -18,6 +18,7 @@ readonly class SegmentFactory
             start: new Coordinates($segment->start()->latitude(), $segment->start()->longitude()),
             end: new Coordinates($segment->end()->latitude(), $segment->end()->longitude()),
             capacity: $segment->capacity(),
+            reservedCapacity: $segment->reservedCapacity(),
             modality: $segment->modality()->value,
             startTime: $segment->startTime()->format('H:i'),
             itineraryId: (string) $segment->itinerary()->id(),
