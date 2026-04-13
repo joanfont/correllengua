@@ -131,6 +131,15 @@ return function (ContainerConfigurator $container): void {
         ->arg('$templatePath', '/templates/registrationCreated.html.twig');
 
     $services
+        ->alias('app.registration.reminder.filesystem', 'app.filesystem.project');
+
+    $services
+        ->set(App\Infrastructure\Symfony\Mailer\Notification\EmailRegistrationReminderNotification::class)
+        ->arg('$from', param('app.email.from'))
+        ->arg('$filesystem', service('app.registration.reminder.filesystem'))
+        ->arg('$templatePath', '/templates/registrationReminder.html.twig');
+
+    $services
         ->set(App\Infrastructure\Symfony\Http\File\SymfonyFileUploader::class)
         ->arg('$rootFilesystem', service('app.filesystem.root'))
         ->arg('$uploadsFilesystem', service('app.filesystem.uploads'));
