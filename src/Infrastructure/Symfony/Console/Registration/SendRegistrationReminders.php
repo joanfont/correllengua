@@ -65,7 +65,7 @@ class SendRegistrationReminders extends Command
             }
 
             $this->reminderNotification->send($registrations);
-            $sent++;
+            ++$sent;
         }
 
         $io->success(sprintf('Sent %d reminder email(s).', $sent));
