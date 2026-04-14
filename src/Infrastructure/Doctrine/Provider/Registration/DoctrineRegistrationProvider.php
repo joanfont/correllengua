@@ -15,6 +15,7 @@ use App\Infrastructure\Doctrine\Provider\Route\SegmentFactory;
 
 use function array_map;
 
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class DoctrineRegistrationProvider extends DoctrineProvider implements RegistrationProvider
@@ -69,6 +70,33 @@ class DoctrineRegistrationProvider extends DoctrineProvider implements Registrat
             ->getResult();
 
         return array_map($this->toDto(...), $registrations);
+    }
+
+    public function findGroupedByParticipantForRouteDate(DateTimeInterface $date): array
+    {
+        /** @var array<RegistrationEntity> $registrations */
+        $registrations = $this->entityManager->createQueryBuilder()
+            ->select('r', 's', 'p', 'i', 'ro')
+            ->from(RegistrationEntity::class, 'r')
+            ->innerJoin('r.segment', 's')
+            ->innerJoin('r.participant', 'p')
+            ->innerJoin('s.itinerary', 'i')
+            ->innerJoin('i.route', 'ro')
+            ->where('ro.startsAt = :date')
+            ->setParameter('date', $date->format('Y-m-d'))
+            ->orderBy('p.id', 'ASC')
+            ->addOrderBy('ro.startsAt', 'ASC')
+            ->addOrderBy('s.startTime', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        $grouped = [];
+        foreach ($registrations as $registration) {
+            $participantId = (string) $registration->participant()->id();
+            $grouped[$participantId][] = $this->toDto($registration);
+        }
+
+        return array_values($grouped);
     }
 
     private function toDto(RegistrationEntity $registration): Registration

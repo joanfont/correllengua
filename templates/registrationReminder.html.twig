@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recordatori – Correllengua</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f6f1e7;font-family:Arial,Helvetica,sans-serif;">
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f6f1e7;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:520px;">
+
+          <!-- Red header -->
+          <tr>
+            <td style="background-color:#cf2e27;border-radius:12px 12px 0 0;padding:24px 32px;text-align:center;">
+              <img src="https://correllenguaagermanat.cat/assets/logo-correllengua-blanc-lletres-C2OZgadl.png"
+                   alt="Correllengua" width="420" height="120"
+                   style="display:block;margin:0 auto;border:0;max-width:100%;" />
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="background-color:#f6f3ea;border:1px solid rgba(29,29,27,0.12);border-top:none;border-radius:0 0 12px 12px;padding:32px;">
+
+              <p style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#1d1d1b;">
+                Hola <strong>{{ participant.name }} {{ participant.surname }}</strong>,
+              </p>
+              <p style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#555550;line-height:1.6;">
+                Falten pocs dies per al Correllengua! Et recordem les teves reserves perquè ho tinguis tot a punt.
+              </p>
+              <p style="margin:0 0 24px;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#cf2e27;font-weight:bold;line-height:1.6;">
+                Recorda arribar <strong>20 minuts abans</strong> de l'hora de sortida al punt indicat.
+              </p>
+
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#fff3cd;border:1.5px solid #cf2e27;border-radius:8px;margin-bottom:24px;">
+                <tr>
+                  <td style="padding:16px 20px;text-align:center;">
+                    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#1d1d1b;line-height:1.5;">
+                      ⚠️ <strong>Revisa els punts de sortida dels teus trams</strong>, ja que podrien haver tingut canvis des de la teva inscripció.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              {% for segment in segments %}
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff;border:1px solid rgba(29,29,27,0.12);border-radius:8px;margin-bottom:16px;">
+                <tr>
+                  <td style="padding:20px;">
+                    <p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#888882;">Recorregut: <strong style="color:#1d1d1b;">{{ segment.routeName|default('–') }}</strong></p>
+                    <p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#888882;">Data: <strong style="color:#1d1d1b;">{{ segment.routeDate|default('–') }}</strong></p>
+                    <p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#888882;">Hora: <strong style="color:#1d1d1b;">{{ segment.time|default('–') }}</strong></p>
+                    <p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#888882;">Itinerari: <strong style="color:#1d1d1b;">{{ segment.itinerary|default('–') }}</strong></p>
+                    <p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#888882;">Tram: <strong style="color:#1d1d1b;">{{ segment.position|default('–') }}</strong></p>
+                    <p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#888882;">Modalitat: <strong style="color:#1d1d1b;">{{ segment.modality|default('–') }}</strong></p>
+                    <p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#888882;">Punt de sortida: <a href="{{ segment.mapLink }}" style="color:#cf2e27;text-decoration:underline;font-weight:bold;">Veure al mapa</a></p>
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="border-radius:999px;border:1.5px solid #cf2e27;">
+                          <a href="{{ segment.deregisterLink }}" style="display:inline-block;padding:8px 16px;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;color:#cf2e27;text-decoration:none;border-radius:999px;line-height:1;">
+                            Cancel·lar aquest tram
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              {% endfor %}
+
+              {% if segments|length > 1 %}
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:8px;">
+                <tr>
+                  <td style="border-radius:999px;background-color:#cf2e27;">
+                    <a href="{{ deregisterAllLink }}" style="display:inline-block;padding:10px 20px;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:999px;line-height:1;">
+                      Cancel·lar totes les reserves
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              {% endif %}
+
+              <hr style="border:none;border-top:1px solid rgba(29,29,27,0.12);margin:24px 0;" />
+
+              <p style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1d1d1b;line-height:1.6;">
+                Si per qualsevol motiu necessites cancel·lar alguna de les teves participacions, pots fer-ho des dels botons anteriors. 
+              </p>
+
+              <p style="margin:24px 0 4px;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1d1d1b;">Ens veiem en 5 dies!</p>
+              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1d1d1b;">
+                <strong>Correllengua Agermanat</strong>
+              </p>
+
+            </td>
+          </tr>
+
+          <!-- CTA links -->
+          <tr>
+            <td style="padding:24px 0 0;text-align:center;">
+              <p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#555550;">Vols col·laborar més amb el Correllengua?</p>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+                <tr>
+                  <td style="padding-right:10px;">
+                    <a href="https://correllenguaagermanat.cat/donatiu"
+                       style="display:inline-block;padding:9px 20px;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;color:#f6f3ea;background-color:#cf2e27;text-decoration:none;border-radius:999px;line-height:1;">
+                      Fes un donatiu
+                    </a>
+                  </td>
+                  <td>
+                    <a href="https://correllenguaagermanat.cat/botigues"
+                       style="display:inline-block;padding:9px 20px;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;color:#cf2e27;border:1.5px solid #cf2e27;text-decoration:none;border-radius:999px;line-height:1;">
+                      Compra samarretes
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:20px 0 0;text-align:center;">
+              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#aaaaaa;">
+                Correllengua Agermanat · <a href="https://correllenguaagermanat.cat" style="color:#cf2e27;text-decoration:none;">correllenguaagermanat.cat</a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
