@@ -14,6 +14,7 @@ use App\Infrastructure\Doctrine\Provider\Participant\ParticipantFactory;
 use App\Infrastructure\Doctrine\Provider\Route\SegmentFactory;
 
 use function array_map;
+use function array_values;
 
 use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
